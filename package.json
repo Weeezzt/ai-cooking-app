@@ -12,7 +12,8 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "test": "vitest run"
+    "test": "vitest run",
+    "fixtures:capture-off": "node src/fixtures/scripts/capture-off-nutrition.mjs"
   },
   "dependencies": {
     "next": "16.3.3",
