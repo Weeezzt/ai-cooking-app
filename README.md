@@ -26,8 +26,42 @@ state, active work, and next priorities. Persistent project knowledge lives in
 - **Distinct editorial visual identity** — "Midnight Supermarket Editorial". Not generic
   AI-SaaS.
 
+## Stack
+
+Next.js 16 (App Router) + TypeScript `strict`, pnpm, Tailwind v4, Vitest, ESLint (flat config).
+CI and production run on Node 22; local dev works on Node 20.11+. See
+[`docs/agents/architecture-decisions.md`](docs/agents/architecture-decisions.md) (AD-1, AD-2, AD-12).
+
 ## Setup
 
-_To be documented as the stack is finalized._ Environment configuration will be described in
-`.env.example`. Never commit real secrets. `OPENAI_API_KEY` and all external API credentials
-stay server-side only.
+Prerequisites: Node 20.11+ (CI uses 22 — see `.nvmrc`), pnpm 9 (`corepack enable` or
+`npm i -g pnpm`).
+
+```bash
+pnpm install
+cp .env.example .env.local   # fill in as needed; .env*.local is gitignored
+pnpm dev                     # http://localhost:3000  (/plan, /shop, /cook)
+```
+
+Never commit real secrets. `OPENAI_API_KEY` and all external API credentials stay
+server-side only; `.env.example` documents the variable **names** only, with no values.
+
+## Scripts
+
+| Script | Purpose |
+|---|---|
+| `pnpm dev` | Next dev server |
+| `pnpm build` / `pnpm start` | Production build / serve |
+| `pnpm typecheck` | `tsc --noEmit` |
+| `pnpm lint` | ESLint (incl. the `src/core` import-boundary rule) |
+| `pnpm test` | Vitest (incl. `tests/architecture.test.ts`) |
+
+The merge bar (CI, every PR): `pnpm typecheck && pnpm lint && pnpm test && pnpm build` all green.
+
+## Repository structure
+
+`src/core` (pure domain), `src/ports` (interfaces), `src/adapters` (implementations),
+`src/fixtures` (demo data), `src/server` (wiring + route handlers), `src/app` (Next routes,
+with `_components/` for shared UI), `src/lib` (client helpers), `tests`. Each non-app dir has a
+`README.md` stub. The `src/core` boundary is enforced by ESLint and by
+`tests/architecture.test.ts`.
