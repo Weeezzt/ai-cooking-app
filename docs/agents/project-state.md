@@ -51,32 +51,43 @@ _Last updated: 2026-08-27 by Master (Sonnet)_
 
 ## Active work
 
-- Issue #3 (deterministic engine) — Claude Sonnet builder, worktree.
-- Issue #4 (Primat data integration) — Claude Sonnet builder, worktree.
-- Issue #5 (nutrition provider) — Codex builder (`gpt-5.6-sol`), worktree.
-- Issue #2 (design tokens/UI) — queued, dispatch next.
-- Issue #6 (OpenAI recipe service) — blocked on `OPENAI_API_KEY`; structure/fixture path can start.
+- Issue #3 (deterministic engine) — Claude Sonnet builder, worktree. IN FLIGHT.
+- Issue #4 (Primat data integration) — Claude Sonnet builder, worktree. IN FLIGHT.
+- Issue #6 (OpenAI recipe service) — Claude Sonnet builder, worktree. IN FLIGHT.
+- Issue #5 (nutrition) — **PR #13 open** (Codex-built). CI green. HELD for merge until #3 lands
+  (both touch `src/core/types.ts` — reconcile onto #3's canonical types). Needs Claude review.
+- Issue #2 (design tokens/UI) — queued; slack in schedule (only blocks #8–#10 which also need #7).
 
-## Blocked / waiting on human
+## Credentials (done)
 
-- **`OPENAI_API_KEY` in `.env.local`** — needed before AI service (Issue: AI recipe service).
-  Fixture mode + all other work proceeds without it.
-- **Primat API key** — `POST https://primat.nu/api/v3/signup {"email":"..."}` gives one instantly,
-  OR provide the existing `cookingapp` key. Demo endpoint (keyless, 250 req/day/IP) is enough to
-  start; a key is needed for the live-in-demo requirement to be reliable. Put in `.env.local` as
-  `PRIMAT_API_KEY`.
+- `.env.local` has working `OPENAI_API_KEY` + `PRIMAT_API_KEY` (both verified by Master 2026-08-27:
+  Primat keyed resolve → 200; OpenAI models list → 126 models). `.env.local` is gitignored; copy it
+  into each builder worktree that needs it (`cp /Users/williamvesterberg/cooking-app/.env.local .`).
+
+## OpenAI models available on this account (2026-08-27)
+
+`gpt-5.6-sol`, `gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-5.5`(+pro), `gpt-5.4`(+mini/nano/pro),
+`gpt-5`(+mini/nano/pro), gpt-4.1 family, o3/o4-mini. So `gpt-5.6-luna/terra` ARE real API model
+IDs here (not only Codex CLI tier names). Issue #6 verifies Responses API + structured-output
+support and records the chosen IDs; AD-6 gets updated with them afterward.
 
 ## Next priorities
 
-1. Create backlog issues.
-2. Build Issue 1 (foundation) via isolated builder → Codex review → merge.
-3. Parallelize Issues 2–5 (engine, Primat data, nutrition, AI) once foundation lands.
+1. Land #3 → then reconcile + merge #4, #5; review each (cross-family).
+2. #6 review (Codex) when its PR opens.
+3. Dispatch #2. Then #7 once 3/4/5/6 are merged.
 
 ## Active branches / PRs
 
-None yet.
+- PR #13 — Issue #5 nutrition provider (Codex). Open, CI green, held for #3.
+- Branches in flight: `3-domain-core`, `4-primat-data`, `6-openai-recipe-service`.
 
 ## Agent notes
 
-- Subagents = Claude only (opus/sonnet/haiku/fable). Codex available via `codex exec` CLI
-  (`gpt-5.6-sol` default) — use for independent cross-family review of Claude-built PRs.
+- Subagents = Claude only (opus/sonnet/haiku/fable). Codex available via `codex exec` /
+  `codex exec review` CLI (`gpt-5.6-sol`) — used as builder for #5 and as cross-family reviewer.
+- Codex `--sandbox workspace-write` cannot commit through a shared-index git worktree; it commits
+  via a temp clone + push. Net effect is fine (remote branch is correct) but the local worktree is
+  left dirty — remove it after (`git worktree remove --force`).
+- One Claude builder (#1) died mid-task on an account session rate limit ~17:40 Europe/Stockholm.
+  Pace concurrent Claude subagents; Codex is not on that limit.
