@@ -27,9 +27,27 @@ _Last updated: 2026-08-27 by Master (Sonnet)_
 - 6 planning specialists + independent Codex cross-review done (`docs/agents/planning/`).
 - Unified plan written: `architecture-decisions.md`, `design-system.md`, `engineering-rules.md`.
 
+## Backlog (GitHub issues)
+
+| # | Title | Labels | Depends on |
+|---|---|---|---|
+| 1 | Project foundation & CI baseline | foundation | — |
+| 2 | Design token layer + UI primitives (mobile-first, dark-only) | ui | 1 |
+| 3 | Domain core: deterministic engine | engine | 1 |
+| 4 | Primat data integration (live + badged fixture fallback) | data | 1 |
+| 5 | Nutrition provider (OFF snapshot + Livsmedelsverket table) | data | 1 |
+| 6 | OpenAI recipe service | ai | 1 |
+| 7 | Plan pipeline orchestration + API route + client persistence | engine | 3,4,5,6 |
+| 8 | PLAN experience | ui | 2,7 |
+| 9 | SHOP experience | ui | 2,7 |
+| 10 | COOK experience | ui | 2,7 |
+| 11 | Integration QA + demo readiness | qa | 8,9,10 |
+
+**Implementation order:** 1 → {2, 3, 4, 5, 6 in parallel} → 7 → {8, 9, 10 in parallel} → 11.
+
 ## Active work
 
-- Master creating GitHub issues (~10) and starting the foundation build.
+- Issue 1 (foundation) — builder dispatched (Claude Sonnet, isolated worktree).
 
 ## Blocked / waiting on human
 
