@@ -26,6 +26,10 @@ _Last updated: 2026-08-27 by Master (Sonnet)_
 - Repo bootstrapped; base docs.
 - 6 planning specialists + independent Codex cross-review done (`docs/agents/planning/`).
 - Unified plan written: `architecture-decisions.md`, `design-system.md`, `engineering-rules.md`.
+- **Issue #1 (foundation + CI)** — merged (PR #12, squash `ac2007a`). Next 16.3.3, TS strict,
+  Tailwind v4, Vitest, ESLint core-boundary (allowlist model). Independent Codex review → 3
+  SHOULD-FIX addressed → merged. All 4 CI gates green. First foundation builder (Claude subagent)
+  died on an account session rate limit after pushing; Master verified + fixed + merged.
 
 ## Backlog (GitHub issues)
 
@@ -47,7 +51,11 @@ _Last updated: 2026-08-27 by Master (Sonnet)_
 
 ## Active work
 
-- Issue 1 (foundation) — builder dispatched (Claude Sonnet, isolated worktree).
+- Issue #3 (deterministic engine) — Claude Sonnet builder, worktree.
+- Issue #4 (Primat data integration) — Claude Sonnet builder, worktree.
+- Issue #5 (nutrition provider) — Codex builder (`gpt-5.6-sol`), worktree.
+- Issue #2 (design tokens/UI) — queued, dispatch next.
+- Issue #6 (OpenAI recipe service) — blocked on `OPENAI_API_KEY`; structure/fixture path can start.
 
 ## Blocked / waiting on human
 
