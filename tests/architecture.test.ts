@@ -7,18 +7,20 @@ import { assertNoForbiddenKeys } from "./helpers/assertNoForbiddenKeys";
 const REPO_ROOT = resolve(__dirname, "..");
 const CORE_DIR = join(REPO_ROOT, "src", "core");
 
-/** Bare-specifier prefixes that src/core must never import (AD-2). */
-const FORBIDDEN_PACKAGES = [
-  "openai",
-  "next",
-  "react",
-  "react-dom",
-  "zod",
-  "@openai",
-];
-
-/** Alias prefixes into outward layers (AD-2). */
-const FORBIDDEN_ALIASES = ["@/server", "@/app", "@/adapters"];
+/**
+ * Allowlist model (AD-2, engineering-rules "Boundaries"): `src/core` is pure
+ * domain — no I/O, no framework, no SDK, nothing from outward layers. Rather than
+ * enumerate what is forbidden (which misses `axios`, `node:fs`, the next new
+ * package…), we allow ONLY:
+ *   - relative imports that resolve to a path inside `src/core`
+ *   - the `@/core` / `@/core/*` alias
+ *   - anything explicitly listed here (currently nothing)
+ * Everything else is a boundary violation.
+ *
+ * Known limitation: a computed specifier (`import("../" + "server/x")`) cannot be
+ * analysed statically by this scan or by ESLint. Code review covers that case.
+ */
+const ALLOWED_CORE_IMPORTS: readonly string[] = [];
 
 function listFiles(dir: string): string[] {
   const out: string[] = [];
@@ -51,19 +53,20 @@ function importSpecifiers(source: string): string[] {
   return specifiers;
 }
 
-function isForbidden(spec: string, fileDir: string): boolean {
-  if (FORBIDDEN_ALIASES.some((a) => spec === a || spec.startsWith(`${a}/`))) {
-    return true;
-  }
+/** True when a specifier is permitted inside `src/core`. */
+function isAllowed(spec: string, fileDir: string): boolean {
+  if (ALLOWED_CORE_IMPORTS.includes(spec)) return true;
+
+  if (spec === "@/core" || spec.startsWith("@/core/")) return true;
+
   if (spec.startsWith(".")) {
     const resolved = relative(REPO_ROOT, resolve(fileDir, spec));
-    const outward = ["src/server", "src/app", "src/adapters"];
-    return outward.some((o) => resolved === o || resolved.startsWith(`${o}/`));
+    return resolved === "src/core" || resolved.startsWith(`src/core/`);
   }
-  // bare specifier
-  if (spec.startsWith("@/")) return false; // only @/core etc. reach here
-  if (spec.startsWith("node:")) return false;
-  return FORBIDDEN_PACKAGES.some((p) => spec === p || spec.startsWith(`${p}/`));
+
+  // Bare specifier (npm package), a `node:` builtin, or another `@/` alias — all
+  // disallowed. Core does no I/O and depends on nothing outward.
+  return false;
 }
 
 describe("src/core import boundary (AD-2)", () => {
@@ -74,15 +77,35 @@ describe("src/core import boundary (AD-2)", () => {
   });
 
   it.each(files.map((f) => [relative(REPO_ROOT, f), f] as const))(
-    "%s imports nothing from server/app/adapters or an external SDK",
+    "%s only imports relative core paths (no SDK, no I/O, nothing outward)",
     (_label, file) => {
       const source = readFileSync(file, "utf8");
-      const offenders = importSpecifiers(source).filter((spec) =>
-        isForbidden(spec, join(file, "..")),
+      const offenders = importSpecifiers(source).filter(
+        (spec) => !isAllowed(spec, join(file, "..")),
       );
       expect(offenders).toEqual([]);
     },
   );
+
+  it("the allowlist itself rejects SDKs, node builtins, and outward paths", () => {
+    // Simulate a file at src/core/basket/probe.ts
+    const dir = join(CORE_DIR, "basket");
+    for (const bad of [
+      "axios",
+      "openai",
+      "next/server",
+      "node:fs",
+      "@/server",
+      "@/server/container",
+      "../../server/x",
+      "../../app/page",
+    ]) {
+      expect(isAllowed(bad, dir), `${bad} should be rejected`).toBe(false);
+    }
+    for (const ok of ["./select", "../money", "@/core/types"]) {
+      expect(isAllowed(ok, dir), `${ok} should be allowed`).toBe(true);
+    }
+  });
 });
 
 describe("assertNoForbiddenKeys helper (AD-6, placeholder for issue #6)", () => {

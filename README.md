@@ -44,7 +44,7 @@ pnpm dev                     # http://localhost:3000  (/plan, /shop, /cook)
 ```
 
 Never commit real secrets. `OPENAI_API_KEY` and all external API credentials stay
-server-side only and are absent from `.env.example`.
+server-side only; `.env.example` documents the variable **names** only, with no values.
 
 ## Scripts
 
@@ -61,6 +61,7 @@ The merge bar (CI, every PR): `pnpm typecheck && pnpm lint && pnpm test && pnpm 
 ## Repository structure
 
 `src/core` (pure domain), `src/ports` (interfaces), `src/adapters` (implementations),
-`src/fixtures` (demo data), `src/server` (wiring + route handlers), `src/app` (Next routes),
-`tests`. Each has a `README.md` stub. The `src/core` boundary is enforced by ESLint and by
+`src/fixtures` (demo data), `src/server` (wiring + route handlers), `src/app` (Next routes,
+with `_components/` for shared UI), `src/lib` (client helpers), `tests`. Each non-app dir has a
+`README.md` stub. The `src/core` boundary is enforced by ESLint and by
 `tests/architecture.test.ts`.

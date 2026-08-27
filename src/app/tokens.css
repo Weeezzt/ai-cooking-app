@@ -1,0 +1,9 @@
+/*
+ * Design token layer — "Midnight Supermarket Editorial" (AD-1, docs/agents/design-system.md).
+ * STUB: Issue #2 authors the real tokens (dark-only palette, mobile-first type
+ * scale, spacing, rule tokens, radius policy, motion). Imported by globals.css so
+ * the seam exists now.
+ */
+:root {
+  color-scheme: dark;
+}
