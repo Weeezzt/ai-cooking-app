@@ -43,6 +43,7 @@ describe("resolvePurchase — fixed pack (AD-4: never prorate a pack)", () => {
     const choice = resolvePurchase(500, p);
     expect(choice).toEqual({
       purchasedGrams: 700,
+      purchasedAmount: 700,
       priceOre: 1895,
       packs: 1,
       variableWeight: false,
@@ -70,6 +71,19 @@ describe("resolvePurchase — variable weight (AD-4)", () => {
     expect(choice.packs).toBeNull();
     expect(choice.purchasedGrams).toBe(500);
     expect(choice.priceOre).toBe(4950); // 500 g * 99,00 kr/kg
+  });
+  it("buys an _KG product as a whole pack without a usable kg comparison", () => {
+    const choice = resolvePurchase(500, product({ id: "hint_KG", packageSize: 700, comparison: { priceOre: ore(1000), unit: "st" } }));
+    expect(choice.variableWeight).toBe(false);
+    expect(choice.purchasedGrams).toBe(700);
+  });
+  it("uses exact grams for a ca-name product with kg comparison", () => {
+    const choice = resolvePurchase(250, product({ id: "meat", name: "Kött ca 800 g", comparison: { priceOre: ore(8000), unit: "kg" } }));
+    expect(choice.variableWeight).toBe(true);
+    expect(choice.purchasedGrams).toBe(250);
+  });
+  it("keeps a plain fixed pack whole", () => {
+    expect(resolvePurchase(100, product({ id: "plain", packageSize: 400 })).purchasedGrams).toBe(400);
   });
 });
 
@@ -165,6 +179,13 @@ describe("compareStores — deterministic objective", () => {
       retrievedAtIso: "2026-08-27T09:00:00.000Z",
     });
     expect(result.comparison.chosenStoreKey).toBe("ica:full");
+  });
+
+  it("weights core coverage strictly above supporting coverage", () => {
+    const weighted: BasketRequirement[] = [{ concept: "pasta", recipeAmount: 100, role: "core" }, { concept: "tomat", recipeAmount: 100, role: "supporting" }];
+    const coreStore = { store: store({ storeId: "core" }), candidatesByConcept: new Map([["pasta", [pasta({})]]]) };
+    const supportingStore = { store: store({ storeId: "support" }), candidatesByConcept: new Map([["tomat", [tomat({})]]]) };
+    expect(compareStores({ requirements: weighted, stores: [supportingStore, coreStore], source: "test", retrievedAtIso: "2026-01-01T00:00:00.000Z" }).chosen.store.storeId).toBe("core");
   });
 
   it("breaks an equal-coverage tie by cost, then distance, then stable key", () => {

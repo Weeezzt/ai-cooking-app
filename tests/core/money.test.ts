@@ -74,6 +74,10 @@ describe("parseSekToOre", () => {
     expect(() => parseSekToOre("")).toThrow();
     expect(() => parseSekToOre("1,2,3")).toThrow();
   });
+  it("rejects budgets outside the safe integer öre range", () => {
+    expect(() => parseSekToOre("9007199254740991")).toThrow(/safe integer/);
+    expect(() => ore(Number.MAX_SAFE_INTEGER + 1)).toThrow();
+  });
 });
 
 describe("formatting boundary", () => {

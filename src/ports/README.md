@@ -9,4 +9,5 @@ implementations here (adapters land in issues #4–#6).
 **Why these files only re-export:** `tests/architecture.test.ts` allows `src/core`
 to import only from within `src/core`, so a type-only `@/ports` import from the pure
 engine would trip that guard. The canonical interface definitions therefore live in
-`src/core/ports.ts`; these files give them the AD-2 layout for the rest of the app.
+These files are the canonical AD-2 interfaces. They contain types only; core may
+reference them with `import type` and never introduces a runtime dependency.

@@ -174,6 +174,28 @@ describe("over-budget repair (AD-7)", () => {
     repairOverBudget({ basket, budgetOre: ore(1), requirements, candidatesByConcept: candidates });
     expect(JSON.stringify(basket)).toBe(snapshot);
   });
+
+  it("uses the lexicographic waste tiebreak instead of greedy largest saving", () => {
+    const req: BasketRequirement[] = [{ concept: "a", recipeAmount: 100, role: "core" }];
+    const options = new Map([["a", [product({ id: "original", concept: "a", packageSize: 500, priceOre: ore(1000) }), product({ id: "large-saving-high-waste", concept: "a", packageSize: 1000, priceOre: ore(500) }), product({ id: "smaller-saving-low-waste", concept: "a", packageSize: 100, priceOre: ore(600) })]]]);
+    const basket = buildBasket({ store: store(), requirements: [{ ...req[0], forcedProductId: "original" }], candidatesByConcept: options, source: "test", retrievedAtIso: "2026-01-01T00:00:00.000Z" });
+    const repaired = repairOverBudget({ basket, budgetOre: ore(700), requirements: req, candidatesByConcept: options });
+    expect(repaired.basket.lines[0].product.id).toBe("smaller-saving-low-waste");
+  });
+
+  it("strips garnish references and drops a garnish-only step", () => {
+    const basket = baseline();
+    const repaired = repairOverBudget({ basket, budgetOre: ore(9000), requirements: requirements.map((r) => ({ ...r, requirementId: r.concept })), candidatesByConcept: candidates, steps: [{ text: "Toppa med persilja", durationSeconds: 10, ingredientRefs: ["persilja"] }, { text: "Servera", durationSeconds: 0, ingredientRefs: [] }] });
+    expect(repaired.steps).toEqual([{ text: "Servera", durationSeconds: 0, ingredientRefs: [] }]);
+    expect(repaired.adjustments.some((a) => a.kind === "remove_optional_garnish")).toBe(true);
+  });
+
+  it("merges duplicate concept requirements with an audit entry", () => {
+    const duplicate = [requirements[0], { ...requirements[0], recipeAmount: 100 }];
+    const repaired = repairOverBudget({ basket: baseline(), budgetOre: ore(1), requirements: duplicate, candidatesByConcept: candidates });
+    expect(repaired.adjustments.some((a) => a.kind === "merge_duplicate" && a.concept === "kyckling")).toBe(true);
+    expect(repaired.basket.lines.find((l) => l.concept === "kyckling")?.recipeAmount).toBe(600);
+  });
 });
 
 describe("evaluate + aggregate outcome (AD-5)", () => {
@@ -200,7 +222,8 @@ describe("evaluate + aggregate outcome (AD-5)", () => {
   });
 
   it("aggregates outcomes per AD-5", () => {
-    expect(aggregateOutcome({ withinBudget: true, coverageImpossible: false, providerFailure: false })).toBe("ok");
+    expect(aggregateOutcome({ withinBudget: true, verifiedChecksPass: true, coverageImpossible: false, providerFailure: false })).toBe("ok");
+    expect(aggregateOutcome({ withinBudget: true, verifiedChecksPass: false, coverageImpossible: false, providerFailure: false })).toBe("unknown");
     expect(aggregateOutcome({ withinBudget: false, coverageImpossible: false, providerFailure: false })).toBe("over_budget");
     expect(aggregateOutcome({ withinBudget: true, coverageImpossible: true, providerFailure: false })).toBe("infeasible");
     expect(aggregateOutcome({ withinBudget: true, coverageImpossible: false, providerFailure: true })).toBe("unknown");

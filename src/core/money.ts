@@ -19,7 +19,7 @@ export function roundHalfUp(value: number): number {
 
 /** Brand a known-integer number as `Ore`. Throws on non-integers. */
 export function ore(value: number): Ore {
-  if (!Number.isInteger(value)) {
+  if (!Number.isSafeInteger(value)) {
     throw new RangeError(`ore(): expected an integer öre amount, got ${value}`);
   }
   return value as Ore;
@@ -38,7 +38,7 @@ export function subOre(a: Ore, b: Ore): Ore {
 
 /** Multiply öre by a non-negative integer count (e.g. pack multiples). */
 export function mulOre(amount: Ore, count: number): Ore {
-  if (!Number.isInteger(count) || count < 0) {
+  if (!Number.isSafeInteger(count) || count < 0) {
     throw new RangeError(`mulOre(): count must be a non-negative integer, got ${count}`);
   }
   return ore(amount * count);
@@ -77,12 +77,18 @@ export function parseSekToOre(input: string): Ore {
 
   const sign = match[1] === "-" ? -1 : 1;
   const kronor = Number.parseInt(match[2], 10);
+  if (!Number.isSafeInteger(kronor)) {
+    throw new RangeError("parseSekToOre(): amount exceeds safe integer range");
+  }
   // Pad to at least 3 fraction digits: 2 for öre + 1 rounding digit. Digits
   // beyond the third never change a half-up decision for a positive amount.
   const fraction = (match[3] ?? "").padEnd(3, "0");
   let magnitude = kronor * 100 + Number.parseInt(fraction.slice(0, 2), 10);
   if (Number.parseInt(fraction[2], 10) >= 5) {
     magnitude += 1;
+  }
+  if (!Number.isSafeInteger(magnitude)) {
+    throw new RangeError("parseSekToOre(): amount exceeds safe integer öre range");
   }
   return ore(sign * magnitude);
 }

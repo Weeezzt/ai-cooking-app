@@ -59,18 +59,19 @@ export function normalizeAmount(value: number, unit: string): NormalizedAmount {
  *   - its SKU id ends `_KG` (the Primat convention for a weighed line), or
  *   - its name is prefixed `ca ` / contains ` ca ` ("cirka" — approximate pack).
  */
-export function isVariableWeight(product: Pick<Product, "id" | "name" | "comparison">): boolean {
-  if (product.comparison.unit === "kg") return true;
-  if (/_KG$/i.test(product.id)) return true;
-  if (/(^|\s)ca\.?\s/i.test(product.name)) return true;
-  return false;
+export function isVariableWeight(product: Pick<Product, "comparison">): boolean {
+  return (
+    (product.comparison.unit === "kg" || product.comparison.unit === "l") &&
+    Number.isSafeInteger(product.comparison.priceOre) &&
+    product.comparison.priceOre > 0
+  );
 }
 
 /** Price, in öre, of `grams` of a variable-weight product (half-up to öre). */
 export function variableWeightPriceOre(grams: number, comparison: ComparisonUnitPrice): Ore {
-  if (comparison.unit !== "kg") {
+  if (comparison.unit !== "kg" && comparison.unit !== "l") {
     throw new RangeError(
-      `variableWeightPriceOre(): comparison unit must be "kg", got ${comparison.unit}`,
+      `variableWeightPriceOre(): comparison unit must be "kg" or "l", got ${comparison.unit}`,
     );
   }
   if (!Number.isFinite(grams) || grams < 0) {

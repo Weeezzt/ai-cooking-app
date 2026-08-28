@@ -12,7 +12,7 @@ import type {
   RecipeDraft,
   RecipeGenerationInput,
   StoreDiscoveryResult,
-} from "@/core/ports";
+} from "@/ports";
 import { runPlanPipeline } from "@/core/pipeline";
 import { PipelineValidationError } from "@/core/pipeline";
 import type { MealRequest, NutrientVector, Product, StoreOption } from "@/core/types";
@@ -291,6 +291,58 @@ describe("runPlanPipeline — validation", () => {
     await expect(
       runPlanPipeline({ ...BASE_REQUEST, budgetSek: "0" }, makeDeps(), ctx()),
     ).rejects.toBeInstanceOf(PipelineValidationError);
+  });
+
+  it("retries once then returns unknown for an unknown optionId", async () => {
+    let calls = 0;
+    const deps = makeDeps({ recipes: { async generate(input): Promise<RecipeDraft> { calls += 1; const base = await makeDeps().recipes.generate(input, { deadlineAt: 0, clock: new FixedClock() }); return { ...base, requirements: [{ optionId: "not-issued", requiredGrams: 100, role: "core" }] }; } } });
+    const result = await runPlanPipeline(BASE_REQUEST, deps, ctx());
+    expect(calls).toBe(2);
+    expect(result.outcome).toBe("unknown");
+    expect(result.reason).toContain("unknown_option");
+  });
+
+  it("returns infeasible when recipe output drops a core concept", async () => {
+    const baseRecipes = makeDeps().recipes;
+    const deps = makeDeps({ recipes: { async generate(input, options): Promise<RecipeDraft> { const draft = await baseRecipes.generate(input, options); return { ...draft, requirements: draft.requirements.filter((r) => !input.options.find((o) => o.optionId === r.optionId)?.concept.includes("pasta")) }; } } });
+    const result = await runPlanPipeline(BASE_REQUEST, deps, ctx());
+    expect(result.outcome).toBe("infeasible");
+    expect(result.reason).toContain("missing_core:pasta");
+  });
+
+  it("portion mismatch cannot aggregate to ok", async () => {
+    const baseRecipes = makeDeps().recipes;
+    const deps = makeDeps({ recipes: { async generate(input, options): Promise<RecipeDraft> { return { ...(await baseRecipes.generate(input, options)), portions: input.portions + 1 }; } } });
+    const result = await runPlanPipeline(BASE_REQUEST, deps, ctx());
+    expect(result.outcome).toBe("unknown");
+    expect(result.reason).toContain("portion_mismatch");
+  });
+
+  it("turns a provider exception into unknown", async () => {
+    const deps = makeDeps({ products: { async search(): Promise<readonly Product[]> { throw new Error("offline"); } } });
+    await expect(runPlanPipeline(BASE_REQUEST, deps, ctx())).resolves.toMatchObject({ outcome: "unknown", reason: "product_search_failed" });
+  });
+
+  it("checks the shared deadline immediately after a provider call", async () => {
+    let now = 0;
+    const clock = { now: () => now, nowIso: () => "2026-01-01T00:00:00.000Z" };
+    const deps = makeDeps({ stores: { async resolve(): Promise<StoreDiscoveryResult> { now = 10; return { location: { lat: 0, lon: 0, label: "x", isDemoDefault: false }, stores: UMEA_STORES }; } } });
+    const result = await runPlanPipeline(BASE_REQUEST, deps, { clock, deadlineAt: 10 });
+    expect(result).toMatchObject({ outcome: "unknown", reason: "deadline_exceeded" });
+  });
+
+  it("rejects a count requirement for a grams-only product", async () => {
+    const baseRecipes = makeDeps().recipes;
+    const deps = makeDeps({ recipes: { async generate(input, options): Promise<RecipeDraft> { const draft = await baseRecipes.generate(input, options); return { ...draft, requirements: draft.requirements.map((r) => input.options.find((o) => o.optionId === r.optionId)?.concept === "pasta" ? { optionId: r.optionId, requiredCount: 1, role: r.role } : r) }; } } });
+    const result = await runPlanPipeline(BASE_REQUEST, deps, ctx());
+    expect(result.outcome).toBe("unknown");
+    expect(result.reason).toContain("unit_incompatible");
+  });
+
+  it("records deterministic candidate rejection reasons", async () => {
+    const deps = makeDeps({ products: { async search(query): Promise<readonly Product[]> { const valid = CATALOG.get(query.concept) ?? []; return [...valid, p({ id: `bad-${query.concept}`, concept: query.concept, priceOre: ore(0) })]; } } });
+    const result = await runPlanPipeline(BASE_REQUEST, deps, ctx());
+    expect(result.candidateRejections).toContainEqual(expect.objectContaining({ productId: "bad-pasta", reason: "invalid_price" }));
   });
 });
 

@@ -6,6 +6,7 @@ import { assertNoForbiddenKeys } from "./helpers/assertNoForbiddenKeys";
 
 const REPO_ROOT = resolve(__dirname, "..");
 const CORE_DIR = join(REPO_ROOT, "src", "core");
+const PORTS_DIR = join(REPO_ROOT, "src", "ports");
 
 /**
  * Allowlist model (AD-2, engineering-rules "Boundaries"): `src/core` is pure
@@ -69,6 +70,10 @@ function isAllowed(spec: string, fileDir: string): boolean {
   return false;
 }
 
+function typeOnlyPortImports(source: string): string[] {
+  return [...source.matchAll(/\bimport\s+(?!type\b)[^;]*?from\s+["']@\/ports(?:\/[^"']*)?["']/g)].map((m) => m[0]);
+}
+
 describe("src/core import boundary (AD-2)", () => {
   const files = listFiles(CORE_DIR).filter((f) => !f.endsWith(".md"));
 
@@ -81,9 +86,10 @@ describe("src/core import boundary (AD-2)", () => {
     (_label, file) => {
       const source = readFileSync(file, "utf8");
       const offenders = importSpecifiers(source).filter(
-        (spec) => !isAllowed(spec, join(file, "..")),
+        (spec) => !(spec === "@/ports" || spec.startsWith("@/ports/")) && !isAllowed(spec, join(file, "..")),
       );
       expect(offenders).toEqual([]);
+      expect(typeOnlyPortImports(source)).toEqual([]);
     },
   );
 
@@ -105,6 +111,14 @@ describe("src/core import boundary (AD-2)", () => {
     for (const ok of ["./select", "../money", "@/core/types"]) {
       expect(isAllowed(ok, dir), `${ok} should be allowed`).toBe(true);
     }
+  });
+});
+
+describe("src/ports is type-only", () => {
+  it.each(listFiles(PORTS_DIR).map((f) => [relative(REPO_ROOT, f), f] as const))("%s contains no runtime declarations", (_label, file) => {
+    const source = readFileSync(file, "utf8").replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "");
+    expect(source).not.toMatch(/\b(?:const|let|var|class|function|enum|new|return)\b/);
+    expect(source).not.toMatch(/\bimport\s+(?!type\b)/);
   });
 });
 

@@ -17,8 +17,8 @@ Contents (issue #3):
 - `units.ts` — g/ml/st normalization, variable-weight detection + per-gram pricing,
   `packsForNeed`. Half-up rounding, same rule as `money.ts`.
 - `clock.ts` — injected `Clock` capability + `FixedClock`; `PipelineContext`.
-- `ports.ts` — the port interfaces the engine depends on (canonical home; `src/ports/*`
-  re-exports them so the pure engine never imports outward).
+- `src/ports/*` — canonical type-only inward-facing interfaces; core uses only
+  `import type` across that boundary.
 - `basket/` — package selection, per-store build, multi-store comparison + objective.
 - `nutrition/` — consumed-gram aggregation, coverage ratio, `< 0.7` suppression.
 - `constraints/` — evidence taxonomy, pantry caps, evaluation, AD-7 over-budget repair.

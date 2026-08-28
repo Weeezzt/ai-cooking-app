@@ -1,163 +1,53 @@
-/**
- * Deterministic over-budget repair (AD-7).
- *
- * Pure and terminating. No AI, no network. Given the post-pantry basket and the
- * filtered candidates for the chosen store:
- *
- *   1. Enumerate authorized alternatives — other filtered candidates for the same
- *      canonical concept (a cheaper SKU / a different sufficient pack size).
- *   2. Apply substitutions by a fixed lexicographic objective: largest öre saving
- *      first, then concept asc, then product id asc. Stop as soon as the basket
- *      is within budget (this minimises the substitution count); if it never is,
- *      every beneficial substitution ends up applied (this minimises overshoot).
- *   3. If still over budget, remove `optional_garnish` lines in concept order,
- *      stopping as soon as within budget.
- *   4. Terminal: within budget → `ok`; otherwise `over_budget` with the exact
- *      remaining overshoot and the cheapest basket found under the objective.
- *
- * Termination: each substitution strictly lowers the total and touches a line at
- * most once; garnish removals are bounded by the line count.
- */
-
+/** Pure, bounded AD-7 basket repair. Candidate lists are capped at five (AD-3). */
 import { buildBasket, type BasketRequirement } from "../basket/build";
-import { selectCandidate } from "../basket/select";
-import { ore, subOre, sumOre, ZERO_ORE } from "../money";
-import type { Basket, BasketAdjustment, Ore, Product } from "../types";
+import { ore, subOre, ZERO_ORE } from "../money";
+import type { Basket, BasketAdjustment, Ore, Product, RecipeStep, RequirementRole } from "../types";
 
-export interface RepairInput {
-  readonly basket: Basket;
-  readonly budgetOre: Ore;
-  readonly requirements: readonly BasketRequirement[];
-  readonly candidatesByConcept: ReadonlyMap<string, readonly Product[]>;
+const MAX_ALTERNATIVES_PER_CONCEPT = 5;
+export interface RepairInput { readonly basket: Basket; readonly budgetOre: Ore; readonly requirements: readonly BasketRequirement[]; readonly candidatesByConcept: ReadonlyMap<string, readonly Product[]>; readonly steps?: readonly RecipeStep[] }
+export interface RepairResult { readonly basket: Basket; readonly steps: readonly RecipeStep[]; readonly adjustments: readonly BasketAdjustment[]; readonly withinBudget: boolean; readonly overshootOre: Ore }
+const roleRank: Record<RequirementRole, number> = { optional_garnish: 0, supporting: 1, core: 2 };
+
+export function mergeDuplicateRequirements(requirements: readonly BasketRequirement[]) {
+  const grouped = new Map<string, BasketRequirement[]>();
+  for (const r of requirements) grouped.set(r.concept, [...(grouped.get(r.concept) ?? []), r]);
+  const merged: BasketRequirement[] = [], adjustments: BasketAdjustment[] = [];
+  for (const concept of [...grouped.keys()].sort()) {
+    const group = grouped.get(concept) as BasketRequirement[], first = group[0];
+    merged.push({ ...first, recipeAmount: group.reduce((n, r) => n + r.recipeAmount, 0), role: group.reduce((best, r) => roleRank[r.role] > roleRank[best] ? r.role : best, first.role), forcedProductId: group.length === 1 ? first.forcedProductId : undefined });
+    if (group.length > 1) adjustments.push({ kind: "merge_duplicate", concept, deltaOre: ZERO_ORE, detail: `${group.length} kravrader slogs ihop före prissättning` });
+  }
+  return { requirements: merged, adjustments };
 }
 
-export interface RepairResult {
-  readonly basket: Basket;
-  readonly adjustments: readonly BasketAdjustment[];
-  /** `true` once the repaired basket fits the budget. */
-  readonly withinBudget: boolean;
-  /** Exact overshoot after repair, `0` when within budget. */
-  readonly overshootOre: Ore;
-}
-
-function overshoot(totalOre: Ore, budgetOre: Ore): Ore {
-  return ore(Math.max(0, totalOre - budgetOre));
-}
-
-function requirementFor(
-  concept: string,
-  requirements: readonly BasketRequirement[],
-): BasketRequirement | undefined {
-  return requirements.find((r) => r.concept === concept);
+interface Choice { basket: Basket; substitutions: number; waste: number; ids: string }
+function compareChoice(a: Choice, b: Choice, budget: Ore): number { return Math.max(0, a.basket.totalOre-budget)-Math.max(0,b.basket.totalOre-budget) || a.substitutions-b.substitutions || a.waste-b.waste || a.ids.localeCompare(b.ids); }
+function enumerate(input: RepairInput, requirements: readonly BasketRequirement[]): Choice | null {
+  const original = new Map(input.basket.lines.map((l) => [l.concept, l.product.id]));
+  const choices = requirements.map((r) => [...(input.candidatesByConcept.get(r.concept) ?? [])].sort((a,b) => a.id.localeCompare(b.id)).slice(0, MAX_ALTERNATIVES_PER_CONCEPT));
+  if (choices.some((c) => c.length === 0)) return null;
+  let best: Choice | null = null; const selected: Product[] = [];
+  const visit = (index: number): void => {
+    if (index === requirements.length) {
+      const basket = buildBasket({ store: input.basket.store, requirements: requirements.map((r,i) => ({...r, forcedProductId:selected[i].id})), candidatesByConcept: input.candidatesByConcept, source: input.basket.lines[0]?.provenance.source ?? "repair", retrievedAtIso: input.basket.lines[0]?.provenance.retrievedAt ?? "1970-01-01T00:00:00.000Z" });
+      const candidate: Choice = { basket, substitutions: selected.filter((p,i) => original.get(requirements[i].concept) !== p.id).length, waste: basket.lines.reduce((n,l) => n+Math.max(0,(l.purchase.purchasedAmount ?? l.purchase.purchasedGrams)-(l.recipeAmount ?? l.recipeGrams)),0), ids:selected.map((p)=>p.id).join("\0") };
+      if (best === null || compareChoice(candidate,best,input.budgetOre)<0) best=candidate; return;
+    }
+    for (const product of choices[index]) { selected.push(product); visit(index+1); selected.pop(); }
+  };
+  visit(0); return best;
 }
 
 export function repairOverBudget(input: RepairInput): RepairResult {
-  const { budgetOre, requirements, candidatesByConcept } = input;
-
-  // Working copy: concept -> chosen product id (or removed).
-  const chosen = new Map<string, string>();
-  for (const line of input.basket.lines) chosen.set(line.concept, line.product.id);
-  const removed = new Set<string>();
-
-  const adjustments: BasketAdjustment[] = [];
-
-  const rebuild = (): Basket =>
-    buildBasket({
-      store: input.basket.store,
-      requirements: requirements
-        .filter((r) => chosen.has(r.concept) && !removed.has(r.concept))
-        .map((r) => ({ ...r, forcedProductId: chosen.get(r.concept) })),
-      candidatesByConcept,
-      source: input.basket.lines[0]?.provenance.source ?? "repair",
-      retrievedAtIso: input.basket.lines[0]?.provenance.retrievedAt ?? "1970-01-01T00:00:00.000Z",
-    });
-
-  let current = input.basket;
-  if (overshoot(current.totalOre, budgetOre) === 0) {
-    return { basket: current, adjustments: [], withinBudget: true, overshootOre: ZERO_ORE };
+  const prep=mergeDuplicateRequirements(input.requirements); let requirements=prep.requirements;
+  let best=enumerate(input,requirements) ?? {basket:input.basket,substitutions:0,waste:0,ids:""};
+  const adjustments=[...prep.adjustments], original=new Map(input.basket.lines.map((l)=>[l.concept,l]));
+  let steps=[...(input.steps??[])];
+  if(best.basket.totalOre>input.budgetOre) for(const garnish of requirements.filter((r)=>r.role==="optional_garnish").sort((a,b)=>a.concept.localeCompare(b.concept))){
+    const removed=best.basket.lines.find((l)=>l.concept===garnish.concept); requirements=requirements.filter((r)=>r.concept!==garnish.concept); best=enumerate(input,requirements)??best;
+    if(garnish.requirementId) steps=steps.map((s)=>({ step:{...s,ingredientRefs:s.ingredientRefs.filter((x)=>x!==garnish.requirementId)}, hadRefs:s.ingredientRefs.length>0 })).filter(({step,hadRefs})=>!hadRefs||step.ingredientRefs.length>0).map(({step})=>step);
+    adjustments.push({kind:"remove_optional_garnish",concept:garnish.concept,deltaOre:ore(-(removed?.purchase.priceOre??0)),detail:`Garnering och stegreferenser borttagna: ${garnish.concept}`}); if(best.basket.totalOre<=input.budgetOre)break;
   }
-
-  // --- Step 1 & 2: substitutions -----------------------------------------
-  interface Sub {
-    readonly concept: string;
-    readonly productId: string;
-    readonly savingOre: number;
-    readonly detail: string;
-  }
-
-  const subs: Sub[] = [];
-  for (const line of input.basket.lines) {
-    const req = requirementFor(line.concept, requirements);
-    if (req === undefined) continue;
-    const alternatives = (candidatesByConcept.get(line.concept) ?? []).filter(
-      (c) => c.id !== line.product.id,
-    );
-    const best = selectCandidate(req.recipeAmount, alternatives);
-    if (best === null) continue;
-    const saving = line.purchase.priceOre - best.purchase.priceOre;
-    if (saving <= 0) continue;
-    subs.push({
-      concept: line.concept,
-      productId: best.product.id,
-      savingOre: saving,
-      detail: `Byte: ${line.product.name} → ${best.product.name} (−${saving} öre)`,
-    });
-  }
-
-  subs.sort(
-    (a, b) =>
-      b.savingOre - a.savingOre ||
-      (a.concept < b.concept ? -1 : a.concept > b.concept ? 1 : 0) ||
-      (a.productId < b.productId ? -1 : a.productId > b.productId ? 1 : 0),
-  );
-
-  for (const sub of subs) {
-    chosen.set(sub.concept, sub.productId);
-    adjustments.push({
-      kind: "substitute_cheaper",
-      concept: sub.concept,
-      deltaOre: ore(-sub.savingOre),
-      detail: sub.detail,
-    });
-    current = rebuild();
-    if (overshoot(current.totalOre, budgetOre) === 0) break;
-  }
-
-  // --- Step 3: optional_garnish removal ---------------------------------
-  if (overshoot(current.totalOre, budgetOre) > 0) {
-    const garnish = [...input.basket.lines]
-      .filter((l) => requirementFor(l.concept, requirements)?.role === "optional_garnish")
-      .map((l) => l.concept)
-      .sort();
-
-    for (const concept of garnish) {
-      const line = current.lines.find((l) => l.concept === concept);
-      const price = line?.purchase.priceOre ?? ZERO_ORE;
-      removed.add(concept);
-      adjustments.push({
-        kind: "remove_optional_garnish",
-        concept,
-        deltaOre: ore(-price),
-        detail: `Garnering borttagen för att nå budget: ${concept}`,
-      });
-      current = rebuild();
-      if (overshoot(current.totalOre, budgetOre) === 0) break;
-    }
-  }
-
-  const finalOvershoot = overshoot(current.totalOre, budgetOre);
-
-  // Sanity: recomputed total must equal the sum of its line prices.
-  const recomputed =
-    current.lines.length === 0 ? ZERO_ORE : sumOre(current.lines.map((l) => l.purchase.priceOre));
-  if (recomputed !== current.totalOre) {
-    throw new Error("repairOverBudget(): basket total desynced from its lines");
-  }
-
-  return {
-    basket: current,
-    adjustments,
-    withinBudget: finalOvershoot === 0,
-    overshootOre: finalOvershoot === 0 ? ZERO_ORE : subOre(current.totalOre, budgetOre),
-  };
+  for (const line of best.basket.lines) { const before=original.get(line.concept); if(before&&before.product.id!==line.product.id) adjustments.push({kind:"substitute_cheaper",concept:line.concept,deltaOre:ore(line.purchase.priceOre-before.purchase.priceOre),detail:`Byte: ${before.product.name} → ${line.product.name}`}); }
+  const over=Math.max(0,best.basket.totalOre-input.budgetOre); return {basket:best.basket,steps,adjustments,withinBudget:over===0,overshootOre:over===0?ZERO_ORE:subOre(best.basket.totalOre,input.budgetOre)};
 }

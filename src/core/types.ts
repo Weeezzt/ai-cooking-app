@@ -132,6 +132,9 @@ export interface IngredientRequirement {
 export interface PurchaseResolution {
   /** Grams actually bought (pack multiple, or exact for variable weight). */
   readonly purchasedGrams: number;
+  /** Purchase amount in the product's canonical dimension. */
+  readonly purchasedAmount?: number;
+  readonly unit?: CanonicalUnit;
   /** Cost of that purchase, integer öre. Drives the basket total. */
   readonly priceOre: Ore;
   /** Number of fixed packs bought. `null` for a variable-weight cut. */
@@ -154,6 +157,8 @@ export interface BasketLine {
   readonly role: RequirementRole;
   /** Recipe consumption in grams. NEVER derived from `purchase` (AD-4). */
   readonly recipeGrams: number;
+  readonly recipeAmount?: number;
+  readonly unit?: CanonicalUnit;
   readonly purchase: PurchaseResolution;
   readonly provenance: Provenance;
 }
@@ -166,6 +171,8 @@ export interface Basket {
   readonly missingConcepts: readonly string[];
   /** Covered core+supporting concepts / total core+supporting concepts. */
   readonly coverageRatio: number;
+  readonly coreCoverageRatio?: number;
+  readonly supportingCoverageRatio?: number;
 }
 
 export interface StoreComparisonEntry {
@@ -239,6 +246,19 @@ export interface BasketAdjustment {
   readonly detail: string;
 }
 
+export interface RecipeStep {
+  readonly text: string;
+  readonly durationSeconds: number;
+  readonly ingredientRefs: readonly string[];
+}
+
+export interface CandidateRejection {
+  readonly storeKey: string;
+  readonly concept: string;
+  readonly productId: string;
+  readonly reason: "concept_mismatch" | "invalid_price" | "invalid_amount" | "unit_incompatible";
+}
+
 // ---------------------------------------------------------------------------
 // Result
 // ---------------------------------------------------------------------------
@@ -251,6 +271,8 @@ export interface PlanResult {
   readonly comparison: StoreComparison | null;
   readonly constraints: ConstraintReport;
   readonly adjustments: readonly BasketAdjustment[];
+  readonly recipe: { readonly title: string; readonly portions: number; readonly steps: readonly RecipeStep[] } | null;
+  readonly candidateRejections: readonly CandidateRejection[];
   /** Exact amount over budget after repair, integer öre. `0` unless `over_budget`. */
   readonly overshootOre: Ore;
   /** Machine reason for `infeasible` / `unknown`. */

@@ -40,6 +40,8 @@ export interface CompareStoresResult {
 }
 
 function compareBaskets(a: Basket, b: Basket): number {
+  if (a.coreCoverageRatio !== b.coreCoverageRatio) return (b.coreCoverageRatio ?? 0) - (a.coreCoverageRatio ?? 0);
+  if (a.supportingCoverageRatio !== b.supportingCoverageRatio) return (b.supportingCoverageRatio ?? 0) - (a.supportingCoverageRatio ?? 0);
   if (a.coverageRatio !== b.coverageRatio) return b.coverageRatio - a.coverageRatio;
   if (a.totalOre !== b.totalOre) return a.totalOre - b.totalOre;
   if (a.store.distanceKm !== b.store.distanceKm) return a.store.distanceKm - b.store.distanceKm;

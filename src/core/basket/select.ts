@@ -16,6 +16,7 @@ import { isVariableWeight, packsForNeed, variableWeightPriceOre } from "../units
 export interface PackagingChoice {
   /** Grams the basket actually acquires (pack multiple, or the exact cut). */
   readonly purchasedGrams: number;
+  readonly purchasedAmount: number;
   /** Cost of that acquisition, integer öre. */
   readonly priceOre: Ore;
   /** Whole packs bought; `null` for a variable-weight cut. */
@@ -35,6 +36,7 @@ export function resolvePurchase(recipeAmount: number, product: Product): Packagi
     const priceOre = variableWeightPriceOre(recipeAmount, product.comparison);
     return {
       purchasedGrams: recipeAmount,
+      purchasedAmount: recipeAmount,
       priceOre,
       packs: null,
       variableWeight: true,
@@ -46,6 +48,7 @@ export function resolvePurchase(recipeAmount: number, product: Product): Packagi
   const purchasedGrams = packs * product.packageSize;
   return {
     purchasedGrams,
+    purchasedAmount: purchasedGrams,
     priceOre: mulOre(product.priceOre, packs),
     packs,
     variableWeight: false,

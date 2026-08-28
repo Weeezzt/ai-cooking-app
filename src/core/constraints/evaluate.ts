@@ -104,6 +104,7 @@ export function evaluateConstraints(input: EvaluateInput): ConstraintReport {
     checks,
     outcome: aggregateOutcome({
       withinBudget,
+      verifiedChecksPass: portionsOk && distanceOk,
       coverageImpossible: input.coverageImpossible,
       providerFailure: input.providerFailure,
     }),
@@ -112,11 +113,13 @@ export function evaluateConstraints(input: EvaluateInput): ConstraintReport {
 
 export function aggregateOutcome(input: {
   readonly withinBudget: boolean;
+  readonly verifiedChecksPass?: boolean;
   readonly coverageImpossible: boolean;
   readonly providerFailure: boolean;
 }): PlanOutcome {
   if (input.providerFailure) return "unknown";
   if (input.coverageImpossible) return "infeasible";
+  if (input.verifiedChecksPass === false) return "unknown";
   if (!input.withinBudget) return "over_budget";
   return "ok";
 }

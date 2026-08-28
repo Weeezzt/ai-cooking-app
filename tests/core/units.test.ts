@@ -50,19 +50,19 @@ describe("isVariableWeight", () => {
       true,
     );
   });
-  it("is true for an _KG sku id", () => {
+  it("treats an _KG hint without kg comparison as a fixed pack", () => {
     expect(
       isVariableWeight(
         makeProduct({ id: "1234_KG", comparison: { priceOre: ore(500), unit: "st" } }),
       ),
-    ).toBe(true);
+    ).toBe(false);
   });
-  it("is true for a 'ca' pack name", () => {
+  it("treats a ca hint without kg comparison as a fixed pack", () => {
     expect(
       isVariableWeight(
         makeProduct({ name: "Fläskkotlett ca 800 g", comparison: { priceOre: ore(500), unit: "st" } }),
       ),
-    ).toBe(true);
+    ).toBe(false);
   });
   it("is false for a normal fixed pack", () => {
     expect(
