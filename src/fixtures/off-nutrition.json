@@ -1,0 +1,276 @@
+{
+  "attribution": "Data from Open Food Facts, made available under the Open Database License (ODbL): https://opendatacommons.org/licenses/odbl/1-0/",
+  "capturedAt": "2026-08-27T17:32:53.022Z",
+  "products": {
+    "59032823": {
+      "productName": "nutella",
+      "per100g": {
+        "kcal": 539,
+        "proteinG": 6.3,
+        "carbsG": 57.5,
+        "fatG": 30.9
+      }
+    },
+    "7394376616037": {
+      "productName": "iKaffe",
+      "per100g": {
+        "kcal": 61,
+        "proteinG": 1.1,
+        "carbsG": 7.1,
+        "fatG": 3
+      }
+    },
+    "5000112637939": {
+      "productName": "Coca-Cola Zero Sugar",
+      "per100g": {
+        "kcal": 0.3,
+        "proteinG": 0,
+        "carbsG": 0,
+        "fatG": 0
+      }
+    },
+    "7311870010970": {
+      "productName": "Bregott - Normalsaltat",
+      "per100g": {
+        "kcal": 678,
+        "proteinG": 0.4,
+        "carbsG": 0.4,
+        "fatG": 75
+      }
+    },
+    "7392672104104": {
+      "productName": "Turkisk Naturell Yoghurt",
+      "per100g": {
+        "kcal": 120,
+        "proteinG": 3.2,
+        "carbsG": 4.5,
+        "fatG": 10
+      }
+    },
+    "7310865008060": {
+      "productName": "KESO Cottage Cheese Naturell",
+      "per100g": {
+        "kcal": 93,
+        "proteinG": 13,
+        "carbsG": 1.6,
+        "fatG": 4
+      }
+    },
+    "5000112637922": {
+      "productName": "Coca Cola",
+      "per100g": {
+        "kcal": 42.1212121212121,
+        "proteinG": 0,
+        "carbsG": 10.6060606060606,
+        "fatG": 0
+      }
+    },
+    "6408430102068": {
+      "productName": "Oddlygood Barista Kaurajuoma",
+      "per100g": {
+        "kcal": 58,
+        "proteinG": 1.2,
+        "carbsG": 6.6,
+        "fatG": 3
+      }
+    },
+    "7310070005250": {
+      "productName": "PEPSI MAX",
+      "per100g": {
+        "kcal": 0.303030303030303,
+        "proteinG": 0,
+        "carbsG": 0,
+        "fatG": 0
+      }
+    },
+    "4000339697908": {
+      "productName": "Philadelphia naturell",
+      "per100g": {
+        "kcal": 226,
+        "proteinG": 5.4,
+        "carbsG": 4.3,
+        "fatG": 21
+      }
+    },
+    "5449000000439": {
+      "productName": "Coca Cola Original taste",
+      "per100g": {
+        "kcal": 45,
+        "proteinG": 0,
+        "carbsG": 11.2,
+        "fatG": 0
+      }
+    },
+    "7340083443893": {
+      "productName": "Mellanmjölk med längre hållbarhet",
+      "per100g": {
+        "kcal": 47,
+        "proteinG": 3.5,
+        "carbsG": 4.7,
+        "fatG": 1.5
+      }
+    },
+    "7311070338188": {
+      "productName": "Pågen Limpan",
+      "per100g": {
+        "kcal": 269,
+        "proteinG": 7.8,
+        "carbsG": 50,
+        "fatG": 3.7
+      }
+    },
+    "7311070001952": {
+      "productName": "Rasker Fullkorn",
+      "per100g": {
+        "kcal": 271,
+        "proteinG": 9.6,
+        "carbsG": 46,
+        "fatG": 4.3
+      }
+    },
+    "7310240060157": {
+      "productName": "Tomatoketchup",
+      "per100g": {
+        "kcal": 82,
+        "proteinG": 1.3,
+        "carbsG": 18,
+        "fatG": 0
+      }
+    },
+    "7311070008708": {
+      "productName": "Grötbröd",
+      "per100g": {
+        "kcal": 266,
+        "proteinG": 11,
+        "carbsG": 42,
+        "fatG": 4.7
+      }
+    },
+    "4016241050526": {
+      "productName": "Mild Kvarg - Vanilj",
+      "per100g": {
+        "kcal": 59,
+        "proteinG": 9.7,
+        "carbsG": 4,
+        "fatG": 0.2
+      }
+    },
+    "7311631524128": {
+      "productName": "Finkornigt Salt",
+      "per100g": {
+        "kcal": 0,
+        "proteinG": 0,
+        "carbsG": 0,
+        "fatG": 0
+      }
+    },
+    "0037600160490": {
+      "productName": "Skippy super chunk",
+      "per100g": {
+        "kcal": 622,
+        "proteinG": 26,
+        "carbsG": 13,
+        "fatG": 50
+      }
+    },
+    "8715700016504": {
+      "productName": "Ketchup",
+      "per100g": {
+        "kcal": 102,
+        "proteinG": 1.2,
+        "carbsG": 23.2,
+        "fatG": 0.1
+      }
+    },
+    "7311071330525": {
+      "productName": "Lingon Grovå",
+      "per100g": {
+        "kcal": 266,
+        "proteinG": 8.8,
+        "carbsG": 53.1,
+        "fatG": 3
+      }
+    },
+    "7310865005168": {
+      "productName": "Svenskt Smör - Normalsaltat",
+      "per100g": {
+        "kcal": 739,
+        "proteinG": 0.6,
+        "carbsG": 0.7,
+        "fatG": 82
+      }
+    },
+    "8719200052543": {
+      "productName": "Lätt Omega 3",
+      "per100g": {
+        "kcal": 348,
+        "proteinG": 0,
+        "carbsG": 1.2,
+        "fatG": 38
+      }
+    },
+    "7311311020599": {
+      "productName": "TORTILLA ORIGINAL",
+      "per100g": {
+        "kcal": 302,
+        "proteinG": 8.3,
+        "carbsG": 55,
+        "fatG": 4.9
+      }
+    },
+    "7340083442612": {
+      "productName": "Ekologiskt Jordnötssmör Crunchy",
+      "per100g": {
+        "kcal": 609,
+        "proteinG": 26,
+        "carbsG": 12,
+        "fatG": 49
+      }
+    },
+    "7311870011076": {
+      "productName": "Bregott - normalsaltat - Storpack",
+      "per100g": {
+        "kcal": 678,
+        "proteinG": 0.4,
+        "carbsG": 0.4,
+        "fatG": 75
+      }
+    },
+    "4013265001053": {
+      "productName": "Multivitamin Fruktdryck",
+      "per100g": {
+        "kcal": 21,
+        "proteinG": 0.5,
+        "carbsG": 4.9,
+        "fatG": 0.5
+      }
+    },
+    "7340083443886": {
+      "productName": "Mjölk med lite längre hållbarhet",
+      "per100g": {
+        "kcal": 59,
+        "proteinG": 3.5,
+        "carbsG": 4.6,
+        "fatG": 3
+      }
+    },
+    "5000184321064": {
+      "productName": "Majoneesi",
+      "per100g": {
+        "kcal": 720,
+        "proteinG": 1.1,
+        "carbsG": 1.4,
+        "fatG": 79
+      }
+    },
+    "5000396026993": {
+      "productName": "Digestive Original",
+      "per100g": {
+        "kcal": 483,
+        "proteinG": 7,
+        "carbsG": 63.6,
+        "fatG": 21.3
+      }
+    }
+  }
+}
