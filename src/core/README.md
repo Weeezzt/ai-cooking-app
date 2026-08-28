@@ -9,5 +9,19 @@ Enforced two ways:
   `core-boundary/paths` block).
 - `tests/architecture.test.ts` scans every file here for outward imports.
 
-Planned contents (later issues): `types.ts`, `money.ts`, `units.ts`, `basket/`,
-`nutrition/`, `constraints/`, `pipeline/`.
+Contents (issue #3):
+
+- `types.ts` — domain types. `Ore` branded integer; `BasketLine` keeps
+  `recipeGrams` (nutrition) separate from `purchase.{purchasedGrams,priceOre}` (cost).
+- `money.ts` — `Ore` arithmetic, `parseSekToOre` (half-up), `formatOre` (sv-SE).
+- `units.ts` — g/ml/st normalization, variable-weight detection + per-gram pricing,
+  `packsForNeed`. Half-up rounding, same rule as `money.ts`.
+- `clock.ts` — injected `Clock` capability + `FixedClock`; `PipelineContext`.
+- `src/ports/*` — canonical type-only inward-facing interfaces; core uses only
+  `import type` across that boundary.
+- `basket/` — package selection, per-store build, multi-store comparison + objective.
+- `nutrition/` — consumed-gram aggregation, coverage ratio, `< 0.7` suppression.
+- `constraints/` — evidence taxonomy, pantry caps, evaluation, AD-7 over-budget repair.
+- `pipeline/` — `runPlanPipeline(request, deps, ctx)` orchestrator (AD-3).
+
+Engine unit + golden-determinism tests: `tests/core/`.

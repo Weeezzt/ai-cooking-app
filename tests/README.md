@@ -8,5 +8,8 @@ Vitest. Run with `pnpm test`.
 - `unit/` — unit coverage. Engine coverage (`src/core`) is TDD and high-coverage per
   `docs/agents/engineering-rules.md`.
 
-Planned (AD-2): `core/` (engine unit + golden determinism), `adapters/` (contract tests
-against both live-shaped and fixture implementations).
+- `core/` — engine unit coverage (money, units, basket, nutrition, constraints) +
+  `pipeline.test.ts` (the required scenarios and the golden determinism test).
+
+Planned (AD-2): `adapters/` (contract tests against both live-shaped and fixture
+implementations).
