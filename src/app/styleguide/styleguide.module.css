@@ -1,0 +1,113 @@
+.page {
+  --page-pad: var(--s-4);
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 var(--page-pad) var(--s-24);
+}
+
+@media (min-width: 904px) {
+  .page {
+    --page-pad: var(--s-10);
+    max-width: 720px;
+  }
+}
+
+.block {
+  margin-top: var(--s-18);
+}
+
+.note {
+  color: var(--muted);
+  margin: var(--s-2) 0 var(--s-5);
+}
+
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--s-3);
+}
+@media (min-width: 600px) {
+  .swatches {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.swatch {
+  border: 1px solid var(--rule);
+}
+.swatchChip {
+  height: 56px;
+  border-bottom: 1px solid var(--rule);
+}
+.swatchMeta {
+  padding: var(--s-2);
+}
+.swatchName {
+  display: block;
+  color: var(--ink);
+}
+.swatchValue {
+  display: block;
+  color: var(--muted);
+}
+
+.scaleRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-4);
+  padding: var(--s-3) 0;
+  border-top: 1px solid var(--rule);
+}
+.scaleRow:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+.scaleTag {
+  flex: none;
+  width: 128px;
+  color: var(--muted);
+}
+.scaleSample {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ruleRow {
+  padding: var(--s-4) 0;
+}
+.ruleRow > span {
+  display: block;
+  color: var(--muted);
+  margin-bottom: var(--s-2);
+}
+
+.spec {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-4);
+  color: var(--muted);
+  margin-top: var(--s-3);
+}
+
+.demoGround {
+  --page-pad: var(--s-4);
+  padding: var(--s-4);
+  border: 1px solid var(--rule);
+}
+.demoSunk {
+  background: var(--bg-sunk);
+}
+.demoSurface {
+  background: var(--surface-1);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  align-items: center;
+}
+
+.stackTight > * + * {
+  margin-top: var(--s-2);
+}
