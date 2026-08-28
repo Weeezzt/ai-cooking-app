@@ -51,12 +51,24 @@ _Last updated: 2026-08-27 by Master (Sonnet)_
 
 ## Active work
 
-- Issue #3 (deterministic engine) — Claude Sonnet builder, worktree. IN FLIGHT.
-- Issue #4 (Primat data integration) — Claude Sonnet builder, worktree. IN FLIGHT.
-- Issue #6 (OpenAI recipe service) — Claude Sonnet builder, worktree. IN FLIGHT.
-- Issue #5 (nutrition) — **PR #13 open** (Codex-built). CI green. HELD for merge until #3 lands
-  (both touch `src/core/types.ts` — reconcile onto #3's canonical types). Needs Claude review.
-- Issue #2 (design tokens/UI) — queued; slack in schedule (only blocks #8–#10 which also need #7).
+- **Issue #3 (engine) — PR #14 open, in REWORK.** First build (Claude, 102 tests) passed CI but
+  Codex review found 5 BLOCKERs (variable-weight crash; repair ≠ AD-7 lexicographic objective;
+  garnish repair doesn't strip step refs; invalid recipe output silently weakened; no unit-compat
+  gate). Codex is applying targeted fixes on `3-domain-core`. Re-review will be by Claude.
+- Issue #2 (design tokens + UI primitives) — Claude builder, worktree `2-design-tokens`. IN FLIGHT.
+  Independent of engine/data churn.
+- Issue #5 (nutrition) — PR #13 open (Codex). CI green. HELD until #14 v2 merges, then rebase.
+- Issues #4 (Primat), #6 (OpenAI) — **NOT dispatched yet.** Serialized behind #14 v2 to avoid
+  3-way conflicts on `src/core/types.ts` + `src/ports/*` (ports move location in the #14 rework).
+  Build via Codex once main is clean.
+
+## Rate-limit incident (2026-08-27→28)
+
+Account-level Claude usage cap hit twice. Root cause: 4 Opus planning agents + the 173K-token
+engine builder + 3 concurrent builders in a short window. Codex (separate ChatGPT auth) unaffected.
+**Adjusted policy:** Codex is the default builder for now; Claude for cross-family review + light
+work; NO multiple heavy Claude builders in parallel. See [[master-role]] model policy still applies
+but weighted toward Codex until usage headroom returns.
 
 ## Credentials (done)
 
