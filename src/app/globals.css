@@ -1,2 +1,5 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
+@source "../";
+
 @import "./tokens.css";
+@import "./_components/primitives.css";
