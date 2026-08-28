@@ -51,16 +51,19 @@ _Last updated: 2026-08-27 by Master (Sonnet)_
 
 ## Active work
 
-- **Issue #3 (engine) — PR #14 open, in REWORK.** First build (Claude, 102 tests) passed CI but
-  Codex review found 5 BLOCKERs (variable-weight crash; repair ≠ AD-7 lexicographic objective;
-  garnish repair doesn't strip step refs; invalid recipe output silently weakened; no unit-compat
-  gate). Codex is applying targeted fixes on `3-domain-core`. Re-review will be by Claude.
-- Issue #2 (design tokens + UI primitives) — Claude builder, worktree `2-design-tokens`. IN FLIGHT.
-  Independent of engine/data churn.
-- Issue #5 (nutrition) — PR #13 open (Codex). CI green. HELD until #14 v2 merges, then rebase.
-- Issues #4 (Primat), #6 (OpenAI) — **NOT dispatched yet.** Serialized behind #14 v2 to avoid
-  3-way conflicts on `src/core/types.ts` + `src/ports/*` (ports move location in the #14 rework).
-  Build via Codex once main is clean.
+- **Issue #3 (engine) — MERGED** (PR #14, squash `fe3a1f5`). Claude-built → Codex review
+  (5 blockers) → Codex rework → Claude re-review (merge-after-fixes). 122 tests, ~99% line cov.
+  2 SHOULD-FIX deferred → **issue #16** (engine hardening fast-follows).
+- **Issue #2 (design tokens + primitives) — PR #15 open** (Claude-built). CI green. Master did a
+  browser visual pass of `/styleguide`: strong editorial identity, Archivo width axis working,
+  dark/zero-radius/no-shadow confirmed, Swedish + tabular numerals — does NOT read as AI-SaaS.
+  Codex code+build review in flight. True 390px device check still a follow-up (issue asks for it).
+- **Issue #4 (Primat) — Codex builder in flight**, worktree `issue-4`, branched off merged main
+  with the canonical `src/ports/*` + `Product`/`StoreOption` types.
+- Issue #5 (nutrition) — PR #13 open (Codex). Needs rebase onto main + port-contract reconcile
+  (`NutritionSource.lookup(concepts, opts) → NutritionFact[]` is the canonical shape now).
+- Issue #6 (OpenAI) — next after #4; canonical `RecipeGenerator.generate → RecipeDraft` +
+  `RecipeOptionHandle` inputs are on main. Build via Codex.
 
 ## Rate-limit incident (2026-08-27→28)
 
