@@ -1,20 +1,12 @@
 import { readFileSync } from "node:fs";
 
 import offNutritionJson from "@/fixtures/off-nutrition.json";
-import type {
-  NutritionBreakdown,
-  NutritionMacros,
-  NutritionRequirement,
-  ResolvedNutritionRequirement,
-} from "@/core/types";
-import type {
-  NutritionAttribution,
-  NutritionSource,
-} from "@/ports/NutritionSource";
+import type { NutrientVector } from "@/core/types";
+import type { NutritionFact, NutritionLookup, NutritionSource, PortCallOptions } from "@/ports";
 
 interface OffProduct {
   readonly productName: string;
-  readonly per100g: NutritionMacros;
+  readonly per100g: NutrientVector;
 }
 
 interface OffSnapshot {
@@ -23,12 +15,15 @@ interface OffSnapshot {
 }
 
 interface IngredientRow {
-  readonly macros: NutritionMacros;
-  readonly source: string;
+  readonly per100g: NutrientVector;
 }
 
-const LIVSMEDELSVERKET_SOURCE = "Livsmedelsverket" as const;
-const OFF_SOURCE = "Open Food Facts" as const;
+export const NUTRITION_ATTRIBUTIONS = [
+  "Open Food Facts (ODbL)",
+  "Livsmedelsverket (CC BY 4.0)",
+] as const;
+
+const [OFF_SOURCE, LIVSMEDELSVERKET_SOURCE] = NUTRITION_ATTRIBUTIONS;
 
 function normalizeCanonicalName(name: string): string {
   return name.trim().toLocaleLowerCase("sv-SE").replace(/\s+/g, " ");
@@ -76,36 +71,15 @@ function parseIngredientTable(csv: string): Map<string, IngredientRow> {
       throw new Error(`Invalid ingredient nutrition row: ${line}`);
     }
     rows.set(normalizeCanonicalName(name), {
-      macros: { kcal: values[0], proteinG: values[1], carbsG: values[2], fatG: values[3] },
-      source,
+      per100g: { kcal: values[0], proteinG: values[1], carbsG: values[2], fatG: values[3] },
     });
   }
   return rows;
 }
 
-function scaleMacros(per100g: NutritionMacros, grams: number): NutritionMacros {
-  const factor = grams / 100;
-  return {
-    kcal: per100g.kcal * factor,
-    proteinG: per100g.proteinG * factor,
-    carbsG: per100g.carbsG * factor,
-    fatG: per100g.fatG * factor,
-  };
-}
-
-function addMacros(total: NutritionMacros, next: NutritionMacros): NutritionMacros {
-  return {
-    kcal: total.kcal + next.kcal,
-    proteinG: total.proteinG + next.proteinG,
-    carbsG: total.carbsG + next.carbsG,
-    fatG: total.fatG + next.fatG,
-  };
-}
-
 export class FixtureNutritionSource implements NutritionSource {
   private readonly ingredients: Map<string, IngredientRow>;
   private readonly off: OffSnapshot;
-  private readonly attributions: readonly NutritionAttribution[];
 
   constructor(
     off: OffSnapshot = offNutritionJson as OffSnapshot,
@@ -116,57 +90,33 @@ export class FixtureNutritionSource implements NutritionSource {
   ) {
     this.off = off;
     this.ingredients = parseIngredientTable(ingredientCsv);
-    const ingredientAttribution = this.ingredients.values().next().value?.source;
-    if (!ingredientAttribution) throw new Error("Ingredient nutrition fixture is empty");
-    this.attributions = [
-      { source: OFF_SOURCE, text: off.attribution },
-      { source: LIVSMEDELSVERKET_SOURCE, text: ingredientAttribution },
-    ];
+    if (this.ingredients.size === 0) throw new Error("Ingredient nutrition fixture is empty");
   }
 
-  async resolveRecipe(
-    requirements: readonly NutritionRequirement[],
-  ): Promise<NutritionBreakdown> {
-    let coveredMassGrams = 0;
-    let totalMassGrams = 0;
-    let total: NutritionMacros = { kcal: 0, proteinG: 0, carbsG: 0, fatG: 0 };
-    const resolved: ResolvedNutritionRequirement[] = [];
+  async lookup(
+    concepts: readonly NutritionLookup[],
+    options: PortCallOptions,
+  ): Promise<readonly NutritionFact[]> {
+    const facts: NutritionFact[] = [];
+    for (const lookup of concepts) {
+      if (options.clock.now() >= options.deadlineAt) break;
 
-    for (const requirement of requirements) {
-      if (!Number.isFinite(requirement.recipeGrams) || requirement.recipeGrams < 0) {
-        throw new RangeError("recipeGrams must be a finite, non-negative number");
-      }
-      totalMassGrams += requirement.recipeGrams;
-      const gtinProduct = requirement.gtin ? this.off.products[requirement.gtin] : undefined;
-      const ingredient = this.ingredients.get(normalizeCanonicalName(requirement.canonicalName));
-      const match = gtinProduct?.per100g ?? ingredient?.macros;
+      const offProduct = lookup.gtin ? this.off.products[lookup.gtin] : undefined;
+      const ingredient = this.ingredients.get(normalizeCanonicalName(lookup.concept));
+      const per100g = offProduct?.per100g ?? ingredient?.per100g;
+      if (!per100g) continue;
 
-      if (!match) {
-        resolved.push({ ...requirement, status: "unknown" });
-        continue;
-      }
-
-      const macros = scaleMacros(match, requirement.recipeGrams);
-      coveredMassGrams += requirement.recipeGrams;
-      total = addMacros(total, macros);
-      resolved.push({
-        ...requirement,
-        status: "covered",
-        matchedBy: gtinProduct ? "gtin" : "canonical_name",
-        macros,
+      facts.push({
+        concept: lookup.concept,
+        per100g,
+        source: offProduct ? OFF_SOURCE : LIVSMEDELSVERKET_SOURCE,
+        retrievedAtIso: options.clock.nowIso(),
       });
     }
-
-    return {
-      total,
-      coverageRatio: totalMassGrams === 0 ? 0 : coveredMassGrams / totalMassGrams,
-      coveredMassGrams,
-      totalMassGrams,
-      requirements: resolved,
-    };
+    return facts;
   }
 
-  getAttributions(): readonly NutritionAttribution[] {
-    return this.attributions;
+  getAttributions(): typeof NUTRITION_ATTRIBUTIONS {
+    return NUTRITION_ATTRIBUTIONS;
   }
 }

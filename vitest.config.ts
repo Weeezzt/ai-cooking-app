@@ -11,5 +11,24 @@ export default defineConfig({
   test: {
     include: ["tests/**/*.test.ts"],
     environment: "node",
+    coverage: {
+      provider: "v8",
+      // The engine is the credibility surface (AD-12): report on it explicitly.
+      include: ["src/core/**/*.ts"],
+      exclude: [
+        "src/core/**/*.d.ts",
+        // Barrel files (re-exports only) and the type-only port declarations
+        // carry no runtime logic to cover.
+        "src/core/**/index.ts",
+        "src/core/ports.ts",
+      ],
+      reporter: ["text", "text-summary"],
+      thresholds: {
+        lines: 90,
+        functions: 90,
+        statements: 90,
+        branches: 85,
+      },
+    },
   },
 });

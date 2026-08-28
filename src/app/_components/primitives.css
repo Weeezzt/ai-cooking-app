@@ -1,0 +1,684 @@
+/*
+ * UI primitive styles — "Midnight Supermarket Editorial".
+ * Dark, zero-radius, rule-based. NO cards, NO shadows (except the two permitted
+ * line-drawing box-shadow forms), NO gradients. Imported once via globals.css so
+ * every primitive rule is greppable in the built stylesheet.
+ */
+
+/* ============================================================ Rule (§4.3) */
+
+.rule {
+  border: 0;
+  border-top-style: solid;
+  width: 100%;
+  margin: 0;
+  color: var(--rule);
+}
+.rule--hair {
+  border-top: var(--rule-hair);
+}
+.rule--mid {
+  border-top: var(--rule-mid);
+}
+.rule--heavy {
+  border-top: var(--rule-heavy);
+}
+.rule--receipt {
+  border-top: var(--rule-receipt);
+}
+/* --rule-double: 3px --rule-ink + 1px --rule with a 4px gap. Mode header only.
+ * Built from two real borders (no box-shadow) so the smell grep stays clean. */
+.rule--double {
+  border: 0;
+  border-top: var(--rule-heavy);
+  height: 4px; /* the gap */
+  position: relative;
+}
+.rule--double::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-top: var(--rule-hair);
+}
+
+/* ============================================================ SectionHead */
+
+.section-head {
+  margin: 0;
+}
+.section-head__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-4);
+  margin-bottom: var(--s-2); /* the rule belongs to the thing above it */
+}
+.section-head__eyebrow {
+  color: var(--muted);
+  display: block;
+  margin-bottom: var(--s-2);
+}
+.section-head__title {
+  margin: 0;
+  color: var(--ink);
+}
+.section-head__aside {
+  color: var(--muted);
+  white-space: nowrap;
+}
+.section-head > .rule--heavy {
+  margin-top: 0;
+}
+
+/* ============================================================ MetaLine
+ * The uppercase-mono metadata signature line under every product name.
+ * Default = PLAN eyebrow idiom (11px, uppercase, muted).
+ * variant="scan" = SHOP / read-while-moving (13px, ink-2, not uppercase) —
+ * visual-critique SHOULD-FIX-1.
+ */
+.meta-line {
+  color: var(--muted);
+  display: block;
+  overflow-wrap: anywhere;
+}
+.meta-line--scan {
+  text-transform: none;
+  letter-spacing: 0.02em;
+  color: var(--ink-2);
+}
+.meta-line__sep {
+  color: var(--muted);
+  padding: 0 0.5ch;
+}
+.meta-line--scan .meta-line__sep {
+  color: var(--muted);
+}
+
+/* ============================================================ NumericColumn
+ * Right-aligned, fixed-width, tabular. Columns align across every row of a list.
+ */
+.numeric-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  min-width: 110px;
+  font-variant-numeric: tabular-nums;
+}
+.numeric-column--narrow {
+  min-width: 84px;
+}
+.numeric-column--wide {
+  min-width: 140px;
+}
+.numeric-column__primary {
+  color: var(--ink);
+}
+.numeric-column__secondary {
+  color: var(--muted);
+}
+.numeric-column__unit {
+  color: var(--muted);
+}
+
+/* ============================================================ Button (§5.5) */
+
+.btn {
+  --_h: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  min-height: var(--_h);
+  padding: 0 var(--s-5);
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--face-display);
+  font-size: var(--fs-micro);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-variation-settings: "wght" 800, "wdth" 112;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background var(--dur-1) var(--ease),
+    border-color var(--dur-1) var(--ease);
+}
+.btn:disabled {
+  color: var(--muted);
+  cursor: not-allowed;
+}
+.btn--block {
+  display: flex;
+  width: 100%;
+}
+.btn--cook {
+  --_h: 56px;
+}
+
+.btn--solid {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.btn--solid:disabled {
+  background: var(--surface-2);
+}
+
+.btn--outline {
+  border: 1px solid var(--rule-strong);
+}
+.btn--outline:hover {
+  border-color: var(--ink);
+}
+
+.btn--text {
+  min-height: 0;
+  padding: 0 0 2px;
+  color: var(--ink);
+  border-bottom: 2px solid var(--accent);
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-family: var(--face-text);
+  font-size: var(--fs-body-s);
+  font-weight: 600;
+  font-variation-settings: normal;
+}
+.btn--text:hover {
+  border-bottom-width: 3px;
+}
+
+/* ============================================================ InvertedBar
+ * Full-bleed paper-white block on the dark ground — the shelf sign / banner.
+ */
+.inverted-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  min-height: 28px;
+  padding: var(--s-1) var(--s-4);
+  background: var(--invert-bg);
+  color: var(--invert-ink);
+}
+.inverted-bar__label {
+  font-family: var(--face-display);
+  font-size: var(--fs-micro);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-variation-settings: "wght" 800, "wdth" 112;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.inverted-bar__trailing {
+  font-family: var(--face-mono);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.inverted-bar--sticky {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+/* ============================================================ ConstraintTable
+ * Mono table, NOT chips. Pass = --ink with a check, no colour at all.
+ * Fail = --negative and nothing else on the screen is coloured.
+ */
+.constraint-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--face-mono);
+}
+.constraint-table caption {
+  text-align: left;
+  color: var(--muted);
+  padding-bottom: var(--s-2);
+}
+.constraint-table th,
+.constraint-table td {
+  text-align: left;
+  padding: var(--s-3) var(--s-2);
+  border-top: var(--rule-hair);
+  font-weight: 400;
+  vertical-align: baseline;
+}
+.constraint-table tr:last-child td {
+  border-bottom: var(--rule-hair);
+}
+.constraint-table__label {
+  color: var(--muted);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.constraint-table__value {
+  color: var(--ink);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  width: 1%;
+  white-space: nowrap;
+}
+.constraint-table__mark {
+  width: 1%;
+  white-space: nowrap;
+  text-align: right;
+}
+.constraint-table__row--ok .constraint-table__mark {
+  color: var(--ink);
+}
+.constraint-table__row--fail .constraint-table__mark,
+.constraint-table__row--fail .constraint-table__value,
+.constraint-table__row--fail .constraint-table__label {
+  color: var(--negative);
+}
+
+/* ============================================================ ModeHeader
+ * PLAN—HANDLA—LAGA / one-word mode name. --rule-double, ground-colour shift.
+ */
+.mode-header {
+  padding: var(--s-4) var(--s-4) 0;
+}
+.mode-header--plan {
+  background: var(--bg-base);
+}
+.mode-header--shop {
+  background: var(--surface-1);
+}
+.mode-header--cook {
+  background: var(--bg-sunk);
+}
+.mode-header__journey {
+  display: flex;
+  gap: 0.75ch;
+  align-items: baseline;
+  color: var(--muted);
+  margin-bottom: var(--s-2);
+}
+.mode-header__step {
+  font-family: var(--face-mono);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.mode-header__step--active {
+  color: var(--ink);
+}
+.mode-header__sep {
+  color: var(--muted);
+  padding: 0 0.5ch;
+}
+.mode-header__name {
+  display: block;
+  color: var(--ink);
+  padding-bottom: var(--s-3);
+}
+
+/* ============================================================ NutritionPanel (§5.2)
+ * Literally a nutrition label — 2px frame, no radius, no chart widget.
+ */
+.nutrition {
+  border: var(--rule-mid);
+  background: var(--bg-base);
+  padding: var(--s-4);
+}
+.nutrition__title {
+  font-family: var(--face-display);
+  font-size: var(--fs-micro);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-variation-settings: "wght" 800, "wdth" 118;
+  margin: 0 0 var(--s-2);
+}
+.nutrition__basis {
+  display: flex;
+  gap: 0.75ch;
+  align-items: baseline;
+  margin: var(--s-3) 0;
+  color: var(--muted);
+}
+.nutrition__basis-btn {
+  background: none;
+  border: 0;
+  padding: 0 0 2px;
+  font-family: var(--face-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+}
+.nutrition__basis-btn[aria-pressed="true"] {
+  color: var(--ink);
+  border-bottom: 2px solid var(--accent);
+}
+.nutrition__energy {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding: var(--s-3) 0;
+}
+.nutrition__energy-label {
+  color: var(--ink);
+}
+.nutrition__energy-value {
+  text-align: right;
+}
+.nutrition__energy-kj {
+  display: block;
+  color: var(--muted);
+}
+.nutrition__rows {
+  width: 100%;
+  border-collapse: collapse;
+}
+.nutrition__rows th {
+  font-weight: 400;
+  text-align: left;
+}
+.nutrition__rows td,
+.nutrition__rows th {
+  padding: var(--s-2) 0;
+  border-top: var(--rule-hair);
+  vertical-align: baseline;
+}
+.nutrition__rows tr:first-child td,
+.nutrition__rows tr:first-child th {
+  border-top: 0;
+}
+.nutrition__row-label {
+  color: var(--ink);
+}
+.nutrition__row-value {
+  text-align: right;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.nutrition__row-value .unit {
+  color: var(--muted);
+}
+.nutrition__row--sub .nutrition__row-label {
+  padding-left: var(--s-5);
+  color: var(--ink-2);
+  font-size: var(--fs-body-s);
+}
+.nutrition__bar {
+  height: 4px;
+  width: 100%;
+  background: var(--surface-2);
+  margin-top: var(--s-2);
+}
+.nutrition__bar-fill {
+  height: 100%;
+  background: var(--ink-2);
+}
+.nutrition__bar-fill--accent {
+  background: var(--accent);
+}
+.nutrition__ref {
+  color: var(--muted);
+  display: block;
+  text-align: right;
+  margin-top: var(--s-1);
+}
+.nutrition__source {
+  color: var(--muted);
+  display: block;
+  margin-top: var(--s-3);
+}
+
+/* ============================================================ ShoppingRow (§5.3) */
+
+.shopping-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-3);
+  min-height: 64px; /* UX floor wins — rows compute to ~64px */
+  padding: var(--s-3) var(--s-4);
+  border-top: var(--rule-hair);
+  transition: opacity var(--dur-2) var(--ease);
+}
+.shopping-row:last-child {
+  border-bottom: var(--rule-hair);
+}
+.shopping-row__check {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin: 2px calc(var(--s-3) - 8px) 0 0;
+  padding: 8px; /* >= 48px effective hit area */
+  box-sizing: content-box;
+  border: 2px solid var(--rule-strong);
+  border-radius: var(--radius-input);
+  background: transparent;
+  color: transparent;
+  cursor: pointer;
+}
+.shopping-row__check-glyph {
+  opacity: 0;
+}
+.shopping-row__check[aria-checked="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+.shopping-row__check[aria-checked="true"] .shopping-row__check-glyph {
+  opacity: 1;
+}
+.shopping-row__qty {
+  flex: none;
+  width: 3ch;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.shopping-row__qty-unit {
+  display: block;
+  color: var(--muted);
+}
+.shopping-row__body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.shopping-row__name {
+  font-family: var(--face-text);
+  font-size: var(--fs-body);
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0;
+}
+.shopping-row__price {
+  flex: none;
+  min-width: 84px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.shopping-row--checked {
+  opacity: 0.42;
+}
+.shopping-row--checked .shopping-row__name {
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+
+/* ============================================================ CookStep (§5.4) */
+
+.cook-step {
+  position: relative;
+  background: var(--bg-sunk);
+  padding: var(--s-8) var(--s-4) var(--s-10);
+  overflow: hidden;
+}
+.cook-step__ghost {
+  font-family: var(--face-display);
+  font-size: var(--fs-display);
+  font-weight: 800;
+  line-height: 0.8;
+  font-variation-settings: "wght" 800, "wdth" 125;
+  /* line-work, not a fill — reads as intentional at any luminance (SHOULD-FIX-6) */
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--rule-strong);
+  margin-left: -0.15em;
+  user-select: none;
+}
+.cook-step__count {
+  display: block;
+  color: var(--muted);
+  margin-bottom: var(--s-4);
+}
+.cook-step__ingredients {
+  color: var(--ink-2);
+  margin: 0 0 var(--s-6);
+  overflow-x: auto;
+}
+.cook-step__ingredients .sep {
+  color: var(--muted);
+  padding: 0 0.75ch;
+}
+.cook-step__instruction {
+  font-family: var(--face-text);
+  font-size: var(--fs-step);
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--ink);
+  max-width: min(34ch, 100%);
+  margin: 0;
+}
+.cook-step__instruction .q {
+  font-family: var(--face-mono);
+  font-weight: 600;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.cook-step__progress {
+  position: absolute;
+  inset: 0 0 auto 0;
+  display: flex;
+  gap: 3px;
+  height: 3px;
+}
+.cook-step__progress-seg {
+  flex: 1 1 0;
+  background: var(--rule);
+}
+.cook-step__progress-seg--done {
+  background: var(--accent);
+}
+
+/* ============================================================ ProductLineItem (§5.1) */
+
+.product-line {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-3);
+  min-height: 64px;
+  padding: var(--s-3) 0;
+  border-top: var(--rule-hair);
+}
+.product-line:last-child {
+  border-bottom: var(--rule-hair);
+}
+/* pointer hover only — background shift + accent edge. One of the two permitted
+ * line-drawing box-shadow forms. No lift, no scale, no radius change. */
+@media (hover: hover) {
+  .product-line:hover {
+    background: var(--surface-1);
+    box-shadow: inset 3px 0 0 0 var(--accent);
+  }
+}
+.product-line__thumb {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  background: var(--surface-2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.product-line__thumb-img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  display: block;
+}
+.product-line__thumb-initial {
+  font-family: var(--face-display);
+  font-size: var(--fs-h4);
+  font-weight: 800;
+  font-variation-settings: "wght" 800, "wdth" 125;
+  color: var(--muted);
+}
+.product-line__body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.product-line__name {
+  font-family: var(--face-text);
+  font-size: var(--fs-body);
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.product-line__name--swapped {
+  border-bottom: 1px solid var(--negative);
+}
+.product-line__tag {
+  display: inline-block;
+  margin-left: 0.5ch;
+  padding: 0 4px;
+  border: 1px solid var(--negative);
+  border-radius: var(--radius-input);
+  color: var(--negative);
+  font-family: var(--face-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  vertical-align: 1px;
+}
+.product-line__rail {
+  flex: none;
+}
+
+/* ============================================================ shared layout helpers */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.stack > * + * {
+  margin-top: var(--s-4);
+}
+.scroll-x {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.full-bleed {
+  margin-left: calc(-1 * var(--page-pad, var(--s-4)));
+  margin-right: calc(-1 * var(--page-pad, var(--s-4)));
+}

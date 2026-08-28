@@ -13,6 +13,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "fixtures:capture-off": "node src/fixtures/scripts/capture-off-nutrition.mjs"
   },
   "dependencies": {
@@ -25,6 +26,7 @@
     "@types/node": "22.18.11",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.1",
+    "@vitest/coverage-v8": "2.1.9",
     "eslint": "9.39.5",
     "eslint-config-next": "16.3.3",
     "tailwindcss": "4.3.3",
