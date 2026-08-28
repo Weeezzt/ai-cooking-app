@@ -1,115 +1,70 @@
 # Project State
 
-_Last updated: 2026-08-27 by Master (Sonnet)_
+_Last updated: 2026-08-28 by Master (Sonnet)_
 
 ## Snapshot
 
 | | |
 |---|---|
-| Phase | Planning complete → backlog creation → foundation build |
+| Phase | Backend build (issues #4–#6) → then pipeline #7 → experiences #8–#10 → QA #11 |
 | Repo | https://github.com/Weeezzt/ai-cooking-app (main) |
-| Stack | Next.js 16 App Router + TS strict, pnpm, Tailwind v4 + tokens, Vitest, Node 22 (CI/prod) |
-| AI | OpenAI Responses API, official SDK, server-side. Model IDs resolved at startup, not hardcoded. |
-| Data | Primat live (P0) with badged fixture fallback. Nutrition = OFF GTIN snapshot + Livsmedelsverket table. |
+| Stack | Next.js 16.3 App Router, TS strict, pnpm, Tailwind v4 + hand-authored tokens, Vitest, Node 22 CI |
+| AI | OpenAI Responses API, official SDK, server-side. Model IDs resolved + health-checked at startup. |
+| Data | Primat live (keyed) with badged fixture fallback. Nutrition = OFF GTIN snapshot + Livsmedelsverket. |
 | Demo geo | Umeå (17 full-tier stores verified) |
-| Design | "Midnight Supermarket Editorial", dark-mode only. See design-system.md |
+| Design | "Midnight Supermarket Editorial", dark-only. `design-system.md` |
 
 ## Decisions locked (human)
 
-- MVP scope cut ACCEPTED, with **multi-store price comparison kept** (2–3 store shortlist).
-- **Live Primat must work in the demo** (fixture is automatic badged fallback, not opt-in).
-- Demo city = **Umeå**.
-- Full decision set + resolved cross-review contradictions: `architecture-decisions.md` (AD-0..AD-12).
+- MVP scope cut ACCEPTED + **multi-store price comparison kept** (2–3 store shortlist).
+- **Live Primat must work in the demo** (fixture = automatic badged fallback).
+- Demo city = **Umeå**. Price basis = `prices.regular`.
+- Full resolved plan: `architecture-decisions.md` (AD-0..AD-12). Binding over the `planning/` docs.
 
-## Completed
+## Merged to main
 
-- Repo bootstrapped; base docs.
-- 6 planning specialists + independent Codex cross-review done (`docs/agents/planning/`).
-- Unified plan written: `architecture-decisions.md`, `design-system.md`, `engineering-rules.md`.
-- **Issue #1 (foundation + CI)** — merged (PR #12, squash `ac2007a`). Next 16.3.3, TS strict,
-  Tailwind v4, Vitest, ESLint core-boundary (allowlist model). Independent Codex review → 3
-  SHOULD-FIX addressed → merged. All 4 CI gates green. First foundation builder (Claude subagent)
-  died on an account session rate limit after pushing; Master verified + fixed + merged.
-
-## Backlog (GitHub issues)
-
-| # | Title | Labels | Depends on |
+| # | PR | What | Review path |
 |---|---|---|---|
-| 1 | Project foundation & CI baseline | foundation | — |
-| 2 | Design token layer + UI primitives (mobile-first, dark-only) | ui | 1 |
-| 3 | Domain core: deterministic engine | engine | 1 |
-| 4 | Primat data integration (live + badged fixture fallback) | data | 1 |
-| 5 | Nutrition provider (OFF snapshot + Livsmedelsverket table) | data | 1 |
-| 6 | OpenAI recipe service | ai | 1 |
-| 7 | Plan pipeline orchestration + API route + client persistence | engine | 3,4,5,6 |
-| 8 | PLAN experience | ui | 2,7 |
-| 9 | SHOP experience | ui | 2,7 |
-| 10 | COOK experience | ui | 2,7 |
-| 11 | Integration QA + demo readiness | qa | 8,9,10 |
-
-**Implementation order:** 1 → {2, 3, 4, 5, 6 in parallel} → 7 → {8, 9, 10 in parallel} → 11.
-
-## Merged (main)
-
-- **#1 foundation** (PR #12). **#3 engine** (PR #14) — 122 tests, ~99% line cov.
-  **#2 design tokens + 12 primitives + /styleguide** (PR #15) — editorial identity confirmed not-AI-SaaS.
-  **#5 nutrition provider** (PR #13, `68f75b5`) — OFF 30-GTIN snapshot + Livsmedelsverket 75-row table,
-  canonical `NutritionSource.lookup`.
-- Each PR: built by one family, reviewed by the other, blockers fixed before merge.
+| 1 | #12 | Foundation + CI (Next 16.3, TS strict, Vitest, ESLint core-boundary allowlist) | Claude build → Codex review (3 fix) |
+| 3 | #14 | Deterministic engine (money öre, basket, nutrition agg, constraint taxonomy, over-budget repair, pipeline skeleton). 122 tests, ~99% line cov | Claude build → Codex review (5 blockers) → Codex rework → Claude re-review |
+| 2 | #15 | Design tokens + 12 UI primitives + `/styleguide`. Dark-only, mobile-first, zero-radius | Claude build → Codex review + Master browser pass |
+| 5 | #13 | Nutrition provider — OFF 30-GTIN snapshot + Livsmedelsverket 75-row table, `NutritionSource.lookup` | Codex build → Codex reconcile → Claude review |
 
 ## Active work
 
-- **Issue #4 (Primat) — PR #17 open** (Codex-built). 135 tests, CI green, keyed live smoke passed
-  (3 stores × 6 Umeå concepts). Claude cross-family review in flight.
-- **Issue #5 (nutrition) — PR #13, Codex reconcile in flight.** Branch predated #2/#3; being merged
-  onto main + adapter rewritten to the canonical `NutritionSource.lookup(NutritionLookup[], opts)
-  → NutritionFact[]` (engine owns aggregation now). Keeps the OFF snapshot + Livsmedelsverket CSV.
+- **Issue #4 (Primat) — PR #17, in REWORK.** Codex build → Claude review = **rework** (2 blockers:
+  variable-weight over-detected on ~90% of packaged goods; candidate-filter + section-normalizer
+  shipped as dead code the pipeline can't reach). Master decided the seam: `ProductSearch.search()`
+  returns `{products, rejections}`, `Product` gains `section: StoreSection`, adapter owns the filter.
+  Codex reworking on `4-primat-data`. Re-review by Claude.
 - **Issue #6 (OpenAI recipe service) — Codex builder in flight**, worktree `issue-6`. Verifying live
-  model IDs (5.6-sol/terra/luna etc.) for Responses API + structured-output support.
+  model IDs for Responses API + strict structured output; `assertNoForbiddenKeys` over schemas;
+  demo-recipe fallback.
+
+## Not started
+
+- #7 pipeline orchestration + API route + client persistence (needs #4, #6 merged; #3, #5 done).
+  **#7 must consume the new `ProductSearchResult` + `Product.section` from the #4 rework.**
+- #8 PLAN, #9 SHOP, #10 COOK (need #2 done ✓ + #7).
+- #11 integration QA + demo readiness (needs #8–#10).
 
 ## Deferred → issue #16
 
-Engine SHOULD-FIX (nutrition coverage denominator; repair unit-compat gate) + NITs; type-scale
-"violence" refinement; CI actions Node-20 deprecation warning (bump `actions/*@v4` → v5).
+Engine: nutrition coverage denominator ignores non-gram lines; repair enumeration lacks unit-compat
+gate; `NutritionFact.retrievedAtIso` should be capture date not lookup time; 3 NITs. Design:
+type-scale "violence" (drop a mobile heading level). Infra: CI `actions/*@v4` Node-20 deprecation.
 
-## Rate-limit incident (2026-08-27→28)
+## Operating notes (for a resuming Master)
 
-Account-level Claude usage cap hit twice. Root cause: 4 Opus planning agents + the 173K-token
-engine builder + 3 concurrent builders in a short window. Codex (separate ChatGPT auth) unaffected.
-**Adjusted policy:** Codex is the default builder for now; Claude for cross-family review + light
-work; NO multiple heavy Claude builders in parallel. See [[master-role]] model policy still applies
-but weighted toward Codex until usage headroom returns.
-
-## Credentials (done)
-
-- `.env.local` has working `OPENAI_API_KEY` + `PRIMAT_API_KEY` (both verified by Master 2026-08-27:
-  Primat keyed resolve → 200; OpenAI models list → 126 models). `.env.local` is gitignored; copy it
-  into each builder worktree that needs it (`cp /Users/williamvesterberg/cooking-app/.env.local .`).
-
-## OpenAI models available on this account (2026-08-27)
-
-`gpt-5.6-sol`, `gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-5.5`(+pro), `gpt-5.4`(+mini/nano/pro),
-`gpt-5`(+mini/nano/pro), gpt-4.1 family, o3/o4-mini. So `gpt-5.6-luna/terra` ARE real API model
-IDs here (not only Codex CLI tier names). Issue #6 verifies Responses API + structured-output
-support and records the chosen IDs; AD-6 gets updated with them afterward.
-
-## Next priorities
-
-1. Land #3 → then reconcile + merge #4, #5; review each (cross-family).
-2. #6 review (Codex) when its PR opens.
-3. Dispatch #2. Then #7 once 3/4/5/6 are merged.
-
-## Active branches / PRs
-
-- PR #13 — Issue #5 nutrition provider (Codex). Open, CI green, held for #3.
-- Branches in flight: `3-domain-core`, `4-primat-data`, `6-openai-recipe-service`.
-
-## Agent notes
-
-- Subagents = Claude only (opus/sonnet/haiku/fable). Codex available via `codex exec` /
-  `codex exec review` CLI (`gpt-5.6-sol`) — used as builder for #5 and as cross-family reviewer.
-- Codex `--sandbox workspace-write` cannot commit through a shared-index git worktree; it commits
-  via a temp clone + push. Net effect is fine (remote branch is correct) but the local worktree is
-  left dirty — remove it after (`git worktree remove --force`).
-- One Claude builder (#1) died mid-task on an account session rate limit ~17:40 Europe/Stockholm.
-  Pace concurrent Claude subagents; Codex is not on that limit.
+- **Builders:** Codex (`codex exec --sandbox workspace-write`, `gpt-5.6-sol`) is the default builder
+  right now — Claude account hit its usage cap twice under parallel Opus/heavy-builder load. Claude
+  subagents = cross-family review + light work. Model policy in [[master-role]] still holds, weighted
+  to Codex until headroom returns.
+- **Codex + worktrees:** `codex exec` can't commit through a shared-index worktree; it commits via a
+  temp clone + push. So after a Codex task: `git fetch`, and `git reset --hard origin/<branch>` the
+  worktree before inspecting (the local branch ref is stale). Remove the worktree with `--force`.
+- **Every PR:** built by one family, reviewed by the other, blockers fixed, CI green, before merge.
+  Master does the merge (squash + delete branch), closes the issue with a one-line trail.
+- `gh` works (`Weeezzt`); the GitHub MCP server is broken. `.env.local` (both keys, verified) is
+  gitignored — `cp` it into each builder worktree that needs it.
+- Chrome MCP tools available (deferred; `ToolSearch` to load) for UI review — dev server + navigate.
