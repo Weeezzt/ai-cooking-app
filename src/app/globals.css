@@ -1,5 +1,8 @@
+/* Tailwind provides preflight (a normalize/reset) only — no utility classes are
+ * used in this codebase; the design system is hand-authored in tokens.css +
+ * primitives.css. `source(none)` + no `@source` stops Tailwind scanning the tree
+ * and emitting stray utilities (which would trip the design smell-grep). */
 @import "tailwindcss" source(none);
-@source "../";
 
 @import "./tokens.css";
 @import "./_components/primitives.css";

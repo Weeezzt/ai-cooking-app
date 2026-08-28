@@ -73,10 +73,9 @@
 
   /* ---------------------------------------------------------------- elevation
    * NO shadow tokens. Separation = background shift / rule / inversion.
-   * The only permitted box-shadow values draw a line:
+   * The one permitted box-shadow (a hairline, used inline in primitives.css) is
+   * `inset 3px 0 0 0 var(--accent)` — a line, not an elevation.
    */
-  --line-under: 0 1px 0 0 var(--rule);
-  --line-accent: inset 3px 0 0 0 var(--accent);
 
   /* ---------------------------------------------------------------- motion (§7) */
   --dur-1: 120ms;

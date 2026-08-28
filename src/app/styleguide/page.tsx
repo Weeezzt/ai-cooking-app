@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 import {
   Button,
@@ -85,6 +86,9 @@ const RULES: Array<{ weight: "hair" | "mid" | "heavy" | "double" | "receipt"; no
 ];
 
 export default function StyleguidePage() {
+  // Dev-only surface (issue #2): never served in a production build.
+  if (process.env.NODE_ENV === "production") notFound();
+
   return (
     <main className={styles.page}>
       <header className={styles.block}>
