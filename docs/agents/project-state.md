@@ -49,21 +49,27 @@ _Last updated: 2026-08-27 by Master (Sonnet)_
 
 **Implementation order:** 1 → {2, 3, 4, 5, 6 in parallel} → 7 → {8, 9, 10 in parallel} → 11.
 
+## Merged (main)
+
+- **#1 foundation + CI** (PR #12). **#3 engine** (PR #14, `fe3a1f5`) — 122 tests, ~99% line cov.
+  **#2 design tokens + 12 primitives + /styleguide** (PR #15, `d56d5b3`) — Codex review + Master
+  browser pass, editorial identity confirmed not-AI-SaaS.
+- Each PR: built by one family, reviewed by the other, blockers fixed before merge.
+
 ## Active work
 
-- **Issue #3 (engine) — MERGED** (PR #14, squash `fe3a1f5`). Claude-built → Codex review
-  (5 blockers) → Codex rework → Claude re-review (merge-after-fixes). 122 tests, ~99% line cov.
-  2 SHOULD-FIX deferred → **issue #16** (engine hardening fast-follows).
-- **Issue #2 (design tokens + primitives) — PR #15 open** (Claude-built). CI green. Master did a
-  browser visual pass of `/styleguide`: strong editorial identity, Archivo width axis working,
-  dark/zero-radius/no-shadow confirmed, Swedish + tabular numerals — does NOT read as AI-SaaS.
-  Codex code+build review in flight. True 390px device check still a follow-up (issue asks for it).
-- **Issue #4 (Primat) — Codex builder in flight**, worktree `issue-4`, branched off merged main
-  with the canonical `src/ports/*` + `Product`/`StoreOption` types.
-- Issue #5 (nutrition) — PR #13 open (Codex). Needs rebase onto main + port-contract reconcile
-  (`NutritionSource.lookup(concepts, opts) → NutritionFact[]` is the canonical shape now).
-- Issue #6 (OpenAI) — next after #4; canonical `RecipeGenerator.generate → RecipeDraft` +
-  `RecipeOptionHandle` inputs are on main. Build via Codex.
+- **Issue #4 (Primat) — PR #17 open** (Codex-built). 135 tests, CI green, keyed live smoke passed
+  (3 stores × 6 Umeå concepts). Claude cross-family review in flight.
+- **Issue #5 (nutrition) — PR #13, Codex reconcile in flight.** Branch predated #2/#3; being merged
+  onto main + adapter rewritten to the canonical `NutritionSource.lookup(NutritionLookup[], opts)
+  → NutritionFact[]` (engine owns aggregation now). Keeps the OFF snapshot + Livsmedelsverket CSV.
+- Issue #6 (OpenAI recipe service) — next. Canonical `RecipeGenerator.generate → RecipeDraft` +
+  `RecipeOptionHandle` inputs on main. Build via Codex; `OPENAI_API_KEY` in `.env.local` works.
+
+## Deferred → issue #16
+
+Engine SHOULD-FIX (nutrition coverage denominator; repair unit-compat gate) + NITs; type-scale
+"violence" refinement; CI actions Node-20 deprecation warning (bump `actions/*@v4` → v5).
 
 ## Rate-limit incident (2026-08-27→28)
 
