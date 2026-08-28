@@ -1,0 +1,4411 @@
+{
+  "banan": [
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "100254920_KG",
+        "name": "Banan Klass 1",
+        "concept": "banan",
+        "brand": null,
+        "priceOre": 358,
+        "packageSize": 180,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 1989,
+          "unit": "kg"
+        },
+        "categoryPath": [],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101301719_ST",
+        "name": "Bananchips",
+        "concept": "banan",
+        "brand": "Eldorado",
+        "priceOre": 3776,
+        "packageSize": 400,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 9440,
+          "unit": "kg"
+        },
+        "categoryPath": [],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7340007902185",
+        "name": "Bananschalotten Lök",
+        "concept": "banan",
+        "brand": null,
+        "priceOre": 1890,
+        "packageSize": 250,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 7560,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönsaker",
+          "Grönsaker",
+          "Lök"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2099004",
+        "name": "Bananschalottenlök Klass 1",
+        "concept": "banan",
+        "brand": "ICA",
+        "priceOre": 1790,
+        "packageSize": 250,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 7160,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Lök",
+          "Schalottenlök"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "2339401100001",
+        "name": "Banan Styck Eko",
+        "concept": "banan",
+        "brand": null,
+        "priceOre": 398,
+        "packageSize": 160,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 2488,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönsaker",
+          "Frukt & bär",
+          "Banan"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "100235247_KG",
+        "name": "Banan Eko Klass 1",
+        "concept": "banan",
+        "brand": null,
+        "priceOre": 372,
+        "packageSize": 170,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 2188,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "frukt-och-gront",
+          "frukt",
+          "bananer"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "2339325000005",
+        "name": "Banan Eko Fairtrade Styck",
+        "concept": "banan",
+        "brand": "Änglamark",
+        "priceOre": 538,
+        "packageSize": 180,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 2989,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönsaker",
+          "Frukt & bär",
+          "Banan"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1215432",
+        "name": "Banan ca Klass 1 ICA",
+        "concept": "banan",
+        "brand": null,
+        "priceOre": 358,
+        "packageSize": 180,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 1989,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Frukt",
+          "Banan"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1477872",
+        "name": "Banan Eko ca Klass 1",
+        "concept": "banan",
+        "brand": null,
+        "priceOre": 394,
+        "packageSize": 180,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 2189,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Frukt",
+          "Banan"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2934957",
+        "name": "Mjukis Chimpanzini Bananini 40cm Brainrot",
+        "concept": "banan",
+        "brand": null,
+        "priceOre": 14900,
+        "packageSize": 1,
+        "packageUnit": "st",
+        "comparison": {
+          "priceOre": 14900,
+          "unit": "st"
+        },
+        "categoryPath": [
+          "Nyheter",
+          "Leksaksnyheter"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7311870012516",
+        "name": "Yoghurt Familjefavoriter Banan 1,8%",
+        "concept": "banan",
+        "brand": "Arla®",
+        "priceOre": 2788,
+        "packageSize": 1500,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 1859,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Mejeri & Ägg",
+          "Yoghurt & Fil",
+          "Smaksatt yoghurt"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7392257002061",
+        "name": "Filidutter Banan",
+        "concept": "banan",
+        "brand": "Konfekta",
+        "priceOre": 994,
+        "packageSize": 65,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 15292,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Godis, Glass & Snacks",
+          "Godis",
+          "Godispåsar"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2170100",
+        "name": "Dark Banana 8mg Stock",
+        "concept": "banan",
+        "brand": "XQS",
+        "priceOre": 36900,
+        "packageSize": 1,
+        "packageUnit": "st",
+        "comparison": {
+          "priceOre": 36900,
+          "unit": "st"
+        },
+        "categoryPath": [
+          "Tobak",
+          "Snus utan tobak"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "100761695_ST",
+        "name": "Lök Bananschalotten Klass 1",
+        "concept": "banan",
+        "brand": "Garant",
+        "priceOre": 1890,
+        "packageSize": 250,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 7560,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "frukt-och-gront",
+          "gronsaker",
+          "lok"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101202644_ST",
+        "name": "Fruktsmoothie Äpple Banan Jordgubb Från 6 Månader",
+        "concept": "banan",
+        "brand": "Nestlé",
+        "priceOre": 993,
+        "packageSize": 90,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 11033,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "barn",
+          "barnmat-och-fruktdryck",
+          "barnmat-5-6-man"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    }
+  ],
+  "grädde": [
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7300156581051",
+        "name": "Matlagningsgrädde 13%",
+        "concept": "grädde",
+        "brand": "Coop",
+        "priceOre": 1412,
+        "packageSize": 250,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 5648,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Mejeri & Ägg",
+          "Grädde",
+          "Matlagningsgrädde"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7310861003724",
+        "name": "Vispgrädde 40%",
+        "concept": "grädde",
+        "brand": "Norrmejerier",
+        "priceOre": 3350,
+        "packageSize": 500,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 6700,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Mejeri & Ägg",
+          "Grädde",
+          "Vispgrädde"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7300156584151",
+        "name": "Vispgrädde 36%",
+        "concept": "grädde",
+        "brand": "Coop",
+        "priceOre": 2895,
+        "packageSize": 500,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 5790,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Mejeri & Ägg",
+          "Grädde",
+          "Vispgrädde"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7300156581068",
+        "name": "Matlagningsgrädde 13%",
+        "concept": "grädde",
+        "brand": "Coop",
+        "priceOre": 2162,
+        "packageSize": 500,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 4324,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Mejeri & Ägg",
+          "Grädde",
+          "Matlagningsgrädde"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7300156599360",
+        "name": "Vispgrädde 36%",
+        "concept": "grädde",
+        "brand": "COOP",
+        "priceOre": 1695,
+        "packageSize": 250,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 6780,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Mejeri & Ägg",
+          "Grädde",
+          "Vispgrädde"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2101529",
+        "name": "Vispgrädde 36%",
+        "concept": "grädde",
+        "brand": "Norrmejerier",
+        "priceOre": 3229,
+        "packageSize": 500,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 6458,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Mejeri & Ost",
+          "Grädde",
+          "Vispgrädde"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2092061",
+        "name": "Vispgrädde 40%",
+        "concept": "grädde",
+        "brand": "Norrmejerier",
+        "priceOre": 3317,
+        "packageSize": 500,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 6634,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Mejeri & Ost",
+          "Grädde",
+          "Vispgrädde"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1506542",
+        "name": "Matlagningsgrädde 13%",
+        "concept": "grädde",
+        "brand": "ICA",
+        "priceOre": 2057,
+        "packageSize": 500,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 4114,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Mejeri & Ost",
+          "Grädde",
+          "Matlagningsgrädde"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2092060",
+        "name": "Vispgrädde 40%",
+        "concept": "grädde",
+        "brand": "Norrmejerier",
+        "priceOre": 2114,
+        "packageSize": 300,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 7047,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Mejeri & Ost",
+          "Grädde",
+          "Vispgrädde"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1343648",
+        "name": "Kaffegrädde 10% ®",
+        "concept": "grädde",
+        "brand": "Kelda",
+        "priceOre": 1069,
+        "packageSize": 250,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 4276,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Mejeri & Ost",
+          "Grädde",
+          "Kaffegrädde"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101762578_ST",
+        "name": "Grädde Lång Hållbarhet 30%",
+        "concept": "grädde",
+        "brand": "Dairy Food",
+        "priceOre": 2590,
+        "packageSize": 500,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 5180,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "mejeri-ost-och-agg",
+          "gradde",
+          "vispgradde"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101756172_ST",
+        "name": "Grädde Lång Hållbarhet 30%",
+        "concept": "grädde",
+        "brand": "Dairy Food",
+        "priceOre": 1450,
+        "packageSize": 250,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 5800,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "mejeri-ost-och-agg",
+          "gradde",
+          "vispgradde"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101762579_ST",
+        "name": "Mat Grädde Lång Hållbarhet 10%",
+        "concept": "grädde",
+        "brand": "Dairy Food",
+        "priceOre": 1890,
+        "packageSize": 500,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 3780,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "mejeri-ost-och-agg",
+          "gradde",
+          "matlagningsgradde"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101756173_ST",
+        "name": "Mat Grädde Lång Hållbarhet 10%",
+        "concept": "grädde",
+        "brand": "Dairy Food",
+        "priceOre": 990,
+        "packageSize": 250,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 3960,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "mejeri-ost-och-agg",
+          "gradde",
+          "matlagningsgradde"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101279850_ST",
+        "name": "Vispgrädde 40%",
+        "concept": "grädde",
+        "brand": "Garant",
+        "priceOre": 1690,
+        "packageSize": 300,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 5633,
+          "unit": "l"
+        },
+        "categoryPath": [],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    }
+  ],
+  "kokosmjölk": [
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7340191176096",
+        "name": "Kokosmjölk",
+        "concept": "kokosmjölk",
+        "brand": "Coop",
+        "priceOre": 1226,
+        "packageSize": 250,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 4904,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Asiatiska livsmedel",
+          "Kokosprodukter"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7340191176027",
+        "name": "Kokosmjölk",
+        "concept": "kokosmjölk",
+        "brand": "Xtra",
+        "priceOre": 1699,
+        "packageSize": 400,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 4247,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Asiatiska livsmedel",
+          "Kokosprodukter"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101708172_ST",
+        "name": "Kokosmjölk 7%",
+        "concept": "kokosmjölk",
+        "brand": "Spicefield",
+        "priceOre": 1220,
+        "packageSize": 400,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 3050,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "skafferi",
+          "asien",
+          "kokosmjolk-och-kokosgradde"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101552948_ST",
+        "name": "Kokosmjölk 18%",
+        "concept": "kokosmjölk",
+        "brand": "Spicefield",
+        "priceOre": 1390,
+        "packageSize": 400,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 3475,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "skafferi",
+          "asien",
+          "kokosmjolk-och-kokosgradde"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7340191160590",
+        "name": "Kokosmjölk Eko",
+        "concept": "kokosmjölk",
+        "brand": "Änglamark",
+        "priceOre": 2096,
+        "packageSize": 400,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 5240,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Asiatiska livsmedel",
+          "Kokosprodukter"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7391835923514",
+        "name": "Kokosmjölk Eko",
+        "concept": "kokosmjölk",
+        "brand": "Kung Markatta",
+        "priceOre": 1510,
+        "packageSize": 200,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 7550,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Asiatiska livsmedel",
+          "Kokosprodukter"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7311312005458",
+        "name": "Kokosmjölk",
+        "concept": "kokosmjölk",
+        "brand": "Santa Maria",
+        "priceOre": 1595,
+        "packageSize": 250,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 6380,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Asiatiska livsmedel",
+          "Kokosprodukter"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101708173_ST",
+        "name": "Kokosmjölk 17-18%",
+        "concept": "kokosmjölk",
+        "brand": "Garant",
+        "priceOre": 1190,
+        "packageSize": 250,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 4760,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "skafferi",
+          "asien",
+          "kokosmjolk-och-kokosgradde"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101548831_ST",
+        "name": "Kokosmjölk",
+        "concept": "kokosmjölk",
+        "brand": "Garant Eko",
+        "priceOre": 1694,
+        "packageSize": 250,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 6776,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "skafferi",
+          "asien",
+          "kokosmjolk-och-kokosgradde"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2125951",
+        "name": "Kokosmjölk",
+        "concept": "kokosmjölk",
+        "brand": "Kung markatta",
+        "priceOre": 1326,
+        "packageSize": 200,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 6630,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Smaker från världen",
+          "Asien",
+          "Kokosmjölk"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2058328",
+        "name": "Kokosmjölk",
+        "concept": "kokosmjölk",
+        "brand": "ICA Asia",
+        "priceOre": 993,
+        "packageSize": 200,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 4965,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Smaker från världen",
+          "Asien",
+          "Kokosmjölk"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1026268",
+        "name": "Kokosmjölk",
+        "concept": "kokosmjölk",
+        "brand": "ICA Asia",
+        "priceOre": 1390,
+        "packageSize": 400,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 3475,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Smaker från världen",
+          "Asien",
+          "Kokosmjölk"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2149498",
+        "name": "Kokosmjölk",
+        "concept": "kokosmjölk",
+        "brand": "Aroy-D",
+        "priceOre": 2213,
+        "packageSize": 400,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 5532,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Smaker från världen",
+          "Asien",
+          "Kokosmjölk"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2043875",
+        "name": "Kokosmjölk Orginal",
+        "concept": "kokosmjölk",
+        "brand": "Santa Maria",
+        "priceOre": 1550,
+        "packageSize": 250,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 6200,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Smaker från världen",
+          "Asien",
+          "Kokosmjölk"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101839809_ST",
+        "name": "Currysoppa Kokosmjölk",
+        "concept": "kokosmjölk",
+        "brand": "Kelda",
+        "priceOre": 2490,
+        "packageSize": 500,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 4980,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "fardigmat",
+          "portionsratter",
+          "fardiga-soppor-och-grytor"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    }
+  ],
+  "kyckling": [
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101273579_ST",
+        "name": "Kycklingvingar Fryst",
+        "concept": "kyckling",
+        "brand": "Garant",
+        "priceOre": 3990,
+        "packageSize": 1000,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 3990,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "fryst",
+          "kott-och-kyckling",
+          "kyckling-och-ovrig-fagel"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101313672_ST",
+        "name": "Kycklinglever Fryst",
+        "concept": "kyckling",
+        "brand": "Eldorado",
+        "priceOre": 1883,
+        "packageSize": 500,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 3766,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "fryst",
+          "kott-och-kyckling",
+          "kyckling-och-ovrig-fagel"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101273506_ST",
+        "name": "Kycklingklubba Fryst",
+        "concept": "kyckling",
+        "brand": "Garant",
+        "priceOre": 3990,
+        "packageSize": 1000,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 3990,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "fryst",
+          "kott-och-kyckling",
+          "kyckling-och-ovrig-fagel"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101273702_ST",
+        "name": "Kycklingben Fryst",
+        "concept": "kyckling",
+        "brand": "Garant",
+        "priceOre": 3990,
+        "packageSize": 1000,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 3990,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "fryst",
+          "kott-och-kyckling",
+          "kyckling-och-ovrig-fagel"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "100323865_ST",
+        "name": "Kycklingfilé Fryst",
+        "concept": "kyckling",
+        "brand": "Kronfågel",
+        "priceOre": 9690,
+        "packageSize": 1000,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 9690,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "fryst",
+          "kott-och-kyckling",
+          "kyckling-och-ovrig-fagel"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "2332818400009",
+        "name": "Kycklingsteak",
+        "concept": "kyckling",
+        "brand": "Kronfågel",
+        "priceOre": 9450,
+        "packageSize": 900,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 10500,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Kött, Fågel & Chark",
+          "Kyckling & fågel",
+          "Hel kyckling & kycklingfilé"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7310960044314",
+        "name": "Kycklinglasagne",
+        "concept": "kyckling",
+        "brand": "Dafgårds",
+        "priceOre": 2750,
+        "packageSize": 390,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 7051,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frys",
+          "Portionsrätter",
+          "Kyckling"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "2332822700003",
+        "name": "Kycklinglårfilé",
+        "concept": "kyckling",
+        "brand": "Coop",
+        "priceOre": 12256,
+        "packageSize": 925,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 13250,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Kött, Fågel & Chark",
+          "Kyckling & fågel",
+          "Hel kyckling & kycklingfilé"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2128655",
+        "name": "Kycklinginnerfilé",
+        "concept": "kyckling",
+        "brand": "ICA",
+        "priceOre": 5664,
+        "packageSize": 700,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 8091,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Fryst",
+          "Fryst fågel",
+          "Fryst kycklingfilé"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "2307136100009",
+        "name": "Kycklinglårfilé",
+        "concept": "kyckling",
+        "brand": "Guldfågeln",
+        "priceOre": 14040,
+        "packageSize": 900,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 15600,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Kött, Fågel & Chark",
+          "Kyckling & fågel",
+          "Hel kyckling & kycklingfilé"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "2307116100005",
+        "name": "Kycklingbröstfilé",
+        "concept": "kyckling",
+        "brand": "Guldfågeln",
+        "priceOre": 14040,
+        "packageSize": 900,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 15600,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Kött, Fågel & Chark",
+          "Kyckling & fågel",
+          "Hel kyckling & kycklingfilé"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2129815",
+        "name": "Kycklingminikorv skinnfri",
+        "concept": "kyckling",
+        "brand": "Sentürk",
+        "priceOre": 3776,
+        "packageSize": 400,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 9440,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Kött, Chark & Fågel",
+          "Korv",
+          "Kycklingkorv",
+          "Kycklingkorv"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2171154",
+        "name": "Kycklinginnerfilé",
+        "concept": "kyckling",
+        "brand": "Kronfågel",
+        "priceOre": 5866,
+        "packageSize": 700,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 8380,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Fryst",
+          "Fryst fågel",
+          "Fryst kycklingfilé"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2038611",
+        "name": "Kycklinginnerfilé",
+        "concept": "kyckling",
+        "brand": "ICA Basic",
+        "priceOre": 4990,
+        "packageSize": 700,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 7129,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Fryst",
+          "Fryst fågel",
+          "Fryst kycklingfilé"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2271243",
+        "name": "Kycklinglårfilé",
+        "concept": "kyckling",
+        "brand": "ICA Basic",
+        "priceOre": 5668,
+        "packageSize": 700,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 8097,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Fryst",
+          "Fryst fågel",
+          "Fryst kycklingfilé"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    }
+  ],
+  "lime": [
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7340191163355",
+        "name": "Limejuice",
+        "concept": "lime",
+        "brand": "Coop",
+        "priceOre": 1050,
+        "packageSize": 200,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 5250,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Kryddor & Smaksättare",
+          "Såser & dressing",
+          "Pressad citron & Lime"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7340191102187",
+        "name": "Limejuice Eko",
+        "concept": "lime",
+        "brand": "Änglamark",
+        "priceOre": 2129,
+        "packageSize": 250,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 8516,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Kryddor & Smaksättare",
+          "Såser & dressing",
+          "Pressad citron & Lime"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "100960505_ST",
+        "name": "Torkad Lime Påse",
+        "concept": "lime",
+        "brand": "Famous",
+        "priceOre": 2640,
+        "packageSize": 130,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 20308,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "skafferi",
+          "kryddor-och-smaksattare",
+          "kryddor"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101545753_ST",
+        "name": "Limejuice",
+        "concept": "lime",
+        "brand": "Zeinas",
+        "priceOre": 1390,
+        "packageSize": 200,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 6950,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "skafferi",
+          "kryddor-och-smaksattare",
+          "ovriga-smaksattare"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101200430_ST",
+        "name": "Lime Klass 1",
+        "concept": "lime",
+        "brand": null,
+        "priceOre": 490,
+        "packageSize": 75,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 6533,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "frukt-och-gront",
+          "frukt",
+          "citrusfrukt"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101239061_ST",
+        "name": "Lime Pressad",
+        "concept": "lime",
+        "brand": "Garant",
+        "priceOre": 936,
+        "packageSize": 200,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 4680,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "skafferi",
+          "kryddor-och-smaksattare",
+          "ovriga-smaksattare"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101110968_ST",
+        "name": "Limejuice",
+        "concept": "lime",
+        "brand": "Famous",
+        "priceOre": 2451,
+        "packageSize": 420,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 5836,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "skafferi",
+          "kryddor-och-smaksattare",
+          "ovriga-smaksattare"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2030579",
+        "name": "Limejuice från koncentrat",
+        "concept": "lime",
+        "brand": "ICA",
+        "priceOre": 992,
+        "packageSize": 200,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 4960,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Kryddor & smaksättare",
+          "Övriga smaksättare"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "8858832600248",
+        "name": "Limeblad",
+        "concept": "lime",
+        "brand": null,
+        "priceOre": 3781,
+        "packageSize": 50,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 75620,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönsaker",
+          "Grönsaker",
+          "Färska örter & Smaksättare"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7300170029485",
+        "name": "Lime",
+        "concept": "lime",
+        "brand": null,
+        "priceOre": 590,
+        "packageSize": 90,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 6556,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönsaker",
+          "Frukt & bär",
+          "Citrusfrukt"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7350159282219",
+        "name": "Jalapeño Lime Extra Strong",
+        "concept": "lime",
+        "brand": "Loop",
+        "priceOre": 4495,
+        "packageSize": 12.5,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 359600,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Kiosk & Tidningar",
+          "Nikotinportioner",
+          "Slim"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1428940",
+        "name": "Lime ca Klass 1 ICA",
+        "concept": "lime",
+        "brand": null,
+        "priceOre": 490,
+        "packageSize": 90,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 5444,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Frukt",
+          "Citrusfrukt",
+          "Lime"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2115819",
+        "name": "Torkad lime",
+        "concept": "lime",
+        "brand": "Pani",
+        "priceOre": 2640,
+        "packageSize": 150,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 17600,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Smaker från världen",
+          "Mellanöstern & Nordafrika",
+          "Kryddor från Mellanöstern"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1489521",
+        "name": "Lime ICA Eko ca Klass 1 ICA",
+        "concept": "lime",
+        "brand": "ICA I love eco",
+        "priceOre": 650,
+        "packageSize": 80,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 8125,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Frukt",
+          "Citrusfrukt",
+          "Lime"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2093589",
+        "name": "Lime Chilisås Middagsklart",
+        "concept": "lime",
+        "brand": "Abba",
+        "priceOre": 2390,
+        "packageSize": 250,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 9560,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Färdigmat & Såser",
+          "Kylda såser",
+          "Sås till fisk",
+          "Färsk citronsås"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    }
+  ],
+  "lök": [
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "2317460800001",
+        "name": "Vitlök",
+        "concept": "lök",
+        "brand": null,
+        "priceOre": 382,
+        "packageSize": 45,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 8489,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönsaker",
+          "Grönsaker",
+          "Lök"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7340007902208",
+        "name": "Silverlök",
+        "concept": "lök",
+        "brand": null,
+        "priceOre": 2190,
+        "packageSize": 300,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 7300,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönsaker",
+          "Grönsaker",
+          "Lök"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7340007902215",
+        "name": "Steklök",
+        "concept": "lök",
+        "brand": null,
+        "priceOre": 1690,
+        "packageSize": 250,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 6760,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönsaker",
+          "Grönsaker",
+          "Lök"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7340007902048",
+        "name": "Vitlök",
+        "concept": "lök",
+        "brand": null,
+        "priceOre": 1000,
+        "packageSize": 100,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 10000,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönsaker",
+          "Grönsaker",
+          "Lök"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "2097462900007",
+        "name": "Purjolök",
+        "concept": "lök",
+        "brand": null,
+        "priceOre": 1356,
+        "packageSize": 400,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 3390,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönsaker",
+          "Grönsaker",
+          "Lök"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1131007",
+        "name": "Schalottenlök Klass 1",
+        "concept": "lök",
+        "brand": "ICA",
+        "priceOre": 1883,
+        "packageSize": 250,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 7532,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Lök",
+          "Schalottenlök"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1281437",
+        "name": "Vitlök Klass 1",
+        "concept": "lök",
+        "brand": "ICA",
+        "priceOre": 2545,
+        "packageSize": 250,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 10180,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Lök",
+          "Vitlök"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1218451",
+        "name": "Schalottenlök ca Klass 1 ICA",
+        "concept": "lök",
+        "brand": null,
+        "priceOre": 165,
+        "packageSize": 35,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 4714,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Lök",
+          "Schalottenlök"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1220221",
+        "name": "Vitlök Fläta Klass 1",
+        "concept": "lök",
+        "brand": null,
+        "priceOre": 7290,
+        "packageSize": 500,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 14580,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Lök",
+          "Vitlök"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2075884",
+        "name": "Silverlök Klass 1",
+        "concept": "lök",
+        "brand": "ICA",
+        "priceOre": 2190,
+        "packageSize": 300,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 7300,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Lök",
+          "Övrig lök"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "100465774_ST",
+        "name": "Lökpulver Burk",
+        "concept": "lök",
+        "brand": "Kockens",
+        "priceOre": 2356,
+        "packageSize": 43,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 54791,
+          "unit": "kg"
+        },
+        "categoryPath": [],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101360130_ST",
+        "name": "Lök Pulver Tetra",
+        "concept": "lök",
+        "brand": "Gastrino",
+        "priceOre": 13240,
+        "packageSize": 570,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 23228,
+          "unit": "kg"
+        },
+        "categoryPath": [],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101308205_ST",
+        "name": "Lökpulver Påse",
+        "concept": "lök",
+        "brand": "Eldorado",
+        "priceOre": 1490,
+        "packageSize": 80,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 18625,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "skafferi",
+          "kryddor-och-smaksattare",
+          "kryddor"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101387437_ST",
+        "name": "Lökpulver Gourmet Burk",
+        "concept": "lök",
+        "brand": "Kockens",
+        "priceOre": 2829,
+        "packageSize": 39,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 72538,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "skafferi",
+          "kryddor-och-smaksattare",
+          "kryddor"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "100148083_KG",
+        "name": "Lök Schalotten Klass 1",
+        "concept": "lök",
+        "brand": null,
+        "priceOre": 141,
+        "packageSize": 30,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 4700,
+          "unit": "kg"
+        },
+        "categoryPath": [],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    }
+  ],
+  "morot": [
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7300156476302",
+        "name": "Morötter",
+        "concept": "morot",
+        "brand": "COOP",
+        "priceOre": 1190,
+        "packageSize": 500,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 2380,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönsaker",
+          "Grönsaker",
+          "Morötter"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7300156476319",
+        "name": "Morötter",
+        "concept": "morot",
+        "brand": "COOP",
+        "priceOre": 1990,
+        "packageSize": 1000,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 1990,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönsaker",
+          "Grönsaker",
+          "Morötter"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7340011309765",
+        "name": "Morötter Eko",
+        "concept": "morot",
+        "brand": "Änglamark",
+        "priceOre": 3490,
+        "packageSize": 1000,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 3490,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönsaker",
+          "Grönsaker",
+          "Morötter"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1274322",
+        "name": "Morötter Nyskördade Klass 1",
+        "concept": "morot",
+        "brand": "ICA",
+        "priceOre": 1790,
+        "packageSize": 1000,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 1790,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Rotfrukter",
+          "Morötter"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1275514",
+        "name": "Tvättade morötter Klass 1",
+        "concept": "morot",
+        "brand": "ICA",
+        "priceOre": 1590,
+        "packageSize": 1000,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 1590,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Rotfrukter",
+          "Morötter"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1276457",
+        "name": "Små fina morötter Klass 1",
+        "concept": "morot",
+        "brand": "ICA",
+        "priceOre": 1290,
+        "packageSize": 500,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 2580,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Rotfrukter",
+          "Morötter"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1522071",
+        "name": "Morötter KRAV Klass 1",
+        "concept": "morot",
+        "brand": "ICA I love eco",
+        "priceOre": 1490,
+        "packageSize": 500,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 2980,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Rotfrukter",
+          "Morötter"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1130975",
+        "name": "Morötter Klass 1",
+        "concept": "morot",
+        "brand": "ICA I love eco",
+        "priceOre": 2000,
+        "packageSize": 1000,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 2000,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Rotfrukter",
+          "Morötter"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7300156500557",
+        "name": "Snackmorötter Eko",
+        "concept": "morot",
+        "brand": "Änglamark",
+        "priceOre": 1983,
+        "packageSize": 150,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 13220,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönsaker",
+          "Grönsaker",
+          "Morötter"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7340011309772",
+        "name": "Morot Eko",
+        "concept": "morot",
+        "brand": "Änglamark",
+        "priceOre": 1790,
+        "packageSize": 500,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 3580,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönsaker",
+          "Grönsaker",
+          "Morötter"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "100148868_KG",
+        "name": "Morot Klass 1",
+        "concept": "morot",
+        "brand": null,
+        "priceOre": 179,
+        "packageSize": 100,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 1790,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "frukt-och-gront",
+          "kal-och-rotsaker",
+          "rotfrukter"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101324028_ST",
+        "name": "Morotsjuice Nypressad",
+        "concept": "morot",
+        "brand": "Brämhults",
+        "priceOre": 4150,
+        "packageSize": 850,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 4882,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "dryck",
+          "juice-och-fruktdryck",
+          "kyld-juice"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "100794473_ST",
+        "name": "Morötter Klass 1",
+        "concept": "morot",
+        "brand": null,
+        "priceOre": 1490,
+        "packageSize": 1000,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 1490,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "frukt-och-gront",
+          "kal-och-rotsaker",
+          "rotfrukter"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "100794491_ST",
+        "name": "Morötter Klass 1",
+        "concept": "morot",
+        "brand": "Garant",
+        "priceOre": 2990,
+        "packageSize": 2000,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 1495,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "frukt-och-gront",
+          "kal-och-rotsaker",
+          "rotfrukter"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "100794464_ST",
+        "name": "Morötter Klass 1",
+        "concept": "morot",
+        "brand": "Garant",
+        "priceOre": 990,
+        "packageSize": 500,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 1980,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "frukt-och-gront",
+          "kal-och-rotsaker",
+          "rotfrukter"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    }
+  ],
+  "paprika": [
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7340007931246",
+        "name": "Paprikamix",
+        "concept": "paprika",
+        "brand": null,
+        "priceOre": 3000,
+        "packageSize": 750,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 4000,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönsaker",
+          "Grönsaker",
+          "Paprika"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1370193",
+        "name": "Paprikamix Klass 1",
+        "concept": "paprika",
+        "brand": "ICA",
+        "priceOre": 2690,
+        "packageSize": 400,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 6725,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Grönsaker",
+          "Paprika"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101266454_ST",
+        "name": "Padronpaprika Klass 1",
+        "concept": "paprika",
+        "brand": null,
+        "priceOre": 3490,
+        "packageSize": 200,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 17450,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "frukt-och-gront",
+          "gronsaker",
+          "paprika"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "100816306_ST",
+        "name": "Spetspaprika Röd Klass 1",
+        "concept": "paprika",
+        "brand": null,
+        "priceOre": 1990,
+        "packageSize": 200,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 9950,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "frukt-och-gront",
+          "gronsaker",
+          "paprika"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1449320",
+        "name": "Grillpaprika Klass 1",
+        "concept": "paprika",
+        "brand": "ICA",
+        "priceOre": 2390,
+        "packageSize": 350,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 6829,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Grönsaker",
+          "Paprika"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2031006",
+        "name": "Snackpaprika Klass 1 Klass 1",
+        "concept": "paprika",
+        "brand": "ICA",
+        "priceOre": 1990,
+        "packageSize": 150,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 13267,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Grönsaker",
+          "Paprika"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "100696588_ST",
+        "name": "Paprika Påse",
+        "concept": "paprika",
+        "brand": "Kockens",
+        "priceOre": 2356,
+        "packageSize": 80,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 29450,
+          "unit": "kg"
+        },
+        "categoryPath": [],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101825917_ST",
+        "name": "Paprikafilé",
+        "concept": "paprika",
+        "brand": "Melis",
+        "priceOre": 5195,
+        "packageSize": 1.55,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 3351613,
+          "unit": "kg"
+        },
+        "categoryPath": [],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101320680_ST",
+        "name": "Paprika Burk",
+        "concept": "paprika",
+        "brand": "Kockens",
+        "priceOre": 4438,
+        "packageSize": 255,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 17404,
+          "unit": "kg"
+        },
+        "categoryPath": [],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7350046468047",
+        "name": "Paprika Eko",
+        "concept": "paprika",
+        "brand": "KOCKENS",
+        "priceOre": 2850,
+        "packageSize": 40,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 71250,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Kryddor & Smaksättare",
+          "Kryddor",
+          "Kryddor K - P"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7311311015182",
+        "name": "Paprikapulver",
+        "concept": "paprika",
+        "brand": "Santa Maria",
+        "priceOre": 2544,
+        "packageSize": 37,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 68757,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Kryddor & Smaksättare",
+          "Kryddor",
+          "Kryddor K - P"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7340007910319",
+        "name": "Paprika Padron",
+        "concept": "paprika",
+        "brand": null,
+        "priceOre": 2790,
+        "packageSize": 200,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 13950,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönsaker",
+          "Grönsaker",
+          "Paprika"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7311311014499",
+        "name": "Paprikapulver",
+        "concept": "paprika",
+        "brand": "Santa Maria",
+        "priceOre": 7604,
+        "packageSize": 200,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 38020,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Kryddor & Smaksättare",
+          "Kryddor",
+          "Kryddor K - P"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2023235",
+        "name": "Paprikapulver",
+        "concept": "paprika",
+        "brand": "Santa Maria",
+        "priceOre": 2261,
+        "packageSize": 37,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 61108,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Kryddor & smaksättare",
+          "Kryddor",
+          "Krydda, burk"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2149230",
+        "name": "Paprikapulver",
+        "concept": "paprika",
+        "brand": "ICA Basic",
+        "priceOre": 1490,
+        "packageSize": 70,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 21286,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Kryddor & smaksättare",
+          "Kryddor",
+          "Krydda, påse"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    }
+  ],
+  "pasta": [
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7350027798378",
+        "name": "Pastamore",
+        "concept": "pasta",
+        "brand": "Zeta",
+        "priceOre": 1795,
+        "packageSize": 400,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 4487,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Pasta & Pastasås",
+          "Formpasta"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "8076809523561",
+        "name": "Pastasås Classico",
+        "concept": "pasta",
+        "brand": "Barilla",
+        "priceOre": 2456,
+        "packageSize": 400,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 6140,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Pasta & Pastasås",
+          "Pastasås"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7340191171411",
+        "name": "Pastasås Passerade tomater Eko",
+        "concept": "pasta",
+        "brand": "Änglamark",
+        "priceOre": 2645,
+        "packageSize": 420,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 6298,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Pasta & Pastasås",
+          "Pastasås"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7340191156098",
+        "name": "Pastasås Classico",
+        "concept": "pasta",
+        "brand": "Coop",
+        "priceOre": 2224,
+        "packageSize": 390,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 5703,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Pasta & Pastasås",
+          "Pastasås"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7331061001402",
+        "name": "Pastasås Basilika",
+        "concept": "pasta",
+        "brand": "ITIGO",
+        "priceOre": 3686,
+        "packageSize": 350,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 10531,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Pasta & Pastasås",
+          "Pastasås"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1458562",
+        "name": "Pastasås Classico",
+        "concept": "pasta",
+        "brand": "Barilla",
+        "priceOre": 2167,
+        "packageSize": 400,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 5418,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Kryddor & smaksättare",
+          "Såser",
+          "Pastasås"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2071161",
+        "name": "Pastasås Basilika",
+        "concept": "pasta",
+        "brand": "Zeta",
+        "priceOre": 2831,
+        "packageSize": 400,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 7077,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Kryddor & smaksättare",
+          "Såser",
+          "Pastasås"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1008013",
+        "name": "Pastasås Basilico",
+        "concept": "pasta",
+        "brand": "Barilla",
+        "priceOre": 2167,
+        "packageSize": 400,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 5418,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Kryddor & smaksättare",
+          "Såser",
+          "Pastasås"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2087025",
+        "name": "Pastasås Basilika",
+        "concept": "pasta",
+        "brand": "Mutti",
+        "priceOre": 2886,
+        "packageSize": 400,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 7215,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Kryddor & smaksättare",
+          "Såser",
+          "Pastasås"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1008236",
+        "name": "Pastasås Arrabbiata",
+        "concept": "pasta",
+        "brand": "Barilla",
+        "priceOre": 2167,
+        "packageSize": 400,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 5418,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Kryddor & smaksättare",
+          "Såser",
+          "Pastasås"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101270292_ST",
+        "name": "Pastaslev",
+        "concept": "pasta",
+        "brand": "Fixa",
+        "priceOre": 1990,
+        "packageSize": 1,
+        "packageUnit": "st",
+        "comparison": {
+          "priceOre": 1990,
+          "unit": "st"
+        },
+        "categoryPath": [
+          "hem-och-hushall",
+          "hem-och-inredning",
+          "kokstillbehor"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101804760_ST",
+        "name": "Tagliatelle Pasta Glutenfri",
+        "concept": "pasta",
+        "brand": "Schär",
+        "priceOre": 2451,
+        "packageSize": 250,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 9804,
+          "unit": "kg"
+        },
+        "categoryPath": [],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    }
+  ],
+  "ris": [
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7311312000545",
+        "name": "Risnudlar",
+        "concept": "ris",
+        "brand": "Santa Maria",
+        "priceOre": 2129,
+        "packageSize": 180,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 11828,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Asiatiska livsmedel",
+          "Ris & Nudlar"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1456859",
+        "name": "Risottoris",
+        "concept": "ris",
+        "brand": "ICA",
+        "priceOre": 2983,
+        "packageSize": 1000,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 2983,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Pasta, ris & mos",
+          "Ris"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7312631006027",
+        "name": "Avorioris",
+        "concept": "ris",
+        "brand": "Risenta",
+        "priceOre": 3928,
+        "packageSize": 1000,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 3928,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Ris, Mos & Gryner",
+          "Ris"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1007949",
+        "name": "Avorioris",
+        "concept": "ris",
+        "brand": "Risenta",
+        "priceOre": 3589,
+        "packageSize": 1000,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 3589,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Pasta, ris & mos",
+          "Ris"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "100221644_ST",
+        "name": "Avorio Risottoris",
+        "concept": "ris",
+        "brand": "Risenta",
+        "priceOre": 2990,
+        "packageSize": 1000,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 2990,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "skafferi",
+          "ris-mos-och-gryner-",
+          "couscous-och-bulgur"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2142653",
+        "name": "Risoni",
+        "concept": "ris",
+        "brand": "Zeta",
+        "priceOre": 1977,
+        "packageSize": 500,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 3954,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Pasta, ris & mos",
+          "Torkad pasta"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7350113940292",
+        "name": "Jasminris",
+        "concept": "ris",
+        "brand": "ZEINAS",
+        "priceOre": 2198,
+        "packageSize": 250,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 8792,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Ris, Mos & Gryner",
+          "Ris"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7331217015727",
+        "name": "Basmatiris",
+        "concept": "ris",
+        "brand": "Sevan",
+        "priceOre": 5011,
+        "packageSize": 1000,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 5011,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Ris, Mos & Gryner",
+          "Ris"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7340191177970",
+        "name": "Basmatiris",
+        "concept": "ris",
+        "brand": "Coop",
+        "priceOre": 3545,
+        "packageSize": 1000,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 3545,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Ris, Mos & Gryner",
+          "Ris"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101231410_ST",
+        "name": "Osaltade Riskakor",
+        "concept": "ris",
+        "brand": "Garant Eko",
+        "priceOre": 1550,
+        "packageSize": 130,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 11923,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "brod-och-kakor",
+          "ris-och-majskakor"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2047184",
+        "name": "Risottoris Carnaroli Gran Riserva",
+        "concept": "ris",
+        "brand": "Zeta",
+        "priceOre": 5369,
+        "packageSize": 700,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 7670,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Pasta, ris & mos",
+          "Ris"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101316059_ST",
+        "name": "Fullkornsris",
+        "concept": "ris",
+        "brand": "Garant",
+        "priceOre": 5490,
+        "packageSize": 2000,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 2745,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "skafferi",
+          "ris-mos-och-gryner-",
+          "ris"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101277505_ST",
+        "name": "Basmatiris",
+        "concept": "ris",
+        "brand": "Eldorado",
+        "priceOre": 9990,
+        "packageSize": 5000,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 1998,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "skafferi",
+          "ris-mos-och-gryner-",
+          "ris"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101488556_ST",
+        "name": "Jasminris",
+        "concept": "ris",
+        "brand": "Garant",
+        "priceOre": 5668,
+        "packageSize": 2000,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 2834,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "skafferi",
+          "ris-mos-och-gryner-",
+          "ris"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2093332",
+        "name": "Quinoa Vit",
+        "concept": "ris",
+        "brand": "Risenta",
+        "priceOre": 6146,
+        "packageSize": 500,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 12292,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Pasta, ris & mos",
+          "Bulgur, couscous & matvete"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    }
+  ],
+  "tomat": [
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "8005110630408",
+        "name": "Tomater Passerade",
+        "concept": "tomat",
+        "brand": "Mutti",
+        "priceOre": 2077,
+        "packageSize": 400,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 5192,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Grönsakskonserver",
+          "Tomat"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "80042563",
+        "name": "Tomater Passerade",
+        "concept": "tomat",
+        "brand": "Mutti",
+        "priceOre": 3781,
+        "packageSize": 700,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 5401,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Grönsakskonserver",
+          "Tomat"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "8001440120244",
+        "name": "Tomater Passerade",
+        "concept": "tomat",
+        "brand": "Cirio",
+        "priceOre": 1888,
+        "packageSize": 350,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 5394,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Grönsakskonserver",
+          "Tomat"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "8005110172106",
+        "name": "Tomater Krossade",
+        "concept": "tomat",
+        "brand": "Mutti",
+        "priceOre": 1088,
+        "packageSize": 210,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 5181,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Grönsakskonserver",
+          "Tomat"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "8005110060007",
+        "name": "Tomater Skalade",
+        "concept": "tomat",
+        "brand": "Mutti",
+        "priceOre": 1983,
+        "packageSize": 400,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 4957,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Grönsakskonserver",
+          "Tomat"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1023197",
+        "name": "Tomatpuré",
+        "concept": "tomat",
+        "brand": "Ardita",
+        "priceOre": 2167,
+        "packageSize": 200,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 10835,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Kryddor & smaksättare",
+          "Ketchup & senap",
+          "Tomatpuré"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1352329",
+        "name": "Tomatpuré Triplo",
+        "concept": "tomat",
+        "brand": "Mutti",
+        "priceOre": 2167,
+        "packageSize": 185,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 11714,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Kryddor & smaksättare",
+          "Ketchup & senap",
+          "Tomatpuré"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1515835",
+        "name": "Tomatmix Klass 1",
+        "concept": "tomat",
+        "brand": "ICA",
+        "priceOre": 2790,
+        "packageSize": 250,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 11160,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Grönsaker",
+          "Tomat"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1346035",
+        "name": "Tomatpuré Ekologisk",
+        "concept": "tomat",
+        "brand": "ICA I love eco",
+        "priceOre": 1883,
+        "packageSize": 200,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 9415,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Kryddor & smaksättare",
+          "Ketchup & senap",
+          "Tomatpuré"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2020331",
+        "name": "Plommontomater Klass 1",
+        "concept": "tomat",
+        "brand": "ICA",
+        "priceOre": 2890,
+        "packageSize": 500,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 5780,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Grönsaker",
+          "Tomat"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "100776313_ST",
+        "name": "Tomato Juice Tomatjuice",
+        "concept": "tomat",
+        "brand": "Fontana",
+        "priceOre": 1694,
+        "packageSize": 1000,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 1694,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "dryck",
+          "juice-och-fruktdryck",
+          "ej-kyld-juice"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101565032_ST",
+        "name": "Tomatpuré",
+        "concept": "tomat",
+        "brand": "Durra",
+        "priceOre": 2451,
+        "packageSize": 800,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 3064,
+          "unit": "kg"
+        },
+        "categoryPath": [],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101608142_ST",
+        "name": "Tomat Finhackad",
+        "concept": "tomat",
+        "brand": "Petti",
+        "priceOre": 1788,
+        "packageSize": 500,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 3576,
+          "unit": "kg"
+        },
+        "categoryPath": [],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101234399_ST",
+        "name": "Körsbärs- Tomater i Tomatjuice",
+        "concept": "tomat",
+        "brand": "Eldorado",
+        "priceOre": 1390,
+        "packageSize": 400,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 3475,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "skafferi",
+          "konserver-och-burkar",
+          "tomatkonserver"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101288271_ST",
+        "name": "Tomatketchup Osötad",
+        "concept": "tomat",
+        "brand": "Felix",
+        "priceOre": 3870,
+        "packageSize": 970,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 3990,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "skafferi",
+          "kryddor-och-smaksattare",
+          "ketchup-och-senap"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    }
+  ],
+  "vitlök": [
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7340007905742",
+        "name": "Vitlök Eko",
+        "concept": "vitlök",
+        "brand": null,
+        "priceOre": 1590,
+        "packageSize": 100,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 15900,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönsaker",
+          "Grönsaker",
+          "Lök"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "2317460800001",
+        "name": "Vitlök",
+        "concept": "vitlök",
+        "brand": null,
+        "priceOre": 382,
+        "packageSize": 45,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 8489,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönsaker",
+          "Grönsaker",
+          "Lök"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7340007902048",
+        "name": "Vitlök",
+        "concept": "vitlök",
+        "brand": null,
+        "priceOre": 1000,
+        "packageSize": 100,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 10000,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönsaker",
+          "Grönsaker",
+          "Lök"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7340007902178",
+        "name": "Vitlök",
+        "concept": "vitlök",
+        "brand": null,
+        "priceOre": 2390,
+        "packageSize": 250,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 9560,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönsaker",
+          "Grönsaker",
+          "Lök"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "100466229_ST",
+        "name": "Vitlök Finhackad Burk",
+        "concept": "vitlök",
+        "brand": "Kockens",
+        "priceOre": 2829,
+        "packageSize": 50,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 56580,
+          "unit": "kg"
+        },
+        "categoryPath": [],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101335190_ST",
+        "name": "Vitlök Pressad",
+        "concept": "vitlök",
+        "brand": "Cajom",
+        "priceOre": 2790,
+        "packageSize": 90,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 31000,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "frukt-och-gront",
+          "kryddor-och-smaksattare",
+          "smaksattare"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "100761613_ST",
+        "name": "Vitlök Klass 1",
+        "concept": "vitlök",
+        "brand": null,
+        "priceOre": 2390,
+        "packageSize": 250,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 9560,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "frukt-och-gront",
+          "gronsaker",
+          "lok"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7311311015267",
+        "name": "Vitlök Finhackad",
+        "concept": "vitlök",
+        "brand": "Santa Maria",
+        "priceOre": 3801,
+        "packageSize": 44,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 86386,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Kryddor & Smaksättare",
+          "Kryddor",
+          "Kryddor R - Ö"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1281437",
+        "name": "Vitlök Klass 1",
+        "concept": "vitlök",
+        "brand": "ICA",
+        "priceOre": 2545,
+        "packageSize": 250,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 10180,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Lök",
+          "Vitlök"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101827568_ST",
+        "name": "Vitlök Hackad Fryst",
+        "concept": "vitlök",
+        "brand": "Garant",
+        "priceOre": 1390,
+        "packageSize": 100,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 13900,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "fryst",
+          "gronsaker",
+          "gronsaker-och-rotfrukter"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1220221",
+        "name": "Vitlök Fläta Klass 1",
+        "concept": "vitlök",
+        "brand": null,
+        "priceOre": 7290,
+        "packageSize": 500,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 14580,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Lök",
+          "Vitlök"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101207086_ST",
+        "name": "Vitlök & Örter",
+        "concept": "vitlök",
+        "brand": "Philadelphia",
+        "priceOre": 2990,
+        "packageSize": 300,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 9967,
+          "unit": "kg"
+        },
+        "categoryPath": [],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1220167",
+        "name": "Vitlök Solo Klass 1",
+        "concept": "vitlök",
+        "brand": "ICA",
+        "priceOre": 1883,
+        "packageSize": 100,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 18830,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Lök",
+          "Vitlök"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1281362",
+        "name": "Vitlök Morado ca 75g Klass 1",
+        "concept": "vitlök",
+        "brand": "ICA",
+        "priceOre": 936,
+        "packageSize": 70,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 13371,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Frukt & Grönt",
+          "Lök",
+          "Vitlök"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1512060",
+        "name": "Vitlök Pressad",
+        "concept": "vitlök",
+        "brand": "Sevan",
+        "priceOre": 3019,
+        "packageSize": 100,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 30190,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Grönsakskonserver",
+          "Övriga grönsaker",
+          "Inlagd vitlök & Peperoni"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    }
+  ],
+  "ägg": [
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2126397",
+        "name": "Äggnudlar",
+        "concept": "ägg",
+        "brand": "Blue Dragon",
+        "priceOre": 2094,
+        "packageSize": 250,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 8376,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Smaker från världen",
+          "Asien",
+          "Nudlar",
+          "Äggnudlar"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "1420364",
+        "name": "Äggnudlar",
+        "concept": "ägg",
+        "brand": "ICA Asia",
+        "priceOre": 3397,
+        "packageSize": 1000,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 3397,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Smaker från världen",
+          "Asien",
+          "Nudlar",
+          "Äggnudlar"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2144411",
+        "name": "Äggskärare svart",
+        "concept": "ägg",
+        "brand": "ICA",
+        "priceOre": 2690,
+        "packageSize": 1,
+        "packageUnit": "st",
+        "comparison": {
+          "priceOre": 2690,
+          "unit": "st"
+        },
+        "categoryPath": [
+          "Kök",
+          "Husgeråd & Köksredskap",
+          "Skalare, Skärare & Rivjärn",
+          "Äggskärare"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2149512",
+        "name": "Äggnudlar",
+        "concept": "ägg",
+        "brand": "SinSin",
+        "priceOre": 1972,
+        "packageSize": 400,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 4930,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Smaker från världen",
+          "Asien",
+          "Nudlar",
+          "Äggnudlar"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "ica:1003828",
+      "product": {
+        "id": "2149524",
+        "name": "Äggnudlar",
+        "concept": "ägg",
+        "brand": "Santa Maria",
+        "priceOre": 1656,
+        "packageSize": 250,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 6624,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Smaker från världen",
+          "Asien",
+          "Nudlar",
+          "Äggnudlar"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:29:57Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7316840310579",
+        "name": "Västgötaägg 10-pack Frigående inomhus",
+        "concept": "ägg",
+        "brand": "Lantägg",
+        "priceOre": 3557,
+        "packageSize": 10,
+        "packageUnit": "st",
+        "comparison": {
+          "priceOre": 356,
+          "unit": "st"
+        },
+        "categoryPath": [
+          "Mejeri & Ägg",
+          "Ägg & Jäst",
+          "Ägg"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7316840466085",
+        "name": "Brunchägg Frigående L/XL 6-pack",
+        "concept": "ägg",
+        "brand": "Lantägg",
+        "priceOre": 2445,
+        "packageSize": 6,
+        "packageUnit": "st",
+        "comparison": {
+          "priceOre": 408,
+          "unit": "st"
+        },
+        "categoryPath": [
+          "Mejeri & Ägg",
+          "Ägg & Jäst",
+          "Ägg"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101328623_ST",
+        "name": "Äggpasta Fidel",
+        "concept": "ägg",
+        "brand": "Mlinotest",
+        "priceOre": 2167,
+        "packageSize": 500,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 4334,
+          "unit": "kg"
+        },
+        "categoryPath": [],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101498814_ST",
+        "name": "Äggnudlar",
+        "concept": "ägg",
+        "brand": "Spicefield",
+        "priceOre": 936,
+        "packageSize": 250,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 3744,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "skafferi",
+          "asien",
+          "nudlar-"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101498815_ST",
+        "name": "Äggnudlar",
+        "concept": "ägg",
+        "brand": "Spicefield",
+        "priceOre": 3397,
+        "packageSize": 1000,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 3397,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "skafferi",
+          "asien",
+          "nudlar-"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7340011317869",
+        "name": "Äggnudlar",
+        "concept": "ägg",
+        "brand": "Coop",
+        "priceOre": 942,
+        "packageSize": 250,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 3768,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Asiatiska livsmedel",
+          "Ris & Nudlar"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101855403_ST",
+        "name": "Äggvita Frigående Inne Flytande, Sport",
+        "concept": "ägg",
+        "brand": "Dava Foods",
+        "priceOre": 3586,
+        "packageSize": 1000,
+        "packageUnit": "ml",
+        "comparison": {
+          "priceOre": 3586,
+          "unit": "l"
+        },
+        "categoryPath": [
+          "mejeri-ost-och-agg",
+          "agg",
+          "agg"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7311312008794",
+        "name": "Äggnudlar",
+        "concept": "ägg",
+        "brand": "Santa Maria",
+        "priceOre": 1698,
+        "packageSize": 250,
+        "packageUnit": "g",
+        "comparison": {
+          "priceOre": 6792,
+          "unit": "kg"
+        },
+        "categoryPath": [
+          "Skafferi",
+          "Asiatiska livsmedel",
+          "Ris & Nudlar"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    },
+    {
+      "storeKey": "willys:2276",
+      "product": {
+        "id": "101653747_ST",
+        "name": "Äggskärare",
+        "concept": "ägg",
+        "brand": "Fixa",
+        "priceOre": 2990,
+        "packageSize": 1,
+        "packageUnit": "st",
+        "comparison": {
+          "priceOre": 2990,
+          "unit": "st"
+        },
+        "categoryPath": [
+          "hem-och-hushall",
+          "hem-och-inredning",
+          "kokstillbehor"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T06:09:01Z"
+    },
+    {
+      "storeKey": "coop:232400",
+      "product": {
+        "id": "7300156584427",
+        "name": "Äggskärare",
+        "concept": "ägg",
+        "brand": "Coop",
+        "priceOre": 4990,
+        "packageSize": 1,
+        "packageUnit": "st",
+        "comparison": {
+          "priceOre": 4990,
+          "unit": "st"
+        },
+        "categoryPath": [
+          "Hushåll",
+          "Köksartiklar",
+          "Köksredskap"
+        ],
+        "dietaryTags": []
+      },
+      "confirmedAt": "2026-08-27T03:49:15Z"
+    }
+  ]
+}

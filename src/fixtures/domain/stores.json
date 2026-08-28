@@ -1,0 +1,250 @@
+{
+  "location": {
+    "lat": 63.8284,
+    "lon": 20.2597,
+    "label": "Umeå",
+    "isDemoDefault": true
+  },
+  "stores": [
+    {
+      "chain": "ica",
+      "storeId": "1003465",
+      "name": "ICA Supermarket City, Umeå",
+      "tier": "offers_only",
+      "distanceKm": 0.3,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "willys",
+      "storeId": "2872",
+      "name": "Willys Hemma Umeå Rådhusesplanaden",
+      "tier": "offers_only",
+      "distanceKm": 0.3,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "coop",
+      "storeId": "235560",
+      "name": "Coop City Umeå",
+      "tier": "offers_only",
+      "distanceKm": 0.3,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "coop",
+      "storeId": "235390",
+      "name": "Coop Ålidhem",
+      "tier": "offers_only",
+      "distanceKm": 0.3,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "ica",
+      "storeId": "1004385",
+      "name": "ICA Nära Bågen",
+      "tier": "offers_only",
+      "distanceKm": 0.3,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "coop",
+      "storeId": "236018",
+      "name": "Coop Teg",
+      "tier": "full",
+      "distanceKm": 1,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "ica",
+      "storeId": "1003487",
+      "name": "ICA Supermarket Teg",
+      "tier": "offers_only",
+      "distanceKm": 1.2,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "coop",
+      "storeId": "236008",
+      "name": "Coop Haga Umeå",
+      "tier": "offers_only",
+      "distanceKm": 1.4,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "ica",
+      "storeId": "1003609",
+      "name": "ICA Nära Västerslätt",
+      "tier": "offers_only",
+      "distanceKm": 1.6,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "coop",
+      "storeId": "236013",
+      "name": "Coop Östra Station",
+      "tier": "full",
+      "distanceKm": 2,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "coop",
+      "storeId": "236023",
+      "name": "Coop Grisbacka",
+      "tier": "full",
+      "distanceKm": 2.1,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "ica",
+      "storeId": "1003711",
+      "name": "ICA Nära Berghem",
+      "tier": "offers_only",
+      "distanceKm": 2.1,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "coop",
+      "storeId": "232400",
+      "name": "Stora Coop Avion",
+      "tier": "full",
+      "distanceKm": 2.4,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "willys",
+      "storeId": "2276",
+      "name": "Willys Umeå Syd",
+      "tier": "full",
+      "distanceKm": 2.5,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "ica",
+      "storeId": "1004302",
+      "name": "ICA Supermarket Böleäng",
+      "tier": "offers_only",
+      "distanceKm": 2.6,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "lidl",
+      "storeId": "SE0249",
+      "name": "Lidl Umeå Ålidhem",
+      "tier": "full",
+      "distanceKm": 3.1,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "coop",
+      "storeId": "231400",
+      "name": "Stora Coop Ersboda",
+      "tier": "offers_only",
+      "distanceKm": 3.2,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "coop",
+      "storeId": "231410",
+      "name": "Stora Coop Ersboda",
+      "tier": "full",
+      "distanceKm": 3.2,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "ica",
+      "storeId": "1106008",
+      "name": "ICA Kvantum Ersboda",
+      "tier": "full",
+      "distanceKm": 3.2,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "ica",
+      "storeId": "1004111",
+      "name": "ICA Supermarket Ålidhem",
+      "tier": "offers_only",
+      "distanceKm": 3.2,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "coop",
+      "storeId": "236019",
+      "name": "Coop Mariehem",
+      "tier": "full",
+      "distanceKm": 3.3,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "ica",
+      "storeId": "1003786",
+      "name": "ICA Kvantum Mariehem",
+      "tier": "full",
+      "distanceKm": 3.4,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "willys",
+      "storeId": "2203",
+      "name": "Willys Umeå Ersboda",
+      "tier": "full",
+      "distanceKm": 3.6,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "ica",
+      "storeId": "1004229",
+      "name": "ICA Kvantum Kronoparken",
+      "tier": "full",
+      "distanceKm": 3.6,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "coop",
+      "storeId": "235660",
+      "name": "Stora Coop Tomtebo",
+      "tier": "full",
+      "distanceKm": 3.9,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "ica",
+      "storeId": "1003828",
+      "name": "Maxi ICA Stormarknad Umeå",
+      "tier": "full",
+      "distanceKm": 4.1,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "coop",
+      "storeId": "236017",
+      "name": "Coop Röbäck",
+      "tier": "full",
+      "distanceKm": 4.2,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "coop",
+      "storeId": "236005",
+      "name": "Coop Ersboda",
+      "tier": "offers_only",
+      "distanceKm": 4.9,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "willys",
+      "storeId": "2333",
+      "name": "Willys Umeå Klockarbäcken",
+      "tier": "full",
+      "distanceKm": 5.6,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "chain": "coop",
+      "storeId": "990302",
+      "name": "Hämta Mötesplats Stöcke",
+      "tier": "full",
+      "distanceKm": 9.8,
+      "confirmedAt": "1970-01-01T00:00:00.000Z"
+    }
+  ]
+}
