@@ -51,9 +51,10 @@ _Last updated: 2026-08-27 by Master (Sonnet)_
 
 ## Merged (main)
 
-- **#1 foundation + CI** (PR #12). **#3 engine** (PR #14, `fe3a1f5`) — 122 tests, ~99% line cov.
-  **#2 design tokens + 12 primitives + /styleguide** (PR #15, `d56d5b3`) — Codex review + Master
-  browser pass, editorial identity confirmed not-AI-SaaS.
+- **#1 foundation** (PR #12). **#3 engine** (PR #14) — 122 tests, ~99% line cov.
+  **#2 design tokens + 12 primitives + /styleguide** (PR #15) — editorial identity confirmed not-AI-SaaS.
+  **#5 nutrition provider** (PR #13, `68f75b5`) — OFF 30-GTIN snapshot + Livsmedelsverket 75-row table,
+  canonical `NutritionSource.lookup`.
 - Each PR: built by one family, reviewed by the other, blockers fixed before merge.
 
 ## Active work
@@ -63,8 +64,8 @@ _Last updated: 2026-08-27 by Master (Sonnet)_
 - **Issue #5 (nutrition) — PR #13, Codex reconcile in flight.** Branch predated #2/#3; being merged
   onto main + adapter rewritten to the canonical `NutritionSource.lookup(NutritionLookup[], opts)
   → NutritionFact[]` (engine owns aggregation now). Keeps the OFF snapshot + Livsmedelsverket CSV.
-- Issue #6 (OpenAI recipe service) — next. Canonical `RecipeGenerator.generate → RecipeDraft` +
-  `RecipeOptionHandle` inputs on main. Build via Codex; `OPENAI_API_KEY` in `.env.local` works.
+- **Issue #6 (OpenAI recipe service) — Codex builder in flight**, worktree `issue-6`. Verifying live
+  model IDs (5.6-sol/terra/luna etc.) for Responses API + structured-output support.
 
 ## Deferred → issue #16
 
