@@ -211,6 +211,8 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   font-variation-settings: "wght" 800, "wdth" 112;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 .inverted-bar__trailing {
   font-family: var(--face-mono);
