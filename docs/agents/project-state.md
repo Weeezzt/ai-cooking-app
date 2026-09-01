@@ -34,29 +34,22 @@ _Last updated: 2026-09-01 by Master (Sonnet)_
 
 ## Active work
 
-- **Issue #7 — PR #20 open** (Codex-built). Unified `createServerContainer → {deps, status}`,
-  `POST /api/plan` (Zod validate, 20s deadline, business-result status codes, idempotency),
-  `src/lib/planStore.ts` (session+localStorage), `src/lib/degradation.ts`, minimal PLAN/SHOP/COOK
-  routes, `MealRequest.maxCookMinutes` + `estimated` cook-time check. 167 tests, gates green.
-  Fixture scenarios verified (ok / over_budget +6467öre / infeasible). Claude review = **rework**.
-  **B1:** demo/live return `infeasible` for themed vibes — `deriveConcepts` emits over-specific
-  `core` concepts the fixtures/Primat don't return. Fix: coarse archetype vocabulary, ≤2 core,
-  expand fixture recording to ~30 archetypes. **B2 — live latency:** live E2E = 19s, OpenAI blew the 20s deadline → badged demo
-  recipe fallback. Full live path (Primat fan-out ~12-15s + OpenAI 6-12s, sequential) doesn't fit
-  20s. Review to recommend: bigger deadline (#8 narrated UI covers it) + tighter fan-out +
-  per-stage sub-budgets. Fix: `verifyModels` off the request deadline (back to container startup), `PLAN_DEADLINE_MS`
-  32s, per-stage sub-budgets, **parallelize the 24-serial-await fan-out** (≤6 concurrent), skip
-  repair retry when <10s left. Codex reworking on `7-pipeline`.
+- **Issue #7 — MERGED** (PR #20, squash `c4539e2`). Codex build → Claude review (2 blockers:
+  concept vocab too specific → infeasible; live latency > deadline) → Codex rework → Master
+  re-verify. **The app runs end-to-end now** — fixture: all themed vibes → `ok`; live: real
+  OpenAI recipes at 7-20s. `POST /api/plan`, `src/lib/planStore.ts`, degradation state machine.
+- **Issue #8 (PLAN experience) — dispatched** (Claude builder). Editorial result screen on the
+  #7 route + #2 primitives. Defines patterns #9/#10 follow.
+
 
 ## Not started
 
-- **#7 pipeline orchestration + API route + client persistence** — unblocked once #6 (PR #18) merges.
-  Must: consume `ProductSearchResult` + `Product.section`; write ONE `createServerContainer` that
-  builds `PipelineDeps {stores, products, prices, nutrition, recipes}` (merging #4's
-  `createDataContainer` + #6's recipe wiring + the nutrition adapter); wire the route handler;
-  client-side plan persistence (AD-8); the degradation state machine (AD-11).
-- #8 PLAN, #9 SHOP, #10 COOK (need #2 done ✓ + #7).
-- #11 integration QA + demo readiness (needs #8–#10).
+- **#9 SHOP, #10 COOK** — ready to dispatch in parallel with #8 (separate `src/app` route groups).
+  Read `POST /api/plan` result / `planStore` snapshot; `#2` primitives (`ShoppingRow`, `CookStep`
+  shells exist). #9/#10 follow whatever patterns #8 establishes.
+- **#11 integration QA + demo readiness** (needs #8–#10). Independent QA agent, full journey +
+  scenario matrix, seed a demo scenario, verify deterministic reconciliation, README, perf.
+- After #8–#10: a **Visual Critic** sweep of the implemented UI (brief §17) + a Master browser pass.
 
 ## Deferred → issue #16
 
