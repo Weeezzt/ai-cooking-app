@@ -143,6 +143,7 @@ const BASE_REQUEST: MealRequest = {
   budgetSek: "150",
   portions: 4,
   maxDistanceKm: 5,
+  maxCookMinutes: 30,
   dietary: [{ id: "vegetarian", label: "Vegetarisk", safetyCritical: false }],
   pantry: [],
   vibe: "mysig pastakväll",

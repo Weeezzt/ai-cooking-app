@@ -321,6 +321,7 @@ export async function runPlanPipeline(
     dietary: interpreted.dietary,
     nutrition,
     estimatedCookMinutes: draft.estimatedCookMinutes,
+    maxCookMinutes: interpreted.maxCookMinutes,
     coverageImpossible: false,
     providerFailure: false,
   });

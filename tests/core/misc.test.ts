@@ -12,6 +12,7 @@ const GOOD_REQUEST: MealRequest = {
   budgetSek: "150",
   portions: 4,
   maxDistanceKm: 5,
+  maxCookMinutes: 30,
   dietary: [],
   pantry: [],
   vibe: "currygryta",

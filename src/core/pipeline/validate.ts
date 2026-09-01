@@ -34,6 +34,9 @@ export function validateRequest(request: MealRequest): InterpretedRequest {
   if (!Number.isFinite(request.maxDistanceKm) || request.maxDistanceKm <= 0) {
     issues.push("maxDistanceKm must be greater than 0");
   }
+  if (request.maxCookMinutes !== null && (!Number.isInteger(request.maxCookMinutes) || request.maxCookMinutes <= 0)) {
+    issues.push("maxCookMinutes must be a positive integer or null");
+  }
 
   const seenDietary = new Set<string>();
   for (const d of request.dietary) {
@@ -52,6 +55,7 @@ export function validateRequest(request: MealRequest): InterpretedRequest {
     budgetOre,
     portions: request.portions,
     maxDistanceKm: request.maxDistanceKm,
+    maxCookMinutes: request.maxCookMinutes,
     dietary: request.dietary,
     pantry: request.pantry,
     vibe: request.vibe,

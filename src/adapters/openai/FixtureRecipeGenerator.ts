@@ -4,7 +4,7 @@ import { DEMO_RECIPE } from "./demoRecipe";
 
 export class FixtureRecipeGenerator implements RecipeGenerator {
   async generate(input: RecipeGenerationInput, _options: PortCallOptions): Promise<RecipeDraft> {
-    const ids = input.options.map((option) => option.optionId);
+    const ids = [...new Map(input.options.map((option) => [option.concept, option.optionId])).values()].slice(-3);
     const [first, second = first, third = second] = ids;
     if (!first) return DEMO_RECIPE;
 

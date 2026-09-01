@@ -23,6 +23,7 @@ export interface EvaluateInput {
   readonly dietary: readonly DietaryConstraint[];
   readonly nutrition: NutritionBreakdown | null;
   readonly estimatedCookMinutes: number | null;
+  readonly maxCookMinutes: number | null;
   /** A verified check is provably failed by valid facts (AD-5). */
   readonly coverageImpossible: boolean;
   /** A provider/coverage failure blocked a verified check (AD-5). */
@@ -66,12 +67,15 @@ export function evaluateConstraints(input: EvaluateInput): ConstraintReport {
   });
 
   if (input.estimatedCookMinutes !== null) {
+    const withinPreference = input.maxCookMinutes === null || input.estimatedCookMinutes <= input.maxCookMinutes;
     checks.push({
       id: "cook_time",
       label: "Tillagningstid",
       evidence: evidenceClassFor("cook_time"),
-      status: "pass",
-      detail: `ca ${input.estimatedCookMinutes} min (uppskattning)`,
+      status: withinPreference ? "pass" : "unknown",
+      detail: input.maxCookMinutes === null
+        ? `ca ${input.estimatedCookMinutes} min (uppskattning)`
+        : `ca ${input.estimatedCookMinutes} min (önskemål max ${input.maxCookMinutes} min, uppskattning)`,
     });
   }
 
