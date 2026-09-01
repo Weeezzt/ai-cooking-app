@@ -45,3 +45,21 @@ _Short, proven conventions. Grows only when a real PR teaches us something. Full
 - PR body: what changed, which acceptance criteria it meets, validation run (paste output),
   design references for UI work.
 - Builders do not merge their own work or mark it approved.
+
+## Learned from PR reviews (#12–#18)
+
+- **No non-deterministic defaults.** Never `new Date()` / `Date.now()` / `Math.random()` as a
+  parameter default or inline in a mapper/adapter/engine path — take a `clock` or an explicit
+  timestamp arg. Non-deterministic defaults break parity tests and reproducibility. (#14, #17)
+- **Deterministic logic the pipeline consumes lives where the pipeline can reach it.** A filter /
+  normalizer / aggregation that `runPlanPipeline` depends on goes in `src/core`, or is surfaced
+  through a **port return type** (e.g. `ProductSearch → { products, rejections }`). Never ship it as
+  an adapter-only helper — `src/core` can't import `src/adapters`, so it becomes dead code. (#17)
+- **Variable-weight detection = `/_KG$/i` on the product id OR `/\bca\.?\b/i` on the name**, AND a
+  real per-kg/l `comparison` price. Primat sets `comparison.unit: "kg"` on *every* weight-priced
+  product — it is NOT a variable-weight signal. (#17)
+- **A fixture/demo result served in place of a live one must be badged** (`isDemoFallback: true` /
+  `isDemoData: true`). No silent unbadged substitution, ever. (#18, AD-6/AD-11)
+- **Cache the success, not the failure.** A memoized `verifyModels()`-style promise must clear
+  itself on rejection so a transient error doesn't poison the process. (#18)
+- Mode switches read `APP_MODE` / `DATA_SOURCE`, not raw key presence. (#18)
