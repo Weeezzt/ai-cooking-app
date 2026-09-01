@@ -1,7 +1,9 @@
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import { describe, expect, it } from "vitest";
+import { z } from "zod";
 
+import { AI_SCHEMAS } from "@/adapters/openai/schema";
 import { assertNoForbiddenKeys } from "./helpers/assertNoForbiddenKeys";
 
 const REPO_ROOT = resolve(__dirname, "..");
@@ -122,7 +124,14 @@ describe("src/ports is type-only", () => {
   });
 });
 
-describe("assertNoForbiddenKeys helper (AD-6, placeholder for issue #6)", () => {
+describe("assertNoForbiddenKeys helper (AD-6)", () => {
+  it.each(AI_SCHEMAS.map((schema, index) => [`AI schema ${index + 1}`, schema] as const))(
+    "%s contains no forbidden keys",
+    (_label, schema) => {
+      expect(() => assertNoForbiddenKeys(schema)).not.toThrow();
+    },
+  );
+
   it("passes for a schema with no forbidden keys", () => {
     expect(() =>
       assertNoForbiddenKeys({
@@ -137,5 +146,16 @@ describe("assertNoForbiddenKeys helper (AD-6, placeholder for issue #6)", () => 
     expect(() => assertNoForbiddenKeys({ requirements: [{ price: 1 }] })).toThrow(
       /forbidden key/i,
     );
+  });
+
+  it("walks real Zod and JSON Schema shapes", () => {
+    expect(() => assertNoForbiddenKeys(z.object({ nested: z.array(z.object({ price: z.number() })) }))).toThrow(
+      /price/i,
+    );
+    expect(() =>
+      assertNoForbiddenKeys({
+        $defs: { line: { type: "object", properties: { kcal: { type: "number" } } } },
+      }),
+    ).toThrow(/kcal/i);
   });
 });

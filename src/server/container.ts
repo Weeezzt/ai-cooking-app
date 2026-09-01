@@ -1,6 +1,18 @@
-import type { PriceSource, ProductSearch, StoreDiscovery } from "@/ports";
+import type { PriceSource, ProductSearch, RecipeGenerator, StoreDiscovery } from "@/ports";
 import { FixturePriceSource, FixtureProductSearch, FixtureStoreDiscovery } from "@/adapters/fixtures";
 import { PrimatClient, PrimatPriceSource, PrimatProductSearch, PrimatStoreDiscovery, PRIMAT_ATTRIBUTION } from "@/adapters/primat";
+import { FixtureRecipeGenerator } from "@/adapters/openai/FixtureRecipeGenerator";
+import { OpenAiRecipeGenerator } from "@/adapters/openai/OpenAiRecipeGenerator";
+import { RecipeService } from "@/adapters/openai/RecipeService";
+import { verifyModels } from "@/adapters/openai/models";
+
+// NOTE (#7): the plan pipeline wants one `createServerContainer()` that assembles
+// PipelineDeps { stores, products, prices, nutrition, recipes }. This file currently
+// exposes the data + recipe halves separately; #7 unifies them (and adds nutrition).
+
+// ---------------------------------------------------------------------------
+// Data providers (Primat live + badged fixture fallback) — from issue #4
+// ---------------------------------------------------------------------------
 
 export interface DataSourceStatus {
   readonly mode: "live" | "fixture"; readonly isDemoData: boolean; readonly usedFallback: boolean;
@@ -23,4 +35,34 @@ export function createDataContainer(mode: string | undefined = process.env.DATA_
     prices: { async quote(ids, store, options) { if (fixtureSession) return fixturePrices.quote(ids, store, options); try { return await livePrices.quote(ids, store, options); } catch { fixtureSession = true; fallback.add("prices"); return fixturePrices.quote(ids, store, options); } } },
     status,
   };
+}
+
+// ---------------------------------------------------------------------------
+// Recipe provider (OpenAI + badged demo fallback) — from issue #6
+// ---------------------------------------------------------------------------
+
+export interface RecipeContainer {
+  readonly recipes: RecipeGenerator;
+  readonly recipeService: RecipeService;
+  /** `true` when the recipe path is the fixture/demo generator (no live model). */
+  readonly isDemoRecipes: boolean;
+}
+
+/**
+ * Live recipes require BOTH `APP_MODE !== "demo"` and an `OPENAI_API_KEY`.
+ * Anything else uses the fixture generator, and its output is badged as demo
+ * data by `RecipeService` (AD-6: no silent unbadged fixture recipe).
+ */
+export async function createRecipeContainer(
+  appMode: string | undefined = process.env.APP_MODE,
+  apiKey: string | undefined = process.env.OPENAI_API_KEY,
+): Promise<RecipeContainer> {
+  const wantLive = appMode !== "demo" && Boolean(apiKey);
+  if (wantLive) {
+    await verifyModels();
+    const recipes = new OpenAiRecipeGenerator();
+    return { recipes, recipeService: new RecipeService(recipes, false), isDemoRecipes: false };
+  }
+  const recipes = new FixtureRecipeGenerator();
+  return { recipes, recipeService: new RecipeService(recipes, true), isDemoRecipes: true };
 }

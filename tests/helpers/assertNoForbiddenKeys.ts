@@ -2,10 +2,7 @@
  * Guard for the AI boundary (AD-6): no AI request/response schema may carry a key
  * that would leak a factual store value into the model call.
  *
- * TODO(issue #6): flesh this out to walk real schema shapes — zod schema `.shape`,
- * JSON Schema `properties`/`items`/`$defs`, `text.format` json_schema — not just a
- * plain nested object. For now it recursively scans plain object keys, which is
- * enough for a placeholder passing test.
+ * Walks Zod object/array/union shapes and JSON Schema properties/items/$defs.
  */
 
 /** From AD-6. Matched case-insensitively against each key. */
@@ -31,6 +28,12 @@ export const FORBIDDEN_KEYS: readonly string[] = [
   "lager",
 ];
 
+type UnknownRecord = Record<string, unknown>;
+
+function record(value: object): UnknownRecord {
+  return value as UnknownRecord;
+}
+
 function collectKeys(value: unknown, acc: Set<string>, seen: Set<object>): void {
   if (value === null || typeof value !== "object") return;
   if (seen.has(value)) return;
@@ -41,7 +44,41 @@ function collectKeys(value: unknown, acc: Set<string>, seen: Set<object>): void 
     return;
   }
 
-  for (const [key, child] of Object.entries(value)) {
+  const candidate = record(value);
+
+  // Zod v3/v4 expose object fields through `.shape` or `._def.shape`.
+  const directShape = candidate.shape;
+  const definition = candidate._def && typeof candidate._def === "object" ? record(candidate._def) : undefined;
+  const shapeSource = directShape ?? definition?.shape;
+  const shape = typeof shapeSource === "function" ? shapeSource() : shapeSource;
+  if (shape && typeof shape === "object" && !Array.isArray(shape)) {
+    for (const [key, child] of Object.entries(shape)) {
+      acc.add(key);
+      collectKeys(child, acc, seen);
+    }
+  }
+
+  // JSON Schema: property names are data keys; definitions are containers.
+  const properties = candidate.properties;
+  if (properties && typeof properties === "object" && !Array.isArray(properties)) {
+    for (const [key, child] of Object.entries(properties)) {
+      acc.add(key);
+      collectKeys(child, acc, seen);
+    }
+  }
+  for (const containerKey of ["items", "$defs", "definitions", "anyOf", "oneOf", "allOf"] as const) {
+    collectKeys(candidate[containerKey], acc, seen);
+  }
+
+  // Zod wrappers/arrays/unions keep nested schemas in their definitions.
+  if (definition) {
+    for (const key of ["innerType", "element", "type", "options", "in", "out"] as const) {
+      collectKeys(definition[key], acc, seen);
+    }
+  }
+
+  // Plain schema-like objects and definition maps may nest arbitrarily.
+  for (const [key, child] of Object.entries(candidate)) {
     acc.add(key);
     collectKeys(child, acc, seen);
   }
@@ -49,8 +86,7 @@ function collectKeys(value: unknown, acc: Set<string>, seen: Set<object>): void 
 
 /**
  * Throws if `schema` contains any forbidden key (case-insensitive, exact key
- * match — not substring, so `priceLabel` is currently allowed; issue #6 decides
- * whether to tighten that).
+ * match, as specified by AD-6.
  */
 export function assertNoForbiddenKeys(schema: unknown): void {
   const keys = new Set<string>();
