@@ -31,6 +31,7 @@ function product(over: Partial<Product> & Pick<Product, "id" | "concept">): Prod
     packageSize: 500,
     packageUnit: "g",
     comparison: { priceOre: ore(2000), unit: "st" },
+    section: "ÖVRIGT",
     categoryPath: ["ÖVRIGT"],
     dietaryTags: [],
     ...over,

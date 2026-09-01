@@ -38,6 +38,7 @@ function makeProduct(over: Partial<Product>): Product {
     packageSize: 500,
     packageUnit: "g",
     comparison: { priceOre: ore(2000), unit: "kg" },
+    section: "ÖVRIGT",
     categoryPath: ["ÖVRIGT"],
     dietaryTags: [],
     ...over,

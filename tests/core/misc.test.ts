@@ -91,6 +91,7 @@ describe("select edge cases", () => {
     packageSize: 500,
     packageUnit: "g",
     comparison: { priceOre: ore(2000), unit: "st" },
+    section: "ÖVRIGT",
     categoryPath: [],
     dietaryTags: [],
     ...over,
