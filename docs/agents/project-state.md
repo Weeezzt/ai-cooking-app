@@ -29,22 +29,23 @@ _Last updated: 2026-08-28 by Master (Sonnet)_
 | 3 | #14 | Deterministic engine (money öre, basket, nutrition agg, constraint taxonomy, over-budget repair, pipeline skeleton). 122 tests, ~99% line cov | Claude build → Codex review (5 blockers) → Codex rework → Claude re-review |
 | 2 | #15 | Design tokens + 12 UI primitives + `/styleguide`. Dark-only, mobile-first, zero-radius | Claude build → Codex review + Master browser pass |
 | 5 | #13 | Nutrition provider — OFF 30-GTIN snapshot + Livsmedelsverket 75-row table, `NutritionSource.lookup` | Codex build → Codex reconcile → Claude review |
+| 4 | #17 | Primat integration — live keyed + badged fixture fallback, deterministic candidate filter (`ProductSearch → {products, rejections}`), `Product.section`, category normalizer, `_KG`/"ca" variable-weight. 149 tests, live smoke green | Codex build → Claude review (2 blockers) → Codex rework → Master re-verify |
 
 ## Active work
 
-- **Issue #4 (Primat) — PR #17, in REWORK.** Codex build → Claude review = **rework** (2 blockers:
-  variable-weight over-detected on ~90% of packaged goods; candidate-filter + section-normalizer
-  shipped as dead code the pipeline can't reach). Master decided the seam: `ProductSearch.search()`
-  returns `{products, rejections}`, `Product` gains `section: StoreSection`, adapter owns the filter.
-  Codex reworking on `4-primat-data`. Re-review by Claude.
-- **Issue #6 (OpenAI recipe service) — Codex builder in flight**, worktree `issue-6`. Verifying live
-  model IDs for Responses API + strict structured output; `assertNoForbiddenKeys` over schemas;
-  demo-recipe fallback.
+- **Issue #6 (OpenAI recipe service) — PR #18 open.** Codex build (interrupted at finish; Master
+  live-verified with real key: `verifyModels → {gpt-4.1, gpt-5.4}`, generated a valid Swedish
+  recipe referencing only supplied option handles) + committed + PR'd. Claude cross-family review
+  in flight. **Merge note:** its `src/server/container.ts` (`createServerContainer`, recipe-only)
+  collides with #4's `createDataContainer` on main — reconcile into one at merge, #7 unifies.
 
 ## Not started
 
-- #7 pipeline orchestration + API route + client persistence (needs #4, #6 merged; #3, #5 done).
-  **#7 must consume the new `ProductSearchResult` + `Product.section` from the #4 rework.**
+- **#7 pipeline orchestration + API route + client persistence** — unblocked once #6 (PR #18) merges.
+  Must: consume `ProductSearchResult` + `Product.section`; write ONE `createServerContainer` that
+  builds `PipelineDeps {stores, products, prices, nutrition, recipes}` (merging #4's
+  `createDataContainer` + #6's recipe wiring + the nutrition adapter); wire the route handler;
+  client-side plan persistence (AD-8); the degradation state machine (AD-11).
 - #8 PLAN, #9 SHOP, #10 COOK (need #2 done ✓ + #7).
 - #11 integration QA + demo readiness (needs #8–#10).
 
