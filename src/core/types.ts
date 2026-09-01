@@ -24,6 +24,8 @@ export type PlanOutcome = "ok" | "over_budget" | "infeasible" | "unknown";
 /** Store tier — only `full` stores can carry a full-basket claim (AD-3 step 3). */
 export type StoreTier = "full" | "offers_only" | "register_only";
 
+export type StoreSection = "FRUKT & GRÖNT" | "KÖTT & PROTEIN" | "MEJERI" | "TORRVAROR" | "KRYDDOR" | "ÖVRIGT";
+
 // ---------------------------------------------------------------------------
 // Request
 // ---------------------------------------------------------------------------
@@ -109,6 +111,7 @@ export interface Product {
   readonly packageSize: number;
   readonly packageUnit: CanonicalUnit;
   readonly comparison: ComparisonUnitPrice;
+  readonly section: StoreSection;
   /** Retailer category path, coarse → fine. Used by the candidate filter. */
   readonly categoryPath: readonly string[];
   /** Dietary assertions with known provenance (e.g. `["vegetarian"]`). */

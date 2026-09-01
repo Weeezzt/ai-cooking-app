@@ -9,6 +9,7 @@ import type {
   PortCallOptions,
   PriceQuote,
   ProductSearchQuery,
+  ProductSearchResult,
   RecipeDraft,
   RecipeGenerationInput,
   StoreDiscoveryResult,
@@ -35,6 +36,7 @@ function p(over: Partial<Product> & Pick<Product, "id" | "concept">): Product {
     packageSize: 500,
     packageUnit: "g",
     comparison: { priceOre: ore(2000), unit: "st" },
+    section: "TORRVAROR",
     categoryPath: ["TORRVAROR"],
     dietaryTags: [],
     ...over,
@@ -91,8 +93,8 @@ function makeDeps(overrides: Partial<PipelineDeps> = {}): PipelineDeps {
       },
     },
     products: {
-      async search(query: ProductSearchQuery): Promise<readonly Product[]> {
-        return CATALOG.get(query.concept) ?? [];
+      async search(query: ProductSearchQuery): Promise<ProductSearchResult> {
+        return { products: CATALOG.get(query.concept) ?? [], rejections: [] };
       },
     },
     prices: {
@@ -264,9 +266,9 @@ describe("runPlanPipeline — infeasible", () => {
   it("core-concept coverage impossible → infeasible", async () => {
     const deps = makeDeps({
       products: {
-        async search(query: ProductSearchQuery): Promise<readonly Product[]> {
-          if (query.concept === "pasta") return [];
-          return CATALOG.get(query.concept) ?? [];
+        async search(query: ProductSearchQuery): Promise<ProductSearchResult> {
+          if (query.concept === "pasta") return { products: [], rejections: [] };
+          return { products: CATALOG.get(query.concept) ?? [], rejections: [] };
         },
       },
     });
@@ -319,7 +321,7 @@ describe("runPlanPipeline — validation", () => {
   });
 
   it("turns a provider exception into unknown", async () => {
-    const deps = makeDeps({ products: { async search(): Promise<readonly Product[]> { throw new Error("offline"); } } });
+    const deps = makeDeps({ products: { async search(): Promise<ProductSearchResult> { throw new Error("offline"); } } });
     await expect(runPlanPipeline(BASE_REQUEST, deps, ctx())).resolves.toMatchObject({ outcome: "unknown", reason: "product_search_failed" });
   });
 
@@ -340,9 +342,10 @@ describe("runPlanPipeline — validation", () => {
   });
 
   it("records deterministic candidate rejection reasons", async () => {
-    const deps = makeDeps({ products: { async search(query): Promise<readonly Product[]> { const valid = CATALOG.get(query.concept) ?? []; return [...valid, p({ id: `bad-${query.concept}`, concept: query.concept, priceOre: ore(0) })]; } } });
+    const deps = makeDeps({ products: { async search(query): Promise<ProductSearchResult> { const valid = CATALOG.get(query.concept) ?? []; return { products: [...valid, p({ id: `bad-${query.concept}`, concept: query.concept, priceOre: ore(0) })], rejections: [{ storeKey: `${query.store.chain}:${query.store.storeId}`, concept: query.concept, productId: `adapter-${query.concept}`, reason: "concept_mismatch" }] }; } } });
     const result = await runPlanPipeline(BASE_REQUEST, deps, ctx());
     expect(result.candidateRejections).toContainEqual(expect.objectContaining({ productId: "bad-pasta", reason: "invalid_price" }));
+    expect(result.candidateRejections).toContainEqual(expect.objectContaining({ productId: "adapter-pasta", reason: "concept_mismatch" }));
   });
 });
 

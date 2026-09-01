@@ -1,1 +1,1 @@
-export type { ProductSearch, ProductSearchQuery, PortCallOptions } from "./index";
+export type { ProductSearch, ProductSearchQuery, ProductSearchResult, PortCallOptions } from "./index";

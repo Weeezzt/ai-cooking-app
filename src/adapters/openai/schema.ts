@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const RecipeInputProjectionSchema = z
   .object({
-    portions: z.number().int().positive(),
+    portions: z.number().int().positive().finite(),
     vibe: z.string(),
     dietary: z.array(z.string()),
     options: z.array(
@@ -25,9 +25,9 @@ const RequirementRoleSchema = z.enum(["core", "supporting", "optional_garnish"])
 export const RecipeRequirementDraftSchema = z
   .object({
     optionId: z.string().min(1),
-    requiredGrams: z.number().positive().nullable(),
-    requiredMl: z.number().positive().nullable(),
-    requiredCount: z.number().positive().nullable(),
+    requiredGrams: z.number().finite().positive().nullable(),
+    requiredMl: z.number().finite().positive().nullable(),
+    requiredCount: z.number().finite().positive().nullable(),
     role: RequirementRoleSchema,
   })
   .strict();
@@ -35,7 +35,7 @@ export const RecipeRequirementDraftSchema = z
 export const RecipeStepDraftSchema = z
   .object({
     text: z.string().min(1),
-    durationSeconds: z.number().int().positive(),
+    durationSeconds: z.number().int().positive().finite(),
     optionRefs: z.array(z.string().min(1)).min(1),
   })
   .strict();
@@ -43,10 +43,10 @@ export const RecipeStepDraftSchema = z
 export const RecipeDraftSchema = z
   .object({
     title: z.string().min(1),
-    portions: z.number().int().positive(),
+    portions: z.number().int().positive().finite(),
     requirements: z.array(RecipeRequirementDraftSchema).min(1),
     steps: z.array(RecipeStepDraftSchema).min(1),
-    estimatedCookMinutes: z.number().int().positive(),
+    estimatedCookMinutes: z.number().int().positive().finite(),
     explanation: z.string().min(1),
   })
   .strict();

@@ -37,7 +37,12 @@ async function supportsStructuredResponses(model: string): Promise<boolean> {
       },
       max_output_tokens: 256,
     }, { timeout: 15_000 });
-    return response.status === "completed" && response.output_text.includes('"ok":true');
+    if (response.status !== "completed") return false;
+    try {
+      return (JSON.parse(response.output_text.trim()) as { ok?: unknown }).ok === true;
+    } catch {
+      return false;
+    }
   } catch {
     return false;
   }
@@ -62,18 +67,21 @@ async function resolvePair(
 
 export function verifyModels(): Promise<VerifiedModels> {
   verified ??= (async () => {
-    const recipeCandidates = candidates(process.env.OPENAI_RECIPE_MODELS, MODEL_DEFAULTS.recipeCandidates);
-    const available = new Set((await getOpenAiClient().models.list()).data.map((model) => model.id));
-    const probeCandidates = recipeCandidates.filter((model) => available.has(model));
-    const probeResults = await Promise.all(
-      probeCandidates.map(async (model) => [model, await supportsStructuredResponses(model)] as const),
-    );
-    const support = new Map(probeResults);
-    const recipe = await resolvePair("recipe", recipeCandidates, available, support);
-    return {
-      recipe: recipe[0],
-      recipeFallback: recipe[1],
-    };
+    try {
+      const recipeCandidates = candidates(process.env.OPENAI_RECIPE_MODELS, MODEL_DEFAULTS.recipeCandidates);
+      const available = new Set((await getOpenAiClient().models.list()).data.map((model) => model.id));
+      const probeCandidates = recipeCandidates.filter((model) => available.has(model));
+      const probeResults = await Promise.all(
+        probeCandidates.map(async (model) => [model, await supportsStructuredResponses(model)] as const),
+      );
+      const support = new Map(probeResults);
+      const recipe = await resolvePair("recipe", recipeCandidates, available, support);
+      return { recipe: recipe[0], recipeFallback: recipe[1] };
+    } catch (error) {
+      // Don't poison the process: a transient failure must not cache a rejected promise.
+      verified = undefined;
+      throw error;
+    }
   })();
   return verified;
 }

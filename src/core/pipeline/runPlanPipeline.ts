@@ -180,7 +180,8 @@ export async function runPlanPipeline(
       { const past = guard(); if (past) return past; }
       let found; try { found = await deps.products.search({ concept, store, limit: RESULTS_PER_CONCEPT }, port); } catch { return terminal("unknown", "product_search_failed"); }
       { const past = guard(); if (past) return past; }
-      byConcept.set(concept, filterCandidates(concept, found, store, candidateRejections));
+      candidateRejections.push(...found.rejections);
+      byConcept.set(concept, filterCandidates(concept, found.products, store, candidateRejections));
     }
     storeCandidates.push({ store, candidatesByConcept: byConcept });
   }

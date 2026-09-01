@@ -14,6 +14,8 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "fixtures:record-primat": "node src/fixtures/scripts/record-primat.mjs && tsx src/fixtures/scripts/map-primat.mts",
+    "fixtures:map-primat": "tsx src/fixtures/scripts/map-primat.mts",
     "fixtures:capture-off": "node src/fixtures/scripts/capture-off-nutrition.mjs"
   },
   "dependencies": {
@@ -33,6 +35,7 @@
     "eslint-config-next": "16.3.3",
     "tailwindcss": "4.3.3",
     "typescript": "5.9.3",
+    "tsx": "4.20.5",
     "vitest": "2.1.9"
   }
 }
