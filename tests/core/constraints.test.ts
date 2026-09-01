@@ -211,6 +211,7 @@ describe("evaluate + aggregate outcome (AD-5)", () => {
       dietary: [{ id: "nut_allergy", label: "Nötallergi", safetyCritical: true }],
       nutrition: null,
       estimatedCookMinutes: 35,
+      maxCookMinutes: 30,
       coverageImpossible: false,
       providerFailure: false,
     });
@@ -220,6 +221,7 @@ describe("evaluate + aggregate outcome (AD-5)", () => {
     expect(byId["dietary:nut_allergy"].status).toBe("disclaimer");
     expect(byId["dietary:nut_allergy"].evidence).toBe("unsupported");
     expect(byId.cook_time.evidence).toBe("estimated");
+    expect(byId.cook_time.status).toBe("unknown");
   });
 
   it("aggregates outcomes per AD-5", () => {

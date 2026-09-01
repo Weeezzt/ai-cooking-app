@@ -27,6 +27,7 @@ export class OpenAiRecipeGenerator implements RecipeGenerator {
     let validationIssues = [...(input.validationIssues ?? [])];
 
     for (let attempt = 0; attempt < 2; attempt += 1) {
+      if (attempt > 0 && options.deadlineAt - options.clock.now() < 10_000) break;
       try {
         const response = await getOpenAiClient().responses.parse(
           {

@@ -54,6 +54,8 @@ export interface MealRequest {
   readonly portions: number;
   /** Max walking/travel distance in km. */
   readonly maxDistanceKm: number;
+  /** Optional estimated cooking-time preference in minutes. */
+  readonly maxCookMinutes: number | null;
   readonly dietary: readonly DietaryConstraint[];
   readonly pantry: readonly PantryClaim[];
   /** Free-text "vibe". Never logged, never fixtured (AD-10). */
@@ -65,6 +67,7 @@ export interface InterpretedRequest {
   readonly budgetOre: Ore;
   readonly portions: number;
   readonly maxDistanceKm: number;
+  readonly maxCookMinutes: number | null;
   readonly dietary: readonly DietaryConstraint[];
   readonly pantry: readonly PantryClaim[];
   readonly vibe: string;

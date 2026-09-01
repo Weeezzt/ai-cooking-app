@@ -38,6 +38,27 @@ import { validateRequest } from "./validate";
 const PROXY_GRAMS = 200;
 const RESULTS_PER_CONCEPT = 5;
 const MAX_STORES = 3;
+const MAX_PRODUCT_CONCURRENCY = 6;
+const DEFAULT_STAGE_BUDGETS = { storeResolveMs: 4_000, productSearchMs: 8_000, recipeMs: 18_000, nutritionMs: 2_000 } as const;
+const MIN_REPAIR_REMAINING_MS = 10_000;
+
+function stagePort(ctx: PipelineContext, budget: keyof typeof DEFAULT_STAGE_BUDGETS): PortCallOptions {
+  const duration = ctx.stageBudgets?.[budget] ?? DEFAULT_STAGE_BUDGETS[budget];
+  return { clock: ctx.clock, deadlineAt: Math.min(ctx.deadlineAt, ctx.clock.now() + duration) };
+}
+
+async function mapWithConcurrency<T, R>(items: readonly T[], concurrency: number, work: (item: T) => Promise<R>): Promise<R[]> {
+  const results = new Array<R>(items.length);
+  let next = 0;
+  async function worker(): Promise<void> {
+    while (next < items.length) {
+      const index = next++;
+      results[index] = await work(items[index]);
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(concurrency, items.length) }, () => worker()));
+  return results;
+}
 
 function terminal(
   outcome: Extract<PlanOutcome, "infeasible" | "unknown">,
@@ -144,7 +165,6 @@ export async function runPlanPipeline(
   ctx: PipelineContext,
 ): Promise<PlanResult> {
   const interpreted = validateRequest(request);
-  const port: PortCallOptions = { deadlineAt: ctx.deadlineAt, clock: ctx.clock };
   const nowIso = ctx.clock.nowIso();
   const candidateRejections: CandidateRejection[] = [];
 
@@ -157,7 +177,7 @@ export async function runPlanPipeline(
     if (past) return past;
   }
   let discovery;
-  try { discovery = await deps.stores.resolve(request.location, port); } catch { return terminal("unknown", "store_discovery_failed"); }
+  try { discovery = await deps.stores.resolve(request.location, stagePort(ctx, "storeResolveMs")); } catch { return terminal("unknown", "store_discovery_failed"); }
   { const past = guard(); if (past) return past; }
   const shortlisted = shortlistStores(discovery.stores, interpreted.maxDistanceKm);
   if (shortlisted.length === 0) {
@@ -173,18 +193,23 @@ export async function runPlanPipeline(
     const past = guard();
     if (past) return past;
   }
-  const storeCandidates: StoreCandidates[] = [];
-  for (const store of shortlisted) {
+  const productPort = stagePort(ctx, "productSearchMs");
+  const pairs = shortlisted.flatMap((store) => derived.map(({ concept }) => ({ store, concept })));
+  let searches;
+  try {
+    searches = await mapWithConcurrency(pairs, MAX_PRODUCT_CONCURRENCY, async ({ store, concept }) => ({
+      store, concept, found: await deps.products.search({ concept, store, limit: RESULTS_PER_CONCEPT }, productPort),
+    }));
+  } catch { return terminal("unknown", "product_search_failed"); }
+  { const past = guard(); if (past) return past; }
+  const storeCandidates: StoreCandidates[] = shortlisted.map((store) => {
     const byConcept = new Map<string, readonly Product[]>();
-    for (const { concept } of derived) {
-      { const past = guard(); if (past) return past; }
-      let found; try { found = await deps.products.search({ concept, store, limit: RESULTS_PER_CONCEPT }, port); } catch { return terminal("unknown", "product_search_failed"); }
-      { const past = guard(); if (past) return past; }
+    for (const { concept, found } of searches.filter((entry) => storeKey(entry.store) === storeKey(store))) {
       candidateRejections.push(...found.rejections);
       byConcept.set(concept, filterCandidates(concept, found.products, store, candidateRejections));
     }
-    storeCandidates.push({ store, candidatesByConcept: byConcept });
-  }
+    return { store, candidatesByConcept: byConcept };
+  });
 
   // --- core coverage feasibility (AD-11) ---------------------------
   const impossibleCore = coreConcepts.filter(
@@ -232,7 +257,9 @@ export async function runPlanPipeline(
   }
   let validated: ReturnType<typeof validateDraft> | null = null;
   let invalid: RecipeInvalid | null = null;
+  const recipePort = stagePort(ctx, "recipeMs");
   for (let attempt = 0; attempt < 2; attempt += 1) {
+    if (attempt > 0 && recipePort.deadlineAt - ctx.clock.now() < MIN_REPAIR_REMAINING_MS) break;
     let draft: RecipeDraft;
     try { draft = await deps.recipes.generate(
       {
@@ -240,14 +267,21 @@ export async function runPlanPipeline(
         vibe: interpreted.vibe,
         dietary: interpreted.dietary.map((d) => d.id),
         options: handles,
+        nonce: ctx.nonce,
         validationIssues: attempt === 0 ? undefined : invalid?.issues,
       },
-      port,
+      recipePort,
     ); } catch { return terminal("unknown", "recipe_generation_failed"); }
     { const past = guard(); if (past) return past; }
     try { validated = validateDraft(draft, interpreted.portions, optionMap, coreConcepts); break; } catch (error) { invalid = error as RecipeInvalid; }
   }
-  if (!validated) return terminal(invalid?.coreCoverageImpossible ? "infeasible" : "unknown", `recipe_invalid:${invalid?.issues.join(",") ?? "unknown"}`);
+  if (!validated && invalid?.coreCoverageImpossible) return terminal("infeasible", `recipe_invalid:${invalid.issues.join(",")}`);
+  if (!validated) {
+    try {
+      const fallback = await deps.recipes.generate({ portions: interpreted.portions, vibe: interpreted.vibe, dietary: interpreted.dietary.map((d) => d.id), options: handles, nonce: ctx.nonce, demoFallbackOnly: true }, recipePort);
+      validated = validateDraft(fallback, interpreted.portions, optionMap, coreConcepts);
+    } catch { return terminal("unknown", `recipe_invalid:${invalid?.issues.join(",") ?? "unknown"}`); }
+  }
   const draft = validated.draft;
 
   // --- 10. Resolve purchase quantities -------------------------
@@ -283,7 +317,7 @@ export async function runPlanPipeline(
   }
   let facts; try { facts = await deps.nutrition.lookup(
     requirements.map((r) => ({ concept: r.concept })),
-    port,
+    stagePort(ctx, "nutritionMs"),
   ); } catch { return terminal("unknown", "nutrition_lookup_failed"); }
   { const past = guard(); if (past) return past; }
   const per100gByConcept = new Map(facts.map((f) => [f.concept, f.per100g]));
@@ -321,6 +355,7 @@ export async function runPlanPipeline(
     dietary: interpreted.dietary,
     nutrition,
     estimatedCookMinutes: draft.estimatedCookMinutes,
+    maxCookMinutes: interpreted.maxCookMinutes,
     coverageImpossible: false,
     providerFailure: false,
   });

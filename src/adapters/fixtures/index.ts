@@ -7,6 +7,7 @@ import { PRIMAT_ATTRIBUTION } from "@/adapters/primat/client";
 
 interface ProductRow { readonly storeKey: string; readonly product: Product; readonly confirmedAt: string }
 const fixtureProducts = productsFixture as unknown as Record<string, readonly ProductRow[]>;
+const conceptAliases: Readonly<Record<string, string>> = {};
 function ensureDeadline(options: { deadlineAt:number; clock:{ now():number } }) { if (options.clock.now() >= options.deadlineAt) throw new Error("Fixture provider deadline exceeded"); }
 
 export class FixtureStoreDiscovery implements StoreDiscovery {
@@ -16,8 +17,8 @@ export class FixtureStoreDiscovery implements StoreDiscovery {
 }
 export class FixtureProductSearch implements ProductSearch {
   async search(query: Parameters<ProductSearch["search"]>[0], options: Parameters<ProductSearch["search"]>[1]) {
-    ensureDeadline(options); const key = `${query.store.chain}:${query.store.storeId}`;
-    return { products: (fixtureProducts[query.concept.toLocaleLowerCase("sv-SE")] ?? []).filter((row) => row.storeKey === key).map((row) => row.product).slice(0, query.limit), rejections: [], attribution: PRIMAT_ATTRIBUTION };
+    ensureDeadline(options); const key = `${query.store.chain}:${query.store.storeId}`; const requested = query.concept.toLocaleLowerCase("sv-SE"); const fixtureKey = conceptAliases[requested] ?? requested;
+    return { products: (fixtureProducts[fixtureKey] ?? []).filter((row) => row.storeKey === key).map((row) => ({ ...row.product, concept: query.concept })).slice(0, query.limit), rejections: [], attribution: PRIMAT_ATTRIBUTION };
   }
 }
 export class FixturePriceSource implements PriceSource {

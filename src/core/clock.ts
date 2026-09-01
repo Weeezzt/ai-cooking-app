@@ -35,6 +35,8 @@ export interface PipelineContext {
   readonly clock: Clock;
   /** Absolute epoch-ms deadline. Retries share it; it is never reset (AD-3). */
   readonly deadlineAt: number;
+  readonly stageBudgets?: Partial<{ readonly storeResolveMs: number; readonly productSearchMs: number; readonly recipeMs: number; readonly nutritionMs: number }>;
+  readonly nonce?: number;
 }
 
 /** `true` once the shared deadline has passed. */

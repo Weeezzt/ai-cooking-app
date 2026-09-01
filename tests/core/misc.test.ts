@@ -12,6 +12,7 @@ const GOOD_REQUEST: MealRequest = {
   budgetSek: "150",
   portions: 4,
   maxDistanceKm: 5,
+  maxCookMinutes: 30,
   dietary: [],
   pantry: [],
   vibe: "currygryta",
@@ -62,6 +63,12 @@ describe("deriveConcepts", () => {
     expect(deriveConcepts({ vibe: "taco kväll", dietary: [] })).toEqual(
       deriveConcepts({ vibe: "taco kväll", dietary: [] }),
     );
+  });
+  it("uses at most two coarse core concepts and respects plant diets", () => {
+    const vegan = deriveConcepts({ vibe: "fisk och potatis", dietary: [{ id: "vegan", label: "Vegansk", safetyCritical: false }] });
+    expect(vegan.filter((concept) => concept.role === "core")).toEqual([
+      { concept: "kikärtor", role: "core" }, { concept: "potatis", role: "core" },
+    ]);
   });
 });
 

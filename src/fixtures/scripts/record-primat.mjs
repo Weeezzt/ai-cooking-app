@@ -5,7 +5,8 @@ const root = resolve(import.meta.dirname, "../../..");
 const rawDir = resolve(root, "src/fixtures/raw");
 const headers = { Accept: "application/json" };
 const base = "https://primat.nu/api/v3/demo/";
-const concepts = ["banan", "lime", "kyckling", "ris", "pasta", "kokosmjölk", "tomat", "lök", "vitlök", "grädde", "ägg", "paprika", "morot"];
+// Complete coarse vocabulary emitted by deriveConcepts (plus plant-protein variants).
+const concepts = ["kyckling", "nötfärs", "nötkött", "lax", "kikärtor", "röda linser", "halloumi", "tofu", "ägg", "pasta", "ris", "potatis", "nudlar", "tortillabröd", "krossade tomater", "kokosmjölk", "grädde", "crème fraiche", "ost", "riven ost", "fetaost", "currypasta", "sojasås", "buljong", "morot", "paprika", "spenat", "sallad", "körsbärstomat", "gurka", "purjolök", "majs", "citron", "dill", "gul lök", "vitlök", "olivolja", "salt", "svartpeppar"];
 const stores = "coop:232400,willys:2276,ica:1003828";
 
 async function get(path) {

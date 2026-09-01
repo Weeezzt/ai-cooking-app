@@ -1,12 +1,4 @@
-/**
- * Deterministic vibe → search-concept mapping (AD-3 step 4).
- *
- * Concepts are generic culinary archetypes ("kokosmjölk", "kycklinglårfilé"),
- * never SKUs. A small timed AI intent call is *allowed* by AD-3 but only if an
- * eval shows it improves Swedish recall — the engine ships with this pure map and
- * the pipeline works entirely without it.
- */
-
+/** Deterministic request → coarse grocery-search archetypes (AD-3 step 4). */
 import type { MealRequest, RequirementRole } from "../types";
 
 export interface DerivedConcept {
@@ -14,55 +6,35 @@ export interface DerivedConcept {
   readonly role: RequirementRole;
 }
 
-/** Always present — pantry staples, classified `supporting`. */
-const BASE: readonly DerivedConcept[] = [
-  { concept: "olivolja", role: "supporting" },
-  { concept: "salt", role: "supporting" },
-  { concept: "svartpeppar", role: "supporting" },
-  { concept: "gul lök", role: "supporting" },
-  { concept: "vitlök", role: "supporting" },
+const BASE = ["olivolja", "salt", "svartpeppar", "gul lök", "vitlök"] as const;
+interface ArchetypeSet { readonly pattern: RegExp; readonly core: readonly [string, string]; readonly supporting: readonly string[] }
+const ARCHETYPES: readonly ArchetypeSet[] = [
+  { pattern: /curry|indisk|tikka|masala/i, core: ["kyckling", "ris"], supporting: ["kokosmjölk", "currypasta", "spenat"] },
+  { pattern: /pasta|spaghetti|bolognese|carbonara/i, core: ["nötfärs", "pasta"], supporting: ["krossade tomater", "ost", "gul lök"] },
+  { pattern: /taco|tex[- ]?mex|burrito/i, core: ["nötfärs", "tortillabröd"], supporting: ["riven ost", "paprika", "majs"] },
+  { pattern: /gryta|stew|mysig|comfort|höst/i, core: ["nötkött", "potatis"], supporting: ["morot", "buljong", "gul lök"] },
+  { pattern: /sallad|fräsch|lätt|somrig/i, core: ["kyckling", "sallad"], supporting: ["körsbärstomat", "fetaost", "gurka"] },
+  { pattern: /fisk|lax|torsk|skaldjur/i, core: ["lax", "potatis"], supporting: ["citron", "crème fraiche", "dill"] },
+  { pattern: /soppa|soup/i, core: ["morot", "potatis"], supporting: ["buljong", "grädde", "gul lök"] },
+  { pattern: /wok|asiatisk|thai|nudlar/i, core: ["kyckling", "nudlar"], supporting: ["sojasås", "paprika", "purjolök"] },
 ];
+const FALLBACK: ArchetypeSet = { pattern: /(?:)/, core: ["kyckling", "ris"], supporting: ["krossade tomater", "gul lök", "grädde"] };
 
-/** Keyword → additional concepts (all `core`). First match order is stable. */
-const KEYWORD_CONCEPTS: readonly (readonly [RegExp, readonly string[]])[] = [
-  [/curry|currygryta|indisk|tikka|masala/i, ["kycklinglårfilé", "kokosmjölk", "currypasta", "jasminris"]],
-  [/pasta|spaghetti|bolognese|carbonara/i, ["pasta", "krossade tomater", "riven parmesan", "färsk basilika"]],
-  [/taco|tacos|tex[- ]?mex|burrito/i, ["tortilla", "nötfärs", "tacokrydda", "riven ost"]],
-  [/gryta|stew|höst|mysig|comfort/i, ["högrev", "rotfrukter", "buljong", "potatis"]],
-  [/sallad|fräsch|lätt|somrig/i, ["bladsallad", "körsbärstomat", "fetaost", "gurka"]],
-  [/fisk|lax|torsk|skaldjur/i, ["laxfilé", "citron", "dill", "kokt potatis"]],
-  [/vegetarisk|vegansk|grön|linser|bönor/i, ["röda linser", "kokosmjölk", "spenat", "basmatiris"]],
-  [/soppa|soup/i, ["morot", "buljong", "grädde", "bröd"]],
-];
+function dietKind(request: Pick<MealRequest, "dietary">): "vegan" | "vegetarian" | null {
+  const labels = request.dietary.map(({ id, label }) => `${id} ${label}`).join(" ");
+  if (/vegan|vegansk/i.test(labels)) return "vegan";
+  return /vegetarian|vegetarisk|lakto|ovo/i.test(labels) ? "vegetarian" : null;
+}
 
-const FALLBACK: readonly string[] = ["kycklingfilé", "krossade tomater", "ris", "grädde"];
-
-/**
- * 6–8 concepts, deterministic for a given request. Order: base staples, then
- * keyword-matched concepts in table order, de-duplicated, capped at 8.
- */
+/** At most two core slots: a main/protein and a carb/base. */
 export function deriveConcepts(request: Pick<MealRequest, "vibe" | "dietary">): DerivedConcept[] {
-  const out: DerivedConcept[] = [...BASE];
-  const seen = new Set(out.map((c) => c.concept));
-
-  const add = (concept: string, role: RequirementRole): void => {
-    if (!seen.has(concept)) {
-      seen.add(concept);
-      out.push({ concept, role });
-    }
-  };
-
-  const haystack = `${request.vibe} ${request.dietary.map((d) => d.label).join(" ")}`;
-  let matched = false;
-  for (const [pattern, concepts] of KEYWORD_CONCEPTS) {
-    if (pattern.test(haystack)) {
-      matched = true;
-      for (const concept of concepts) add(concept, "core");
-    }
-  }
-  if (!matched) {
-    for (const concept of FALLBACK) add(concept, "core");
-  }
-
-  return out.slice(0, 8);
+  const selected = ARCHETYPES.find(({ pattern }) => pattern.test(request.vibe)) ?? FALLBACK;
+  const diet = dietKind(request);
+  const main = diet === "vegan" ? "kikärtor" : diet === "vegetarian" ? "halloumi" : selected.core[0];
+  const ordered: DerivedConcept[] = [
+    { concept: main, role: "core" }, { concept: selected.core[1], role: "core" },
+    ...selected.supporting.map((concept) => ({ concept, role: "supporting" as const })),
+    ...BASE.map((concept) => ({ concept, role: "supporting" as const })),
+  ];
+  return ordered.filter((item, index) => ordered.findIndex(({ concept }) => concept === item.concept) === index).slice(0, 8);
 }

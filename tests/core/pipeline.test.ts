@@ -48,7 +48,7 @@ const CATALOG: Map<string, Product[]> = new Map([
   ["salt", [p({ id: "salt-500", concept: "salt", packageSize: 500, priceOre: ore(900) })]],
   ["svartpeppar", [p({ id: "svartpeppar-50", concept: "svartpeppar", packageSize: 50, priceOre: ore(2500) })]],
   ["gul lök", [p({ id: "gul-lok_KG", concept: "gul lök", comparison: { priceOre: ore(1990), unit: "kg" }, packageSize: 1000 })]],
-  ["vitlök", [p({ id: "vitlok-100", concept: "vitlök", packageSize: 100, priceOre: ore(1500) })]],
+  ["ost", [p({ id: "ost-100", concept: "ost", packageSize: 100, priceOre: ore(1500) })]],
   [
     "pasta",
     [
@@ -57,7 +57,7 @@ const CATALOG: Map<string, Product[]> = new Map([
     ],
   ],
   ["krossade tomater", [p({ id: "tomat-400", concept: "krossade tomater", packageSize: 400, priceOre: ore(1290) })]],
-  ["riven parmesan", [p({ id: "parmesan_KG", concept: "riven parmesan", comparison: { priceOre: ore(9900), unit: "kg" }, packageSize: 1000 })]],
+  ["halloumi", [p({ id: "halloumi_KG", concept: "halloumi", comparison: { priceOre: ore(9900), unit: "kg" }, packageSize: 1000 })]],
 ]);
 
 const NUTRITION: Map<string, NutrientVector> = new Map([
@@ -65,10 +65,10 @@ const NUTRITION: Map<string, NutrientVector> = new Map([
   ["salt", { kcal: 0, proteinG: 0, carbsG: 0, fatG: 0 }],
   ["svartpeppar", { kcal: 251, proteinG: 10, carbsG: 64, fatG: 3.3 }],
   ["gul lök", { kcal: 40, proteinG: 1.1, carbsG: 9.3, fatG: 0.1 }],
-  ["vitlök", { kcal: 149, proteinG: 6.4, carbsG: 33, fatG: 0.5 }],
+  ["ost", { kcal: 149, proteinG: 6.4, carbsG: 33, fatG: 0.5 }],
   ["pasta", { kcal: 371, proteinG: 13, carbsG: 75, fatG: 1.5 }],
   ["krossade tomater", { kcal: 32, proteinG: 1.6, carbsG: 6, fatG: 0.3 }],
-  ["riven parmesan", { kcal: 431, proteinG: 38, carbsG: 4, fatG: 29 }],
+  ["halloumi", { kcal: 431, proteinG: 38, carbsG: 4, fatG: 29 }],
 ]);
 
 const RECIPE_PLAN: { concept: string; hint: string; grams: number; role: "core" | "supporting" }[] = [
@@ -76,10 +76,10 @@ const RECIPE_PLAN: { concept: string; hint: string; grams: number; role: "core" 
   { concept: "salt", hint: "salt", grams: 5, role: "supporting" },
   { concept: "svartpeppar", hint: "svartpeppar", grams: 3, role: "supporting" },
   { concept: "gul lök", hint: "gul-lok_KG", grams: 500, role: "supporting" },
-  { concept: "vitlök", hint: "vitlok", grams: 8, role: "supporting" },
+  { concept: "ost", hint: "ost-100", grams: 8, role: "supporting" },
   { concept: "pasta", hint: "pasta-700", grams: 500, role: "core" },
   { concept: "krossade tomater", hint: "tomat-400", grams: 380, role: "core" },
-  { concept: "riven parmesan", hint: "parmesan_KG", grams: 40, role: "core" },
+  { concept: "halloumi", hint: "halloumi_KG", grams: 40, role: "core" },
 ];
 
 function makeDeps(overrides: Partial<PipelineDeps> = {}): PipelineDeps {
@@ -143,6 +143,7 @@ const BASE_REQUEST: MealRequest = {
   budgetSek: "150",
   portions: 4,
   maxDistanceKm: 5,
+  maxCookMinutes: 30,
   dietary: [{ id: "vegetarian", label: "Vegetarisk", safetyCritical: false }],
   pantry: [],
   vibe: "mysig pastakväll",
@@ -216,7 +217,7 @@ describe("runPlanPipeline — pantry caps", () => {
       pantry: [{ raw: "har massor av parmesan", concept: "parmesan" }],
     };
     const result = await runPlanPipeline(request, makeDeps(), ctx());
-    expect(result.basket?.lines.some((l) => l.concept === "riven parmesan")).toBe(true);
+    expect(result.basket?.lines.some((l) => l.concept === "halloumi")).toBe(true);
     expect(result.adjustments).toHaveLength(0);
   });
 });
@@ -295,11 +296,11 @@ describe("runPlanPipeline — validation", () => {
     ).rejects.toBeInstanceOf(PipelineValidationError);
   });
 
-  it("retries once then returns unknown for an unknown optionId", async () => {
+  it("retries once, requests the demo fallback, then returns unknown if that is also invalid", async () => {
     let calls = 0;
     const deps = makeDeps({ recipes: { async generate(input): Promise<RecipeDraft> { calls += 1; const base = await makeDeps().recipes.generate(input, { deadlineAt: 0, clock: new FixedClock() }); return { ...base, requirements: [{ optionId: "not-issued", requiredGrams: 100, role: "core" }] }; } } });
     const result = await runPlanPipeline(BASE_REQUEST, deps, ctx());
-    expect(calls).toBe(2);
+    expect(calls).toBe(3);
     expect(result.outcome).toBe("unknown");
     expect(result.reason).toContain("unknown_option");
   });

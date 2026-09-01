@@ -1,8 +1,13 @@
+"use client";
+import Link from "next/link";
+import { useState, type FormEvent } from "react";
+import type { PlanResult } from "@/core/types";
+import { decisionState, degradationNotices } from "@/lib/degradation";
+import { savePlan, type StoredPlanPayload } from "@/lib/planStore";
+interface ApiResult extends StoredPlanPayload { readonly planId: string }
 export default function PlanPage() {
-  return (
-    <main>
-      <h1>PLAN</h1>
-      <p>Placeholder. Constraint inputs land here in issue #2+.</p>
-    </main>
-  );
+  const [result,setResult]=useState<ApiResult|null>(null); const [error,setError]=useState<string|null>(null); const [pending,setPending]=useState(false); const [stored,setStored]=useState(true); const [attempt,setAttempt]=useState(0);
+  async function submit(event:FormEvent<HTMLFormElement>){event.preventDefault();setPending(true);setError(null);const form=new FormData(event.currentTarget);const body={location:form.get("location"),budgetSek:form.get("budgetSek"),portions:form.get("portions"),maxDistanceKm:form.get("maxDistanceKm"),maxCookMinutes:form.get("maxCookMinutes"),dietary:[],pantry:[],vibe:form.get("vibe"),attempt};try{const response=await fetch("/api/plan",{method:"POST",headers:{"Content-Type":"application/json","Idempotency-Key":crypto.randomUUID()},body:JSON.stringify(body)});const data=await response.json() as ApiResult|{error?:{message?:string}};if(!response.ok||!("plan" in data)){setError("error" in data?data.error?.message??"Planen kunde inte skapas":"Planen kunde inte skapas");return}setResult(data);setStored(savePlan(data.planId,{plan:data.plan,status:data.status}))}catch{setError("Planeringstjänsten kunde inte nås. Försök igen.")}finally{setPending(false)}}
+  return <main><h1>PLAN</h1><form onSubmit={submit}><p><label>Ort eller postnummer <input name="location" placeholder="Umeå (valfritt i demo)" /></label></p><p><label>Budget (kr) <input name="budgetSek" inputMode="decimal" defaultValue="300" required /></label></p><p><label>Portioner <input name="portions" type="number" min="1" max="12" defaultValue="4" required /></label></p><p><label>Maxavstånd (km) <input name="maxDistanceKm" type="number" min="0.1" step="0.1" defaultValue="5" required /></label></p><p><label>Max tillagningstid (min) <input name="maxCookMinutes" type="number" min="1" defaultValue="30" /></label></p><p><label>Känsla <textarea name="vibe" defaultValue="En enkel, mysig vardagsmiddag" /></label></p><button disabled={pending} type="submit">{pending?"Planerar…":attempt?"Försök igen":"Skapa plan"}</button></form>{error&&<p role="alert">{error}</p>}{result&&<PlanDecision plan={result.plan} notices={degradationNotices({isDemoData:result.status.isDemoData,isDemoRecipes:result.status.isDemoRecipes,nutritionSuppressed:result.plan.nutrition?.suppressed??false,stale:false})} onRetry={()=>{setAttempt(value=>Math.min(3,value+1));setResult(null)}}/>}{result&&stored&&<nav><Link href="/shop">Till inköpslistan</Link> · <Link href="/cook">Till matlagningen</Link></nav>}{result&&!stored&&<p role="status">Planen visas här, men webbläsaren blockerade lagring. SHOP och COOK är därför avstängda.</p>}</main>;
 }
+function PlanDecision({plan,notices,onRetry}:{readonly plan:PlanResult;readonly notices:readonly string[];readonly onRetry:()=>void}){const state=decisionState(plan.outcome);return <section aria-live="polite"><h2>{plan.recipe?.title??"Planresultat"}</h2>{state==="retry"&&<><p>Butiksdata kunde inte hämtas säkert.</p><button onClick={onRetry} type="button">Försök igen</button></>}{state==="infeasible"&&<p>Ingen fullsortimentsbutik hittades inom valt avstånd. Öka avståndet och försök igen.</p>}{state==="over_budget"&&<p>Billigaste giltiga korgen är {plan.overshootOre/100} kr över budget.</p>}{state==="plan"&&<p>Korgen innehåller {plan.basket?.lines.length??0} varor från {plan.comparison?.entries.length??0} butiker.</p>}{notices.map(notice=><p role="note" key={notice}>{notice}</p>)}</section>}

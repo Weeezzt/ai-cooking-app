@@ -14,7 +14,7 @@ export interface NutritionFact { readonly concept:string; readonly per100g:Nutri
 export interface NutritionLookup { readonly concept:string; readonly gtin?:string }
 export interface NutritionSource { lookup(concepts:readonly NutritionLookup[],options:PortCallOptions):Promise<readonly NutritionFact[]> }
 export interface RecipeOptionHandle { readonly optionId:string; readonly concept:string; readonly label:string; readonly form:string; readonly coarseCategory:string; readonly dietaryTags:readonly string[] }
-export interface RecipeGenerationInput { readonly portions:number; readonly vibe:string; readonly dietary:readonly string[]; readonly options:readonly RecipeOptionHandle[]; readonly validationIssues?:readonly string[] }
+export interface RecipeGenerationInput { readonly portions:number; readonly vibe:string; readonly dietary:readonly string[]; readonly options:readonly RecipeOptionHandle[]; readonly validationIssues?:readonly string[]; readonly nonce?:number; readonly demoFallbackOnly?:boolean }
 export interface RecipeRequirementDraft { readonly optionId:string; readonly requiredGrams?:number; readonly requiredMl?:number; readonly requiredCount?:number; readonly role:RequirementRole }
 export interface RecipeStepDraft { readonly text:string; readonly durationSeconds:number; readonly optionRefs:readonly string[] }
 export interface RecipeDraft { readonly title:string; readonly portions:number; readonly requirements:readonly RecipeRequirementDraft[]; readonly steps:readonly RecipeStepDraft[]; readonly estimatedCookMinutes:number; readonly explanation:string }

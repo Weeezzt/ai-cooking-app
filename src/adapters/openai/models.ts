@@ -2,7 +2,7 @@ import { getOpenAiClient } from "./client";
 import { RecipeGenerationError } from "./errors";
 
 export const MODEL_DEFAULTS = {
-  recipeCandidates: ["gpt-4.1", "gpt-5.4", "gpt-5.6-terra"] as const,
+  recipeCandidates: ["gpt-4.1", "gpt-5.4"] as const,
 };
 
 export interface VerifiedModels {
