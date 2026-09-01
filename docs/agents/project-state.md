@@ -34,11 +34,15 @@ _Last updated: 2026-09-01 by Master (Sonnet)_
 
 ## Active work
 
-- **Issue #7 (pipeline orchestration + API route + client persistence) — Codex builder in flight**,
-  worktree `issue-7`. Unifies the container into one `createServerContainer → PipelineDeps`, adds
-  `POST /api/plan`, client `planStore` (session/localStorage), the AD-11 degradation state machine,
-  adds `MealRequest.maxCookMinutes` + an `estimated` cook-time check. First end-to-end PLAN flow.
-  **ALL 6 backend PRs (#1-#6) are merged.**
+- **Issue #7 — PR #20 open** (Codex-built). Unified `createServerContainer → {deps, status}`,
+  `POST /api/plan` (Zod validate, 20s deadline, business-result status codes, idempotency),
+  `src/lib/planStore.ts` (session+localStorage), `src/lib/degradation.ts`, minimal PLAN/SHOP/COOK
+  routes, `MealRequest.maxCookMinutes` + `estimated` cook-time check. 167 tests, gates green.
+  Fixture scenarios verified (ok / over_budget +6467öre / infeasible). Claude review in flight.
+  **KNOWN ISSUE — live latency:** live E2E = 19s, OpenAI blew the 20s deadline → badged demo
+  recipe fallback. Full live path (Primat fan-out ~12-15s + OpenAI 6-12s, sequential) doesn't fit
+  20s. Review to recommend: bigger deadline (#8 narrated UI covers it) + tighter fan-out +
+  per-stage sub-budgets. Must be fixed before #8 (live Primat is a hard demo requirement).
 
 ## Not started
 
