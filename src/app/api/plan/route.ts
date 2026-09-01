@@ -10,8 +10,8 @@ import { createServerContainer, type ContainerStatus } from "@/server/container"
 import { parsePlanRequest } from "@/server/planRequest";
 
 export const runtime = "nodejs";
-/** One shared request deadline; all provider retries consume this same 20 s budget. */
-export const PLAN_DEADLINE_MS = 20_000;
+/** #8's narrated-activity UI covers this shared live-planning wait. */
+export const PLAN_DEADLINE_MS = 32_000;
 const MAX_IDEMPOTENCY_ENTRIES = 100;
 
 class SystemClock implements Clock {
@@ -47,7 +47,10 @@ export async function POST(httpRequest: Request) {
   try {
     parsed = parsePlanRequest(raw, { requireLocation: process.env.DATA_SOURCE === "live" });
   } catch (error) {
-    if (error instanceof z.ZodError) return errorResponse(422, "INVALID_REQUEST", "Kontrollera formulärets uppgifter");
+    if (error instanceof z.ZodError) {
+      const locationRequired = error.issues.some((issue) => issue.path[0] === "location" && issue.code === "custom");
+      return errorResponse(422, locationRequired ? "LOCATION_REQUIRED" : "INVALID_REQUEST", locationRequired ? "Postnummer eller ort krävs i live-läge" : "Kontrollera formulärets uppgifter");
+    }
     return errorResponse(422, "INVALID_REQUEST", "Begäran kunde inte valideras");
   }
 
@@ -61,9 +64,9 @@ export async function POST(httpRequest: Request) {
       const timer = setTimeout(() => resolve({ outcome: "unknown", basket: null, nutrition: null, comparison: null, constraints: { checks: [], outcome: "unknown" }, adjustments: [], recipe: null, candidateRejections: [], overshootOre: 0 as PlanResult["overshootOre"], reason: "deadline_exceeded", provenance: [] }), PLAN_DEADLINE_MS);
       timer.unref?.();
     });
-    const plan = await Promise.race([runPlanPipeline(parsed.request, container.deps, { clock, deadlineAt }), timeout]);
+    const plan = await Promise.race([runPlanPipeline(parsed.request, container.deps, { clock, deadlineAt, nonce: parsed.attempt }), timeout]);
     const body: SuccessBody = { plan, status: container.status(), planId: randomBytes(12).toString("base64url").slice(0, 16) };
-    if (idempotencyKey && idempotencyKey.length <= 200) cacheResult(idempotencyKey, body);
+    if (idempotencyKey && idempotencyKey.length <= 200 && plan.outcome !== "unknown") cacheResult(idempotencyKey, body);
     return NextResponse.json(body);
   } catch {
     return errorResponse(503, "SERVICE_UNAVAILABLE", "Planeringstjänsten är tillfälligt otillgänglig");

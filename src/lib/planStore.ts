@@ -2,6 +2,7 @@ import type { PlanResult } from "@/core/types";
 
 const LATEST_KEY = "plan:latest";
 const STALE_AFTER_MS = 24 * 60 * 60 * 1000;
+const MAX_SAVED_PLANS = 5;
 
 export interface StoredPlanPayload {
   readonly plan: PlanResult;
@@ -19,13 +20,27 @@ function parse(raw: string | null): StoredEnvelope | null {
   } catch { return null; }
 }
 
+function prune(storage: Storage): void {
+  const plans: { key: string; savedAt: number }[] = [];
+  for (let index = 0; index < storage.length; index += 1) {
+    const key = storage.key(index);
+    if (!key || !/^plan:[^:]+$/.test(key) || key === LATEST_KEY) continue;
+    const savedAt = Date.parse(parse(storage.getItem(key))?.savedAtIso ?? "");
+    plans.push({ key, savedAt: Number.isFinite(savedAt) ? savedAt : 0 });
+  }
+  plans.sort((a, b) => b.savedAt - a.savedAt || b.key.localeCompare(a.key));
+  for (const { key } of plans.slice(MAX_SAVED_PLANS)) {
+    storage.removeItem(key); storage.removeItem(`${key}:shop`); storage.removeItem(`${key}:cook`);
+  }
+}
+
 export function savePlan(planId: string, payload: StoredPlanPayload): boolean {
   const envelope: StoredEnvelope = { ...payload, planId, savedAtIso: new Date().toISOString() };
   const serialized = JSON.stringify(envelope);
   let sessionSaved = false;
   let localSaved = false;
-  try { sessionStorage.setItem(planKey(planId), serialized); sessionStorage.setItem(LATEST_KEY, planId); sessionSaved = true; } catch {}
-  try { localStorage.setItem(planKey(planId), serialized); localStorage.setItem(LATEST_KEY, planId); localSaved = true; } catch {}
+  try { sessionStorage.setItem(planKey(planId), serialized); sessionStorage.setItem(LATEST_KEY, planId); prune(sessionStorage); sessionSaved = true; } catch {}
+  try { localStorage.setItem(planKey(planId), serialized); localStorage.setItem(LATEST_KEY, planId); prune(localStorage); localSaved = true; } catch {}
   return sessionSaved || localSaved;
 }
 

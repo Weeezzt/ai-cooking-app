@@ -64,6 +64,12 @@ describe("deriveConcepts", () => {
       deriveConcepts({ vibe: "taco kväll", dietary: [] }),
     );
   });
+  it("uses at most two coarse core concepts and respects plant diets", () => {
+    const vegan = deriveConcepts({ vibe: "fisk och potatis", dietary: [{ id: "vegan", label: "Vegansk", safetyCritical: false }] });
+    expect(vegan.filter((concept) => concept.role === "core")).toEqual([
+      { concept: "kikärtor", role: "core" }, { concept: "potatis", role: "core" },
+    ]);
+  });
 });
 
 describe("FixedClock", () => {

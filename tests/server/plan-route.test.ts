@@ -10,8 +10,19 @@ describe("POST /api/plan", () => {
     const response = await POST(request(valid)); const body = await response.json();
     expect(response.status).toBe(200); expect(body.plan.outcome).toBe("ok"); expect(body.plan.basket.lines.length).toBeGreaterThan(0); expect(body.plan.comparison.entries.length).toBeGreaterThanOrEqual(2); expect(body.status.isDemoData).toBe(true); expect(body.planId).toMatch(/^[A-Za-z0-9_-]{16}$/);
   });
+  it("returns ok for a themed curry vibe", async () => {
+    const response = await POST(request({ ...valid, vibe: "currygryta med kyckling" }));
+    const body = await response.json();
+    expect(body.plan.outcome).toBe("ok"); expect(body.plan.basket.lines.length).toBeGreaterThan(0);
+  });
   it("uses stable validation errors and caps regeneration", async () => {
     for (const body of [{}, { ...valid, attempt: 4 }]) { const response = await POST(request(body)); expect(response.status).toBe(422); expect(await response.json()).toEqual({ error: { code: "INVALID_REQUEST", message: "Kontrollera formulärets uppgifter" } }); }
+  });
+  it("distinguishes a missing live location", async () => {
+    process.env.DATA_SOURCE = "live";
+    const response = await POST(request({ ...valid, location: null }));
+    expect(response.status).toBe(422);
+    expect(await response.json()).toEqual({ error: { code: "LOCATION_REQUIRED", message: "Postnummer eller ort krävs i live-läge" } });
   });
   it("returns the same result for an idempotency key", async () => {
     const first = await (await POST(request(valid, "same-key"))).json(); const second = await (await POST(request(valid, "same-key"))).json(); expect(second).toEqual(first);

@@ -2,6 +2,7 @@ import { FixturePriceSource, FixtureProductSearch, FixtureStoreDiscovery } from 
 import { FixtureNutritionSource } from "@/adapters/nutrition/FixtureNutritionSource";
 import { FixtureRecipeGenerator } from "@/adapters/openai/FixtureRecipeGenerator";
 import { OpenAiRecipeGenerator } from "@/adapters/openai/OpenAiRecipeGenerator";
+import { verifyModels } from "@/adapters/openai/models";
 import { PrimatClient, PrimatPriceSource, PrimatProductSearch, PrimatStoreDiscovery, PRIMAT_ATTRIBUTION } from "@/adapters/primat";
 import type { PipelineDeps, PriceSource, ProductSearch, RecipeGenerator, StoreDiscovery } from "@/ports";
 
@@ -32,9 +33,18 @@ function createDataContainer(mode: string | undefined): DataContainer {
   const liveStores = new PrimatStoreDiscovery(client);
   const liveProducts = new PrimatProductSearch(client);
   const livePrices = new PrimatPriceSource(client);
+  let fixtureDiscovery: Awaited<ReturnType<StoreDiscovery["resolve"]>> | undefined;
+  const fixtureStoreFor = async (store: Parameters<ProductSearch["search"]>[0]["store"], options: Parameters<ProductSearch["search"]>[1]) => {
+    fixtureDiscovery ??= await fixtureStores.resolve(null, options);
+    return fixtureDiscovery.stores.find((candidate) => candidate.chain === store.chain) ?? fixtureDiscovery.stores[0];
+  };
   return {
     stores: { async resolve(place, options) { try { return fixtureSession ? await fixtureStores.resolve(place, options) : await liveStores.resolve(place, options); } catch { fixtureSession = true; fallback.add("stores"); return fixtureStores.resolve(place, options); } } },
-    products: { async search(query, options) { try { return fixtureSession ? await fixtureProducts.search(query, options) : await liveProducts.search(query, options); } catch { fixtureSession = true; fallback.add("products"); return fixtureProducts.search(query, options); } } },
+    products: { async search(query, options) {
+      if (fixtureSession) return fixtureProducts.search({ ...query, store: await fixtureStoreFor(query.store, options) }, options);
+      try { return await liveProducts.search(query, options); }
+      catch { fixtureSession = true; fallback.add("products"); return fixtureProducts.search({ ...query, store: await fixtureStoreFor(query.store, options) }, options); }
+    } },
     prices: { async quote(ids, store, options) { try { return fixtureSession ? await fixturePrices.quote(ids, store, options) : await livePrices.quote(ids, store, options); } catch { fixtureSession = true; fallback.add("prices"); return fixturePrices.quote(ids, store, options); } } },
     status,
   };
@@ -48,8 +58,10 @@ export async function createServerContainer(opts: ServerContainerOptions = {}): 
   let isDemoRecipes = appMode === "demo" || !apiKey;
   let recipes: RecipeGenerator = fixtureRecipes;
   if (!isDemoRecipes) {
+    await verifyModels();
     const liveRecipes = new OpenAiRecipeGenerator();
     recipes = { async generate(input, options) {
+      if (input.demoFallbackOnly) { isDemoRecipes = true; return fixtureRecipes.generate(input, options); }
       const fallbackAfterMs = Math.max(0, options.deadlineAt - options.clock.now() - 1_000);
       let timer: ReturnType<typeof setTimeout> | undefined;
       try {

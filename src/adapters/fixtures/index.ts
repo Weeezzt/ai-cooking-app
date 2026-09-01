@@ -7,7 +7,7 @@ import { PRIMAT_ATTRIBUTION } from "@/adapters/primat/client";
 
 interface ProductRow { readonly storeKey: string; readonly product: Product; readonly confirmedAt: string }
 const fixtureProducts = productsFixture as unknown as Record<string, readonly ProductRow[]>;
-const conceptAliases: Readonly<Record<string, string>> = { "gul lök": "lök", "kycklingfilé": "kyckling", "kycklinglårfilé": "kyckling", "krossade tomater": "tomat", "jasminris": "ris", "basmatiris": "ris" };
+const conceptAliases: Readonly<Record<string, string>> = {};
 function ensureDeadline(options: { deadlineAt:number; clock:{ now():number } }) { if (options.clock.now() >= options.deadlineAt) throw new Error("Fixture provider deadline exceeded"); }
 
 export class FixtureStoreDiscovery implements StoreDiscovery {
