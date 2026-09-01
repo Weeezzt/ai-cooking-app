@@ -1,6 +1,6 @@
 # Project State
 
-_Last updated: 2026-08-28 by Master (Sonnet)_
+_Last updated: 2026-09-01 by Master (Sonnet)_
 
 ## Snapshot
 
@@ -30,14 +30,15 @@ _Last updated: 2026-08-28 by Master (Sonnet)_
 | 2 | #15 | Design tokens + 12 UI primitives + `/styleguide`. Dark-only, mobile-first, zero-radius | Claude build → Codex review + Master browser pass |
 | 5 | #13 | Nutrition provider — OFF 30-GTIN snapshot + Livsmedelsverket 75-row table, `NutritionSource.lookup` | Codex build → Codex reconcile → Claude review |
 | 4 | #17 | Primat integration — live keyed + badged fixture fallback, deterministic candidate filter (`ProductSearch → {products, rejections}`), `Product.section`, category normalizer, `_KG`/"ca" variable-weight. 149 tests, live smoke green | Codex build → Claude review (2 blockers) → Codex rework → Master re-verify |
+| 6 | #18 | OpenAI recipe service — Responses API, startup `verifyModels()` (gpt-4.1 / gpt-5.4), schema guard walks Zod+JSON-schema, 1 shared-deadline retry, badged demo fallback. Live-verified | Codex build → Claude review (5 fixes) → Master applied |
 
 ## Active work
 
-- **Issue #6 (OpenAI recipe service) — PR #18 open.** Codex build (interrupted at finish; Master
-  live-verified with real key: `verifyModels → {gpt-4.1, gpt-5.4}`, generated a valid Swedish
-  recipe referencing only supplied option handles) + committed + PR'd. Claude cross-family review
-  in flight. **Merge note:** its `src/server/container.ts` (`createServerContainer`, recipe-only)
-  collides with #4's `createDataContainer` on main — reconcile into one at merge, #7 unifies.
+- **Issue #7 (pipeline orchestration + API route + client persistence) — Codex builder in flight**,
+  worktree `issue-7`. Unifies the container into one `createServerContainer → PipelineDeps`, adds
+  `POST /api/plan`, client `planStore` (session/localStorage), the AD-11 degradation state machine,
+  adds `MealRequest.maxCookMinutes` + an `estimated` cook-time check. First end-to-end PLAN flow.
+  **ALL 6 backend PRs (#1-#6) are merged.**
 
 ## Not started
 
