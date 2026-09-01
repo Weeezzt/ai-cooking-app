@@ -61,7 +61,7 @@ const config = [
 
   {
     name: "project/ignores",
-    ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "coverage/**", "next-env.d.ts"],
+    ignores: ["node_modules/**", ".next/**", "**/.next/**", ".claude/**", "out/**", "build/**", "coverage/**", "next-env.d.ts"],
   },
 ];
 

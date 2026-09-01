@@ -1,6 +1,6 @@
 # Project State
 
-_Last updated: 2026-08-28 by Master (Sonnet)_
+_Last updated: 2026-09-01 by Master (Sonnet)_
 
 ## Snapshot
 
@@ -30,14 +30,19 @@ _Last updated: 2026-08-28 by Master (Sonnet)_
 | 2 | #15 | Design tokens + 12 UI primitives + `/styleguide`. Dark-only, mobile-first, zero-radius | Claude build → Codex review + Master browser pass |
 | 5 | #13 | Nutrition provider — OFF 30-GTIN snapshot + Livsmedelsverket 75-row table, `NutritionSource.lookup` | Codex build → Codex reconcile → Claude review |
 | 4 | #17 | Primat integration — live keyed + badged fixture fallback, deterministic candidate filter (`ProductSearch → {products, rejections}`), `Product.section`, category normalizer, `_KG`/"ca" variable-weight. 149 tests, live smoke green | Codex build → Claude review (2 blockers) → Codex rework → Master re-verify |
+| 6 | #18 | OpenAI recipe service — Responses API, startup `verifyModels()` (gpt-4.1 / gpt-5.4), schema guard walks Zod+JSON-schema, 1 shared-deadline retry, badged demo fallback. Live-verified | Codex build → Claude review (5 fixes) → Master applied |
 
 ## Active work
 
-- **Issue #6 (OpenAI recipe service) — PR #18 open.** Codex build (interrupted at finish; Master
-  live-verified with real key: `verifyModels → {gpt-4.1, gpt-5.4}`, generated a valid Swedish
-  recipe referencing only supplied option handles) + committed + PR'd. Claude cross-family review
-  in flight. **Merge note:** its `src/server/container.ts` (`createServerContainer`, recipe-only)
-  collides with #4's `createDataContainer` on main — reconcile into one at merge, #7 unifies.
+- **Issue #7 — PR #20 open** (Codex-built). Unified `createServerContainer → {deps, status}`,
+  `POST /api/plan` (Zod validate, 20s deadline, business-result status codes, idempotency),
+  `src/lib/planStore.ts` (session+localStorage), `src/lib/degradation.ts`, minimal PLAN/SHOP/COOK
+  routes, `MealRequest.maxCookMinutes` + `estimated` cook-time check. 167 tests, gates green.
+  Fixture scenarios verified (ok / over_budget +6467öre / infeasible). Claude review in flight.
+  **KNOWN ISSUE — live latency:** live E2E = 19s, OpenAI blew the 20s deadline → badged demo
+  recipe fallback. Full live path (Primat fan-out ~12-15s + OpenAI 6-12s, sequential) doesn't fit
+  20s. Review to recommend: bigger deadline (#8 narrated UI covers it) + tighter fan-out +
+  per-stage sub-budgets. Must be fixed before #8 (live Primat is a hard demo requirement).
 
 ## Not started
 
