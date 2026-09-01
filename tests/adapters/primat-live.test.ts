@@ -13,7 +13,7 @@ describe.skipIf(!enabled)("Primat keyed live smoke", () => {
     const stores = result.stores.filter((store) => keys.has(`${store.chain}:${store.storeId}`) && store.tier === "full");
     expect(stores).toHaveLength(3);
     for (const store of stores) for (const concept of ["banan", "kyckling", "ris", "pasta", "tomat", "ägg"]) {
-      expect((await search.search({ concept, store, limit: 5 }, options)).length, `${store.chain}:${store.storeId}/${concept}`).toBeGreaterThan(0);
+      expect((await search.search({ concept, store, limit: 5 }, options)).products.length, `${store.chain}:${store.storeId}/${concept}`).toBeGreaterThan(0);
     }
   }, 65_000);
 });

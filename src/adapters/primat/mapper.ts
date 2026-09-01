@@ -1,17 +1,17 @@
-import { ore, parseSekToOre } from "@/core/money";
+import { ore, roundHalfUp } from "@/core/money";
 import type { Product, StoreOption } from "@/core/types";
-import { categoryPath } from "./category";
+import { categoryPath, normalizeCategorySection } from "./category";
 import type { PrimatProduct, PrimatResolveResponse } from "./types";
 
-function money(value: number) { return parseSekToOre(String(value)); }
+function money(value: number) { return ore(roundHalfUp(value * 100)); }
 
-export function mapResolveResponse(raw: PrimatResolveResponse): { location: { lat:number; lon:number; label:string; isDemoDefault:boolean }; stores: StoreOption[] } {
+export function mapResolveResponse(raw: PrimatResolveResponse, recordedAt: string): { location: { lat:number; lon:number; label:string; isDemoDefault:boolean }; stores: StoreOption[] } {
   return {
     location: { lat: raw.place.latitude, lon: raw.place.longitude, label: raw.place.label, isDemoDefault: false },
     stores: raw.stores.map((store) => ({
       chain: store.chain, storeId: String(store.store_id), name: store.name,
       tier: store.tier === null ? "register_only" : store.tier,
-      distanceKm: store.km, confirmedAt: store.confirmed_at ?? "1970-01-01T00:00:00.000Z",
+      distanceKm: store.km, confirmedAt: store.confirmed_at ?? recordedAt,
     })),
   };
 }
@@ -25,12 +25,14 @@ export function mapProduct(raw: PrimatProduct, concept: string): Product {
   const amount = sourceUnit === "kg" || sourceUnit === "l" ? raw.amount * 1000 : raw.amount;
   const comparison = raw.prices.comparison;
   const comparisonPrice = comparison && comparison.price > 0 ? money(comparison.price) : money(raw.prices.regular);
-  const variableWeight = comparison?.unit.toLowerCase() === "kg" && comparison.price > 0;
-  const comparisonUnit = variableWeight ? "kg" : comparison?.unit.toLowerCase() === "l" ? "l" : "st";
+  const variableWeight = /_KG$/i.test(raw.product_id) || /\bca\.?\b/i.test(raw.name);
+  const rawComparisonUnit = comparison?.unit.toLowerCase();
+  const comparisonUnit = variableWeight && (rawComparisonUnit === "kg" || rawComparisonUnit === "l") ? rawComparisonUnit : "st";
   return {
     id: raw.product_id, name: raw.name, concept, brand: raw.brand,
     priceOre: money(raw.prices.regular), packageSize: amount, packageUnit,
     comparison: { priceOre: comparisonPrice, unit: comparisonUnit },
+    section: normalizeCategorySection(raw.category, raw.chain),
     categoryPath: categoryPath(raw.category), dietaryTags: [],
   };
 }

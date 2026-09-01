@@ -3,6 +3,7 @@ import productsFixture from "@/fixtures/domain/products.json";
 import { ore } from "@/core/money";
 import type { Product, StoreOption } from "@/core/types";
 import type { PriceSource, ProductSearch, StoreDiscovery } from "@/ports";
+import { PRIMAT_ATTRIBUTION } from "@/adapters/primat/client";
 
 interface ProductRow { readonly storeKey: string; readonly product: Product; readonly confirmedAt: string }
 const fixtureProducts = productsFixture as unknown as Record<string, readonly ProductRow[]>;
@@ -10,13 +11,13 @@ function ensureDeadline(options: { deadlineAt:number; clock:{ now():number } }) 
 
 export class FixtureStoreDiscovery implements StoreDiscovery {
   async resolve(_place: string | null, options: Parameters<StoreDiscovery["resolve"]>[1]) {
-    ensureDeadline(options); return storesFixture as { location: typeof storesFixture.location; stores: StoreOption[] };
+    ensureDeadline(options); return { ...(storesFixture as { location: typeof storesFixture.location; stores: StoreOption[] }), attribution: PRIMAT_ATTRIBUTION };
   }
 }
 export class FixtureProductSearch implements ProductSearch {
   async search(query: Parameters<ProductSearch["search"]>[0], options: Parameters<ProductSearch["search"]>[1]) {
     ensureDeadline(options); const key = `${query.store.chain}:${query.store.storeId}`;
-    return (fixtureProducts[query.concept.toLocaleLowerCase("sv-SE")] ?? []).filter((row) => row.storeKey === key).map((row) => row.product).slice(0, query.limit);
+    return { products: (fixtureProducts[query.concept.toLocaleLowerCase("sv-SE")] ?? []).filter((row) => row.storeKey === key).map((row) => row.product).slice(0, query.limit), rejections: [], attribution: PRIMAT_ATTRIBUTION };
   }
 }
 export class FixturePriceSource implements PriceSource {

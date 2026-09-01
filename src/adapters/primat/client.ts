@@ -3,7 +3,8 @@ import type { PrimatProductsResponse, PrimatResolveResponse } from "./types";
 
 const BASE_URL = "https://primat.nu/api/v3/";
 const CACHE_TTL_MS = 5 * 60_000;
-export const PRIMAT_ATTRIBUTION = "Prisdata från primat.nu";
+const CALL_TIMEOUT_MS = 8_000;
+export const PRIMAT_ATTRIBUTION = { text: "Prisdata från primat.nu", url: "https://primat.nu" } as const;
 
 interface CacheEntry<T> { readonly expiresAt: number; readonly value: T }
 export class PrimatClient {
@@ -18,12 +19,12 @@ export class PrimatClient {
     if (cached && cached.expiresAt > options.clock.now()) return cached.value;
     if (!this.apiKey) throw new Error("Primat is unavailable: missing API configuration");
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), remaining);
+    const timeout = setTimeout(() => controller.abort(), Math.min(remaining, CALL_TIMEOUT_MS));
     try {
       const response = await this.fetcher(new URL(path, BASE_URL), { headers: { Authorization: `Bearer ${this.apiKey}`, Accept: "application/json" }, signal: controller.signal });
       if (!response.ok) throw new Error(`Primat request failed (${response.status})`);
       const value = await response.json() as T;
-      this.cache.set(path, { value, expiresAt: Math.min(options.deadlineAt, options.clock.now() + CACHE_TTL_MS) });
+      this.cache.set(path, { value, expiresAt: options.clock.now() + CACHE_TTL_MS });
       return value;
     } catch (error) {
       if (error instanceof Error && error.message.startsWith("Primat request failed")) throw error;

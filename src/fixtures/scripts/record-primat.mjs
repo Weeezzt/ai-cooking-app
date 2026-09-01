@@ -1,13 +1,10 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 const root = resolve(import.meta.dirname, "../../..");
 const rawDir = resolve(root, "src/fixtures/raw");
-const envText = await readFile(resolve(root, ".env.local"), "utf8");
-const apiKey = envText.match(/^PRIMAT_API_KEY=(.*)$/m)?.[1]?.trim().replace(/^['"]|['"]$/g, "");
-if (!apiKey) throw new Error("PRIMAT_API_KEY is required to record fixtures");
-const headers = { Authorization: `Bearer ${apiKey}`, Accept: "application/json" };
-const base = "https://primat.nu/api/v3/";
+const headers = { Accept: "application/json" };
+const base = "https://primat.nu/api/v3/demo/";
 const concepts = ["banan", "lime", "kyckling", "ris", "pasta", "kokosmjölk", "tomat", "lök", "vitlök", "grädde", "ägg", "paprika", "morot"];
 const stores = "coop:232400,willys:2276,ica:1003828";
 
@@ -18,6 +15,7 @@ async function get(path) {
 }
 
 await mkdir(rawDir, { recursive: true });
+await writeFile(resolve(rawDir, "recording.json"), `${JSON.stringify({ recordedAt: new Date().toISOString(), source: base }, null, 2)}\n`);
 await writeFile(resolve(rawDir, "resolve-umea.json"), await get("stores/resolve?place=Ume%C3%A5"));
 for (const concept of concepts) {
   const params = new URLSearchParams({ q: concept, stores });

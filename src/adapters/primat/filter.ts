@@ -14,18 +14,29 @@ const AMOUNT_RANGES: Record<string, Partial<Record<CanonicalUnit, readonly [numb
   lök:{ g:[10,30_000] }, vitlök:{ g:[5,5_000] }, grädde:{ ml:[50,10_000] }, ägg:{ st:[1,100] },
 };
 
+function fold(value: string): string {
+  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("sv-SE");
+}
+
+function escaped(value: string): string { return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+
 export interface CandidateFilterOptions { readonly requiredUnit?: CanonicalUnit }
 export interface CandidateFilterResult { readonly kept: Product[]; readonly rejections: CandidateRejection[] }
 
 export function filterCandidates(concept: string, products: readonly Product[], store: StoreOption, options: CandidateFilterOptions = {}): CandidateFilterResult {
   const kept: Product[] = []; const rejections: CandidateRejection[] = [];
   const canonical = concept.trim().toLocaleLowerCase("sv-SE");
-  const patterns = FOOD_CATEGORY[canonical] ?? [new RegExp(canonical.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "iu")];
+  const foldedConcept = fold(canonical);
+  const patterns = FOOD_CATEGORY[canonical];
   for (const product of products) {
     let reason: CandidateRejection["reason"] | null = null;
     const path = product.categoryPath.join(" > ");
+    const searchable = fold(`${product.name} ${path}`);
+    const nameMatches = new RegExp(`\\b${escaped(foldedConcept)}\\w*`, "iu").test(searchable);
+    const categoryMatches = patterns?.some((pattern) => pattern.test(path)) ?? false;
     const freshLimeNoise = canonical.includes("lime") && /juice|koncentrat|dryck/iu.test(`${product.name} ${path}`);
-    if (freshLimeNoise || !patterns.some((pattern) => pattern.test(path))) reason = "concept_mismatch";
+    const conceptMatches = patterns ? nameMatches && (categoryMatches || product.categoryPath.length === 0) : nameMatches;
+    if (freshLimeNoise || !conceptMatches) reason = "concept_mismatch";
     else if (options.requiredUnit && options.requiredUnit !== product.packageUnit && !(options.requiredUnit === "g" && product.comparison.unit === "kg")) reason = "unit_incompatible";
     else if (!Number.isSafeInteger(product.priceOre) || product.priceOre <= 0 || !Number.isSafeInteger(product.comparison.priceOre) || product.comparison.priceOre <= 0 || product.comparison.priceOre > 1_000_000) reason = "invalid_price";
     else {

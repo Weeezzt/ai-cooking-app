@@ -1,11 +1,13 @@
 import type { Clock } from "@/core/clock";
-import type { NutrientVector, Ore, Product, RequirementRole, StoreOption } from "@/core/types";
+import type { CandidateRejection, NutrientVector, Ore, Product, RequirementRole, StoreOption } from "@/core/types";
+export interface DataAttribution { readonly text:string; readonly url:string }
 export interface PortCallOptions { readonly deadlineAt:number; readonly clock:Clock }
 export interface ResolvedLocation { readonly lat:number; readonly lon:number; readonly label:string; readonly isDemoDefault:boolean }
-export interface StoreDiscoveryResult { readonly location:ResolvedLocation; readonly stores:readonly StoreOption[] }
+export interface StoreDiscoveryResult { readonly location:ResolvedLocation; readonly stores:readonly StoreOption[]; readonly attribution?:DataAttribution }
 export interface StoreDiscovery { resolve(place:string|null, options:PortCallOptions):Promise<StoreDiscoveryResult> }
 export interface ProductSearchQuery { readonly concept:string; readonly store:StoreOption; readonly limit:number }
-export interface ProductSearch { search(query:ProductSearchQuery, options:PortCallOptions):Promise<readonly Product[]> }
+export interface ProductSearchResult { readonly products:readonly Product[]; readonly rejections:readonly CandidateRejection[]; readonly attribution?:DataAttribution }
+export interface ProductSearch { search(query:ProductSearchQuery, options:PortCallOptions):Promise<ProductSearchResult> }
 export interface PriceQuote { readonly productId:string; readonly storeKey:string; readonly priceOre:Ore; readonly priceType:"regular"|"member"|"offer"|"multiprice"; readonly retrievedAtIso:string }
 export interface PriceSource { quote(productIds:readonly string[],store:StoreOption,options:PortCallOptions):Promise<readonly PriceQuote[]> }
 export interface NutritionFact { readonly concept:string; readonly per100g:NutrientVector; readonly source:string; readonly retrievedAtIso:string }

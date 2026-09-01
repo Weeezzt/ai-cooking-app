@@ -9,6 +9,7 @@ export interface DataSourceStatus {
 export interface DataContainer { readonly stores: StoreDiscovery; readonly products: ProductSearch; readonly prices: PriceSource; readonly status: () => DataSourceStatus }
 
 export function createDataContainer(mode: string | undefined = process.env.DATA_SOURCE): DataContainer {
+  if (mode !== undefined && mode !== "live" && mode !== "fixture") console.warn(`Unrecognized DATA_SOURCE ${JSON.stringify(mode)}; using fixture data`);
   const selected = mode === "live" ? "live" : "fixture";
   const fixtureStores = new FixtureStoreDiscovery(); const fixtureProducts = new FixtureProductSearch(); const fixturePrices = new FixturePriceSource();
   const fallback = new Set<"stores" | "products" | "prices">();

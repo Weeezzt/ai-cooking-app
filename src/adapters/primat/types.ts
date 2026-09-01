@@ -8,7 +8,7 @@ export interface PrimatStore {
   readonly selected: boolean; readonly confirmed_at?: string;
 }
 export interface PrimatResolveResponse {
-  readonly place: PrimatPlace; readonly default_selection: readonly string[]; readonly stores: readonly PrimatStore[];
+  readonly place: PrimatPlace; readonly default_selection: readonly string[]; readonly stores: readonly PrimatStore[]; readonly attribution: PrimatAttribution;
 }
 export interface PrimatProduct {
   readonly chain: string; readonly store_id: string; readonly product_id: string; readonly name: string;

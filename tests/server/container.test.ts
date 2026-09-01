@@ -7,7 +7,7 @@ describe("data container",()=>{
   it("fixture mode needs neither network nor a key",async()=>{
     const fetchSpy=vi.spyOn(globalThis,"fetch"); const container=createDataContainer("fixture");
     const result=await container.stores.resolve(null,options); expect(result.stores.length).toBeGreaterThan(0); expect(fetchSpy).not.toHaveBeenCalled();
-    expect(container.status()).toMatchObject({mode:"fixture",isDemoData:true,usedFallback:false,attribution:"Prisdata från primat.nu"}); fetchSpy.mockRestore();
+    expect(container.status()).toMatchObject({mode:"fixture",isDemoData:true,usedFallback:false,attribution:{text:"Prisdata från primat.nu",url:"https://primat.nu"}}); fetchSpy.mockRestore();
   });
   it("badges a live provider failure and keeps the remaining session on fixtures",async()=>{
     const previous=process.env.PRIMAT_API_KEY; delete process.env.PRIMAT_API_KEY;
