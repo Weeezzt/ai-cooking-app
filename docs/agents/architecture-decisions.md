@@ -325,3 +325,35 @@ One table. No unlabelled fallback anywhere.
 All four green is the merge bar. `tests/architecture.test.ts` (boundary + forbidden-keys) is part
 of `pnpm test`. No PR may introduce a new failure. Coverage target for `src/core/` is high
 (the engine is the credibility surface); UI coverage is pragmatic.
+
+---
+
+## AD-13. Cross-cutting contracts (pinned after PRs #12–#20)
+
+These emerged as friction during implementation. Pinned here so #9/#10/#11 and any resuming
+Master don't re-litigate them.
+
+- **`ProductSearch.search(query, opts) → ProductSearchResult`** where
+  `ProductSearchResult = { products: Product[]; rejections: CandidateRejection[]; attribution? }`.
+  The adapter runs the deterministic category/plausibility/unit-compat filter and returns kept +
+  rejected. The pipeline merges `rejections`; it does NOT re-filter beyond structural safety.
+- **`Product.section: StoreSection`** (`"FRUKT & GRÖNT" | "KÖTT & PROTEIN" | "MEJERI" | "TORRVAROR"
+  | "KRYDDOR" | "ÖVRIGT"`) — populated by the adapter's per-chain normalizer. SHOP groups on this.
+- **Concept vocabulary** (`deriveConcepts`, `src/core/pipeline/concepts.ts`): coarse grocery-search
+  archetypes only (`ost` not `riven parmesan`), **≤ 2 `core`** per request (one protein/main + one
+  carb/base), everything else `supporting`. Missing `supporting` must never force `infeasible`.
+  Dietary overrides the protein slot. The AI recipe call picks the specific ingredients from the
+  `RecipeOptionHandle` pool — that is its job, not the deterministic mapper's.
+- **Latency budgets**: `PLAN_DEADLINE_MS = 32000`; `PipelineContext.stageBudgets` sub-divides it
+  (store-resolve ≤ 4s, product fan-out ≤ 8s, recipe ≤ 18s, nutrition ≤ 2s). Product fan-out is a
+  bounded-concurrency pool (≤ 6). `verifyModels()` runs at `createServerContainer()` startup, off
+  the request deadline. The repair retry is skipped when < 10s remain.
+- **Whole-plan fallback**: if ANY live data provider falls back to fixture, ALL providers snap to
+  fixture for that plan (live `StoreOption` ids don't match fixture keys). `status.isDemoData` is
+  true if data OR recipes fell back. Every fallback is badged.
+- **Route status codes**: `ok | over_budget | infeasible | unknown` are all `200` business results.
+  `422 {error:{code,message}}` for bad input (`LOCATION_REQUIRED` distinct from `INVALID_REQUEST`).
+  `503` only for a container/infra throw.
+- **Client state**: the full `PlanResult` + `status` is stored client-side under `plan:<planId>`
+  (session + localStorage); `plan:latest` pointer; per-view state (`:shop` checks, `:cook` step).
+  No server persistence, no share links.
