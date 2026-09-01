@@ -38,11 +38,15 @@ _Last updated: 2026-09-01 by Master (Sonnet)_
   `POST /api/plan` (Zod validate, 20s deadline, business-result status codes, idempotency),
   `src/lib/planStore.ts` (session+localStorage), `src/lib/degradation.ts`, minimal PLAN/SHOP/COOK
   routes, `MealRequest.maxCookMinutes` + `estimated` cook-time check. 167 tests, gates green.
-  Fixture scenarios verified (ok / over_budget +6467öre / infeasible). Claude review in flight.
-  **KNOWN ISSUE — live latency:** live E2E = 19s, OpenAI blew the 20s deadline → badged demo
+  Fixture scenarios verified (ok / over_budget +6467öre / infeasible). Claude review = **rework**.
+  **B1:** demo/live return `infeasible` for themed vibes — `deriveConcepts` emits over-specific
+  `core` concepts the fixtures/Primat don't return. Fix: coarse archetype vocabulary, ≤2 core,
+  expand fixture recording to ~30 archetypes. **B2 — live latency:** live E2E = 19s, OpenAI blew the 20s deadline → badged demo
   recipe fallback. Full live path (Primat fan-out ~12-15s + OpenAI 6-12s, sequential) doesn't fit
   20s. Review to recommend: bigger deadline (#8 narrated UI covers it) + tighter fan-out +
-  per-stage sub-budgets. Must be fixed before #8 (live Primat is a hard demo requirement).
+  per-stage sub-budgets. Fix: `verifyModels` off the request deadline (back to container startup), `PLAN_DEADLINE_MS`
+  32s, per-stage sub-budgets, **parallelize the 24-serial-await fan-out** (≤6 concurrent), skip
+  repair retry when <10s left. Codex reworking on `7-pipeline`.
 
 ## Not started
 
