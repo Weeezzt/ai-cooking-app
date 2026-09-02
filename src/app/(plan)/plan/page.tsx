@@ -220,17 +220,26 @@ function PlanOutcomeView({
   const widened = nextDistanceRung(values.maxDistanceKm);
 
   if (state === "infeasible") {
+    const onlyPartial = plan.reason === "only_partial_stores_in_range";
     return (
       <DecisionScreen
         eyebrow="Inget förslag"
-        title="Ingen fullsortimentsbutik inom räckhåll"
+        title={onlyPartial ? "Bara kampanjpriser i närheten" : "Ingen fullsortimentsbutik inom räckhåll"}
         body={
           <>
-            <p>
-              Vi hittade ingen fullsortimentsbutik inom {maxDistance} från din
-              plats, så vi kunde inte bygga en korg som håller dina villkor. Vi
-              utökar aldrig avståndet åt dig.
-            </p>
+            {onlyPartial ? (
+              <p>
+                Butikerna inom {maxDistance} har bara kampanjpriser, så vi kan
+                inte bygga en komplett korg.
+                {plan.nearestFullStore ? ` Närmaste fullsortiment är ${plan.nearestFullStore.name}, ${formatQuantity(plan.nearestFullStore.distanceKm, "km", 1)} bort.` : ""}
+              </p>
+            ) : (
+              <p>
+                Vi hittade ingen fullsortimentsbutik inom {maxDistance} från din
+                plats, så vi kunde inte bygga en korg som håller dina villkor. Vi
+                utökar aldrig avståndet åt dig.
+              </p>
+            )}
             <p className="t-body-s">Anledning: {plan.reason ?? "okänd"}.</p>
           </>
         }

@@ -64,6 +64,7 @@ function terminal(
   outcome: Extract<PlanOutcome, "infeasible" | "unknown">,
   reason: string,
   provenance: readonly Provenance[] = [],
+  nearestFullStore?: PlanResult["nearestFullStore"],
 ): PlanResult {
   return {
     outcome,
@@ -77,6 +78,7 @@ function terminal(
     overshootOre: ZERO_ORE,
     reason,
     provenance,
+    ...(nearestFullStore !== undefined ? { nearestFullStore } : {}),
   };
 }
 
@@ -84,14 +86,22 @@ function shortlistStores(
   stores: readonly StoreOption[],
   maxDistanceKm: number,
 ): StoreOption[] {
-  return [...stores]
+  const ranked = [...stores]
     .filter((s) => s.tier === "full" && s.distanceKm <= maxDistanceKm)
     .sort(
       (a, b) =>
         a.distanceKm - b.distanceKm ||
         b.confirmedAt.localeCompare(a.confirmedAt) ||
         (storeKey(a) < storeKey(b) ? -1 : storeKey(a) > storeKey(b) ? 1 : 0),
-    )
+    );
+  const seenChains = new Set<string>();
+  const diversified = ranked.filter((store) => {
+    if (seenChains.has(store.chain)) return false;
+    seenChains.add(store.chain);
+    return true;
+  }).slice(0, MAX_STORES);
+  const selectedKeys = new Set(diversified.map(storeKey));
+  return [...diversified, ...ranked.filter((store) => !selectedKeys.has(storeKey(store)))]
     .slice(0, MAX_STORES);
 }
 
@@ -181,7 +191,19 @@ export async function runPlanPipeline(
   { const past = guard(); if (past) return past; }
   const shortlisted = shortlistStores(discovery.stores, interpreted.maxDistanceKm);
   if (shortlisted.length === 0) {
-    return terminal("infeasible", "no_store_in_range");
+    // Discovery distances are reported to 0.1 km; allow the issue-specified
+    // one-kilometre display margin only for explaining nearby partial stores.
+    // Full-store eligibility remains strictly within the user's chosen radius.
+    const partialInRange = discovery.stores.some((store) => store.tier !== "full" && store.distanceKm <= interpreted.maxDistanceKm + 1);
+    const nearestFull = [...discovery.stores]
+      .filter((store) => store.tier === "full")
+      .sort((a, b) => a.distanceKm - b.distanceKm || b.confirmedAt.localeCompare(a.confirmedAt) || storeKey(a).localeCompare(storeKey(b)))[0];
+    return terminal(
+      "infeasible",
+      partialInRange ? "only_partial_stores_in_range" : "no_store_in_range",
+      [],
+      partialInRange ? (nearestFull ? { name: nearestFull.name, distanceKm: nearestFull.distanceKm } : null) : undefined,
+    );
   }
 
   // --- 4. Derive search concepts -------------------------------------

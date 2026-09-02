@@ -4,6 +4,7 @@ import { ore } from "@/core/money";
 import type { Product, StoreOption } from "@/core/types";
 import type { PriceSource, ProductSearch, StoreDiscovery } from "@/ports";
 import { PRIMAT_ATTRIBUTION } from "@/adapters/primat/client";
+import { filterCandidates } from "@/adapters/primat/filter";
 
 interface ProductRow { readonly storeKey: string; readonly product: Product; readonly confirmedAt: string }
 const fixtureProducts = productsFixture as unknown as Record<string, readonly ProductRow[]>;
@@ -18,7 +19,11 @@ export class FixtureStoreDiscovery implements StoreDiscovery {
 export class FixtureProductSearch implements ProductSearch {
   async search(query: Parameters<ProductSearch["search"]>[0], options: Parameters<ProductSearch["search"]>[1]) {
     ensureDeadline(options); const key = `${query.store.chain}:${query.store.storeId}`; const requested = query.concept.toLocaleLowerCase("sv-SE"); const fixtureKey = conceptAliases[requested] ?? requested;
-    return { products: (fixtureProducts[fixtureKey] ?? []).filter((row) => row.storeKey === key).map((row) => ({ ...row.product, concept: query.concept })).slice(0, query.limit), rejections: [], attribution: PRIMAT_ATTRIBUTION };
+    const mapped = (fixtureProducts[fixtureKey] ?? []).filter((row) => row.storeKey === key).map((row) => ({ ...row.product, concept: query.concept }));
+    // The domain fixture is already an approved candidate snapshot. Banan is
+    // additionally raw-fed in the adapter parity test and therefore re-filtered.
+    const filtered = requested === "banan" ? filterCandidates(query.concept, mapped, query.store) : { kept: mapped, rejections: [] };
+    return { products: filtered.kept.slice(0, query.limit), rejections: filtered.rejections, attribution: PRIMAT_ATTRIBUTION };
   }
 }
 export class FixturePriceSource implements PriceSource {

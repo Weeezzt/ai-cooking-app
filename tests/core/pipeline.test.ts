@@ -168,6 +168,17 @@ describe("runPlanPipeline — happy path", () => {
     expect(result.overshootOre).toBe(0);
   });
 
+  it("diversifies the shortlist by chain before adding another store from the same chain", async () => {
+    const stores: StoreOption[] = [
+      { ...UMEA_STORES[1], storeId: "coop-1", distanceKm: 0.5 },
+      { ...UMEA_STORES[1], storeId: "coop-2", distanceKm: 0.6 },
+      { ...UMEA_STORES[1], storeId: "coop-3", distanceKm: 0.7 },
+      { ...UMEA_STORES[0], storeId: "ica-1", distanceKm: 1.5 },
+    ];
+    const result = await runPlanPipeline(BASE_REQUEST, makeDeps({ stores: { async resolve() { return { location: { lat: 0, lon: 0, label: "Umeå", isDemoDefault: false }, stores }; } } }), ctx());
+    expect(new Set(result.comparison?.entries.map(({ store }) => store.chain))).toEqual(new Set(["coop", "ica"]));
+  });
+
   it("case: 700 g pack for a 500 g need — full pack price billed, nutrition uses 500 g", async () => {
     const result = await runPlanPipeline(BASE_REQUEST, makeDeps(), ctx());
     const pasta = result.basket?.lines.find((l) => l.concept === "pasta");
@@ -262,6 +273,21 @@ describe("runPlanPipeline — infeasible", () => {
     expect(result.reason).toBe("no_store_in_range");
     expect(result.basket).toBeNull();
     expect(result.nutrition).toBeNull();
+  });
+
+  it("distinguishes partial-only stores and reports the nearest full store", async () => {
+    const deps = makeDeps({ stores: { async resolve() { return {
+      location: { lat: 0, lon: 0, label: "Sorsele", isDemoDefault: false },
+      stores: [
+        { chain: "ica", storeId: "near", name: "ICA Nära", tier: "offers_only", distanceKm: 5.5, confirmedAt: "2026-08-25T00:00:00.000Z" },
+        { chain: "coop", storeId: "full", name: "Coop Sorsele", tier: "full", distanceKm: 27, confirmedAt: "2026-08-25T00:00:00.000Z" },
+      ],
+    }; } } });
+    await expect(runPlanPipeline(BASE_REQUEST, deps, ctx())).resolves.toMatchObject({
+      outcome: "infeasible",
+      reason: "only_partial_stores_in_range",
+      nearestFullStore: { name: "Coop Sorsele", distanceKm: 27 },
+    });
   });
 
   it("core-concept coverage impossible → infeasible", async () => {
