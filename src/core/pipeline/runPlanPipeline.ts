@@ -31,7 +31,7 @@ import type {
   CandidateRejection,
   CanonicalUnit,
 } from "../types";
-import { storeKey } from "../types";
+import { optionIdFor, storeKey } from "../types";
 import { deriveConcepts } from "./concepts";
 import { validateRequest } from "./validate";
 
@@ -144,10 +144,6 @@ function validateDraft(draft: RecipeDraft, portions: number, optionMap: Readonly
   if (missing.length) issues.push(`missing_core:${missing.join(",")}`);
   if (issues.length) throw new RecipeInvalid(issues, missing.length > 0 && issues.every((issue) => issue.startsWith("missing_core:")));
   return { draft, requirements };
-}
-
-function optionIdFor(store: StoreOption, product: Product): string {
-  return `opt-${storeKey(store)}-${product.id}`.replace(/[^A-Za-z0-9_-]/g, "_");
 }
 
 function sanitizeOption(optionId: string, product: Product): RecipeOptionHandle {
