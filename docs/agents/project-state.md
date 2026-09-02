@@ -38,11 +38,11 @@ _Last updated: 2026-09-01 by Master (Sonnet)_
   screen. Visual polish + browser/Visual-Critic pass deferred (human's call). Follow-ups on the issue.
 - **#22 PLAN correctness — MERGED** (PR #23, `867b4f2`). Live-verified: named ingredients honored,
   Umeå→3 chains, Sorsele→partial-store message.
-- **#9 SHOP — Claude Sonnet builder in flight.** Sectioned checkable list, running total (checked
-  only), pantry section from `pantry_cap` adjustments, receipt total block. Follows #21 patterns.
-- **#10 COOK — PR #24 open** (Codex). One step/screen, timer, segmented progress, receipt summary.
-  245 tests, CI green, `src/core` untouched. RISK: `BasketLine` lacks `optionId` so per-step
-  attribution reconstructs the pipeline's id — fragile; degrades to a combined ingredient line. Review next.
+- **#9 SHOP — PR #25 open** (Claude). Sectioned list, running total, HAR HEMMA section, receipt
+  total + perforation. 259 tests, browser-verified. Codex review in flight. `src/core` untouched.
+- **#10 COOK — PR #24 open** (Codex). Claude review in flight.
+  RISK on #24: `BasketLine` lacks `optionId` → per-step attribution reconstructs it (fragile). May
+  add `optionId` to `BasketLine` in `src/core` during review.
 - Dev server (user testing): `:3000` on main (PLAN #21+#22, live mode). Old :3111 in the orphaned `8-plan-experience` worktree, live mode.
   Serves merged #21 code. Replace once #22's fixes land.
 
