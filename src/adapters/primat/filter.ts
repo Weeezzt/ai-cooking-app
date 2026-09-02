@@ -31,11 +31,15 @@ export function filterCandidates(concept: string, products: readonly Product[], 
   for (const product of products) {
     let reason: CandidateRejection["reason"] | null = null;
     const path = product.categoryPath.join(" > ");
-    const searchable = fold(`${product.name} ${path}`);
-    const nameMatches = new RegExp(`\\b${escaped(foldedConcept)}\\w*`, "iu").test(searchable);
+    const wholeWord = new RegExp(`(?:^|[^a-z0-9])${escaped(foldedConcept)}(?:$|[^a-z0-9])`, "iu");
+    const foldedName = fold(product.name);
+    const nameMatches = wholeWord.test(foldedName);
+    const categoryWordMatches = product.categoryPath.some((segment) => wholeWord.test(fold(segment)));
+    const compoundNameMismatch = foldedName.includes(foldedConcept) && !nameMatches;
     const categoryMatches = patterns?.some((pattern) => pattern.test(path)) ?? false;
     const freshLimeNoise = canonical.includes("lime") && /juice|koncentrat|dryck/iu.test(`${product.name} ${path}`);
-    const conceptMatches = patterns ? nameMatches && (categoryMatches || product.categoryPath.length === 0) : nameMatches;
+    const lexicalMatch = nameMatches || (!compoundNameMismatch && categoryWordMatches);
+    const conceptMatches = patterns ? lexicalMatch && (categoryMatches || product.categoryPath.length === 0) : lexicalMatch;
     if (freshLimeNoise || !conceptMatches) reason = "concept_mismatch";
     else if (options.requiredUnit && options.requiredUnit !== product.packageUnit && !(options.requiredUnit === "g" && product.comparison.unit === "kg")) reason = "unit_incompatible";
     else if (!Number.isSafeInteger(product.priceOre) || product.priceOre <= 0 || !Number.isSafeInteger(product.comparison.priceOre) || product.comparison.priceOre <= 0 || product.comparison.priceOre > 1_000_000) reason = "invalid_price";

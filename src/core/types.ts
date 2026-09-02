@@ -283,5 +283,7 @@ export interface PlanResult {
   readonly overshootOre: Ore;
   /** Machine reason for `infeasible` / `unknown`. */
   readonly reason: string | null;
+  /** Closest full-tier store outside the selected radius, when only partial stores are in range. */
+  readonly nearestFullStore?: { readonly name: string; readonly distanceKm: number } | null;
   readonly provenance: readonly Provenance[];
 }
