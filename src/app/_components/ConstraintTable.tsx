@@ -1,22 +1,42 @@
+import type { ConstraintTone } from "@/lib/planView";
+
+export type { ConstraintTone };
+
 export interface Constraint {
-  /** e.g. "BUDGET", "TID", "PROTEIN", "GLUTENFRI". */
+  /** e.g. "Budget", "Tillagningstid", "Avstånd". */
   label: string;
-  /** The measured value, e.g. "382 / 400 kr", "28 min", "41 g". */
+  /** The measured value, e.g. "382 / 400 kr", "ca 28 min (uppskattning)". */
   value: string;
-  /** Pass = `--ink` and a check, no colour. Fail = `--negative`, nothing else. */
-  ok: boolean;
+  /**
+   * AD-5 taxonomy, not a boolean:
+   *  - `pass`       verified and met — `✓`, `--ink`, no colour
+   *  - `fail`       verified and provably not met — `--negative`, the only
+   *                 coloured thing on the screen
+   *  - `estimate`   model/heuristic value — `≈`, never a hard check
+   *  - `disclaimer` cannot be established from the data (allergens, diet
+   *                 guarantees) — never rendered as a pass
+   */
+  tone: ConstraintTone;
 }
 
 export interface ConstraintTableProps {
   caption?: string;
-  rows: Constraint[];
+  rows: readonly Constraint[];
 }
+
+const MARK: Record<ConstraintTone, { glyph: string; label: string }> = {
+  pass: { glyph: "✓", label: "uppfyllt" },
+  fail: { glyph: "✕", label: "ej uppfyllt" },
+  estimate: { glyph: "≈", label: "uppskattning" },
+  disclaimer: { glyph: "!", label: "kan inte verifieras" },
+};
 
 /**
  * The constraint verdict as a mono table — NOT a row of green chips
- * (design-system.md, mandatory change 3). Pass rows carry no colour at all; a
- * failing row is the only coloured thing on the screen, which is exactly what the
- * IA wants from it.
+ * (design-system.md, mandatory change 3). The deterministic engine speaking
+ * directly to the user, above the fold. Pass rows carry no colour at all; a
+ * failing row is the only coloured thing on the screen, which is exactly what
+ * the IA wants from it. An `unsupported` check never gets a check mark.
  */
 export function ConstraintTable({ caption, rows }: ConstraintTableProps) {
   return (
@@ -27,15 +47,13 @@ export function ConstraintTable({ caption, rows }: ConstraintTableProps) {
           {rows.map((row) => (
             <tr
               key={row.label}
-              className={`constraint-table__row constraint-table__row--${row.ok ? "ok" : "fail"}`}
+              className={`constraint-table__row constraint-table__row--${row.tone}`}
             >
               <td className="constraint-table__label">{row.label}</td>
               <td className="constraint-table__value">{row.value}</td>
               <td className="constraint-table__mark">
-                <span aria-hidden="true">{row.ok ? "✓" : "✕"}</span>
-                <span className="sr-only">
-                  {row.ok ? " uppfyllt" : " ej uppfyllt"}
-                </span>
+                <span aria-hidden="true">{MARK[row.tone].glyph}</span>
+                <span className="sr-only"> {MARK[row.tone].label}</span>
               </td>
             </tr>
           ))}
