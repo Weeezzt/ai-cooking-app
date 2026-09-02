@@ -34,12 +34,20 @@ _Last updated: 2026-09-01 by Master (Sonnet)_
 
 ## Active work
 
-- **Issue #7 — MERGED** (PR #20, squash `c4539e2`). Codex build → Claude review (2 blockers:
-  concept vocab too specific → infeasible; live latency > deadline) → Codex rework → Master
-  re-verify. **The app runs end-to-end now** — fixture: all themed vibes → `ok`; live: real
-  OpenAI recipes at 7-20s. `POST /api/plan`, `src/lib/planStore.ts`, degradation state machine.
-- **Issue #8 (PLAN experience) — dispatched** (Claude builder). Editorial result screen on the
-  #7 route + #2 primitives. Defines patterns #9/#10 follow.
+- **Issue #8 (PLAN experience) — PR #21 open** (Opus-built; builder hit the rate limit right after
+  gates went green, Master merged main + pushed + PR'd). 237 tests. Codex code review in flight.
+  **User tested it live** (dev server on :3111, live mode) — feedback below.
+- **Issue #22 (PLAN correctness) — Codex builder in flight.** From the user's live test:
+  (1) `deriveConcepts` ignores explicitly-named ingredients ("pasta med kyckling" → nötfärssås!);
+  (2) `shortlistStores` not chain-diversified (Umeå showed 3 Coop stores);
+  (3) `offers_only`-only towns get a blunt `infeasible` (Sorsele);
+  (4) filter matched "ost"→"Ostkaka". Fixes in `src/core/pipeline`. **Land before #9/#10.**
+- Dev server for the user: `:3111`, live mode, in the `8-plan-experience` worktree. Keep alive.
+
+## User feedback (2026-09-02, live test of PLAN)
+
+Substance > polish for now ("finputsa utseendet senare"). Real bugs → issue #22. Future idea:
+radius from the user's actual address/postcode, not the town centroid.
 
 
 ## Not started
