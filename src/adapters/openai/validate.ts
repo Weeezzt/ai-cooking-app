@@ -32,6 +32,20 @@ export function validateRecipe(
   }
   if (issues.length > 0) return { issues };
 
+  // Safety net: the model sometimes echoes an option handle inline in the
+  // human-readable step text ("koka 400 g pasta (opt-coop_236018-733…)"). Strip
+  // any `opt-…` token and tidy the leftover punctuation/whitespace — the handles
+  // belong only in `optionRefs`.
+  const cleanSteps = parsed.steps.map((step) => ({
+    ...step,
+    text: step.text
+      .replace(/\s*\(\s*opt-[A-Za-z0-9_-]+\s*\)/g, "")
+      .replace(/\s*opt-[A-Za-z0-9_-]+/g, "")
+      .replace(/\s{2,}/g, " ")
+      .replace(/\s+([.,;:])/g, "$1")
+      .trim(),
+  }));
+
   const requirements: RecipeRequirementDraft[] = parsed.requirements.map((requirement) => ({
     optionId: requirement.optionId,
     ...(requirement.requiredGrams === null ? {} : { requiredGrams: requirement.requiredGrams }),
@@ -45,7 +59,7 @@ export function validateRecipe(
       title: parsed.title,
       portions: parsed.portions,
       requirements,
-      steps: parsed.steps,
+      steps: cleanSteps,
       estimatedCookMinutes: parsed.estimatedCookMinutes,
       explanation: parsed.explanation,
     },

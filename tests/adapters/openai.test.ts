@@ -40,6 +40,24 @@ describe("OpenAI recipe adapter", () => {
     ]));
   });
 
+  it("strips an option handle the model echoed into the step text", () => {
+    const parsed = RecipeDraftSchema.parse({
+      title: "Test",
+      portions: 2,
+      requirements: [{ optionId: "opt-a", requiredGrams: 400, requiredMl: null, requiredCount: null, role: "core" }],
+      steps: [
+        { text: "Koka 400 g pasta (opt-a) i 8 minuter.", durationSeconds: 480, optionRefs: ["opt-a"] },
+        { text: "Rör ner opt-b och sjud 2 minuter.", durationSeconds: 120, optionRefs: ["opt-b"] },
+      ],
+      estimatedCookMinutes: 12,
+      explanation: "Test.",
+    });
+    const recipe = validateRecipe(parsed, input).recipe;
+    expect(recipe?.steps[0].text).toBe("Koka 400 g pasta i 8 minuter.");
+    expect(recipe?.steps[1].text).toBe("Rör ner och sjud 2 minuter.");
+    expect(recipe?.steps.some((s) => /opt-/.test(s.text))).toBe(false);
+  });
+
   it("wraps provider failure in an explicitly badged demo result", async () => {
     const failing: RecipeGenerator = { generate: async () => { throw new Error("offline"); } };
     const result = await new RecipeService(failing).generate(input, callOptions);

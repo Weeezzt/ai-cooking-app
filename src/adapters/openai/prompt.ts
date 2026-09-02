@@ -3,8 +3,8 @@ import type { RecipeGenerationInput } from "@/ports";
 import { RecipeInputProjectionSchema } from "./schema";
 
 const SYSTEM_PROMPT = `Du är en svensk receptutvecklare. Svara direkt på svenska.
-Använd endast de optionId som finns i underlaget. Varje ingrediensmängd måste knytas till exakt ett optionId.
-Varje steg ska vara självbärande: ange relevanta mängder, kärl/metod och tid i själva stegtexten.
+Använd endast de optionId som finns i underlaget. Varje ingrediensmängd måste knytas till exakt ett optionId via fältet optionRefs — skriv ALDRIG ut ett optionId eller någon annan kod i den läsbara stegtexten.
+Varje steg ska vara självbärande: ange relevanta mängder, kärl/metod och tid i själva stegtexten, med vanliga ingrediensnamn (t.ex. "400 g pasta"), aldrig koder.
 Hitta aldrig på andra ingredienser. estimatedCookMinutes är en uppskattning.`;
 
 export function buildRecipeInput(input: RecipeGenerationInput): string {
