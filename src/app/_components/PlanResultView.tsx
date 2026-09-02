@@ -37,7 +37,7 @@ export function PlanResultView({
   notices = [],
 }: PlanResultViewProps) {
   return (
-    <div className="result">
+    <div className="result" aria-live="polite">
       {demo ? (
         <InvertedBar as="aside" className="full-bleed" trailing="EXEMPELDATA">
           Demoläge — priser och produkter är exempeldata
@@ -56,7 +56,7 @@ export function PlanResultView({
         <Rule weight="heavy" />
         <ConstraintTable caption="Villkor" rows={view.constraints} />
         {allergyDisclaimer ? (
-          <Notice eyebrow="Allergi" tone="warning">
+          <Notice eyebrow="Allergi" tone="warning" alert>
             Vi kan inte garantera allergiinformation. Kontrollera alltid
             förpackningen.
           </Notice>

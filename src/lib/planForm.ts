@@ -115,6 +115,7 @@ export interface PlanRequestBody {
 
 /** Form values → the `POST /api/plan` body. The one place the mapping lives. */
 export function toRequestBody(values: PlanFormValues, attempt: number): PlanRequestBody {
+  const boundedAttempt = Math.max(0, Math.min(3, Math.floor(attempt) || 0));
   const vibe = fullVibe(values);
   const dietary = [
     ...DIETARY_OPTIONS.filter((option) => values.dietary.includes(option.id)),
@@ -130,7 +131,7 @@ export function toRequestBody(values: PlanFormValues, attempt: number): PlanRequ
     dietary,
     pantry: PANTRY_OPTIONS.filter((option) => values.pantry.includes(option.concept)),
     vibe,
-    attempt,
+    attempt: boundedAttempt,
   };
 }
 

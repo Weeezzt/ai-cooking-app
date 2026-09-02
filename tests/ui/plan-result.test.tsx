@@ -227,8 +227,17 @@ describe("NarratedPipeline", () => {
     const markup = render(<NarratedPipeline stages={stages} activeIndex={2} />);
     expect(markup).not.toContain("role=\"progressbar\"");
     expect(markup).not.toContain("aria-valuenow");
-    expect(markup.match(/pipeline__segment--done/gu)).toHaveLength(2);
+    // While generating (not `done`), no stage is marked verified-complete —
+    // the single POST gives no per-stage evidence. Passed/current stages are
+    // "active", not "done".
+    expect(markup).not.toContain("pipeline__segment--done");
+    expect(markup.match(/pipeline__segment--active/gu)).toHaveLength(3);
     expect(markup).toContain("pipeline__row--active");
+  });
+
+  it("marks every stage complete only once the result has arrived", () => {
+    const markup = render(<NarratedPipeline stages={stages} activeIndex={3} done />);
+    expect(markup.match(/pipeline__segment--done/gu)).toHaveLength(4);
   });
 
   it("reveals the store name as a stage detail", () => {

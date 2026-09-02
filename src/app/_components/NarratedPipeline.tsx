@@ -31,13 +31,16 @@ export function NarratedPipeline({ stages, activeIndex, done = false }: Narrated
         {stages.map((stage, index) => (
           <span
             key={stage.label}
-            className={`pipeline__segment${done || index < activeIndex ? " pipeline__segment--done" : ""}`}
+            className={`pipeline__segment${done ? " pipeline__segment--done" : index <= activeIndex ? " pipeline__segment--active" : ""}`}
           />
         ))}
       </div>
       <ol className="pipeline__list">
         {stages.map((stage, index) => {
-          const state = done || index < activeIndex ? "done" : index === activeIndex ? "active" : "pending";
+          // Time-advanced stages are shown as in-progress (●), never as a
+          // verified checkmark — the single POST gives no per-stage evidence.
+          // Only `done` (the result has actually arrived) marks everything ✓.
+          const state = done ? "done" : index <= activeIndex ? "active" : "pending";
           return (
             <li key={stage.label} className={`pipeline__row pipeline__row--${state}`}>
               <span className="pipeline__mark t-meta" aria-hidden="true">

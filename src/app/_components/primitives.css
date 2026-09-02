@@ -955,6 +955,9 @@
   background: var(--rule);
   transition: background var(--dur-2) var(--ease);
 }
+.pipeline__segment--active {
+  background: var(--accent-dim);
+}
 .pipeline__segment--done {
   background: var(--ink);
 }
