@@ -263,10 +263,11 @@ export default function StyleguidePage() {
         <ConstraintTable
           caption="VILLKOR"
           rows={[
-            { label: "Budget", value: "382 / 400 kr", ok: true },
-            { label: "Tid", value: "28 / 30 min", ok: true },
-            { label: "Protein", value: "41 g", ok: true },
-            { label: "Glutenfri", value: "vetemjöl i sås", ok: false },
+            { label: "Budget", value: "382 / 400 kr", tone: "pass" },
+            { label: "Tid", value: "ca 28 min (uppskattning)", tone: "estimate" },
+            { label: "Avstånd", value: "1,2 km (max 2,0 km)", tone: "pass" },
+            { label: "Glutenfri", value: "kan inte verifieras", tone: "disclaimer" },
+            { label: "Portioner", value: "receptet ger 3, du bad om 4", tone: "fail" },
           ]}
         />
       </section>
@@ -335,16 +336,13 @@ export default function StyleguidePage() {
       <section className={styles.block}>
         <SectionHead eyebrow="14" title="NutritionPanel" aside="literal label" />
         <NutritionPanel
-          basis="portion"
-          energy={{ kcal: "612 kcal", kj: "2 560 kJ" }}
+          energy={{ kcal: "612 kcal", kj: "2 560 kJ", total: "2 448 kcal" }}
           rows={[
-            { label: "Fett", value: formatQuantity(24, "g"), referencePct: 34 },
-            { label: "varav mättat fett", value: formatQuantity(7.1, "g"), sub: true },
-            { label: "Kolhydrater", value: formatQuantity(48, "g"), referencePct: 18 },
-            { label: "varav sockerarter", value: formatQuantity(6, "g"), sub: true },
-            { label: "Protein", value: formatQuantity(41, "g"), referencePct: 82, emphasised: true },
-            { label: "Salt", value: formatQuantity(2.1, "g") },
+            { label: "Protein", value: formatQuantity(41, "g"), totalValue: formatQuantity(164, "g"), referencePct: 82, emphasised: true },
+            { label: "Kolhydrater", value: formatQuantity(48, "g"), totalValue: formatQuantity(192, "g"), referencePct: 18 },
+            { label: "Fett", value: formatQuantity(24, "g"), totalValue: formatQuantity(96, "g"), referencePct: 34 },
           ]}
+          footnote="Näringsvärden är uppskattade utifrån produktdata och avser tillagad portion."
           source="Livsmedelsverkets livsmedelsdatabas (2024)"
         />
       </section>

@@ -9,7 +9,9 @@ export default defineConfig({
     },
   },
   test: {
-    include: ["tests/**/*.test.ts"],
+    // `.tsx` covers the UI tests, which render components to static markup with
+    // `react-dom/server` — no DOM environment and no new dependency needed.
+    include: ["tests/**/*.test.{ts,tsx}"],
     environment: "node",
     coverage: {
       provider: "v8",

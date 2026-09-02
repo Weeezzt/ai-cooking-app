@@ -39,3 +39,7 @@ yarn-error.log*
 
 # agent worktrees / local claude state
 .claude/
+
+# Next.js 16 auto-generated agent rule files
+AGENTS.md
+CLAUDE.md
