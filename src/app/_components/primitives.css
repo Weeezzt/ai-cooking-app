@@ -590,8 +590,9 @@
   font-variant-numeric: tabular-nums;
 }
 .cook-step__progress {
-  position: absolute;
+  position: fixed;
   inset: 0 0 auto 0;
+  z-index: 5;
   display: flex;
   gap: 3px;
   height: 3px;
@@ -601,7 +602,122 @@
   background: var(--rule);
 }
 .cook-step__progress-seg--done {
+  background: var(--ink);
+}
+.cook-step__progress-seg--active {
   background: var(--accent);
+}
+
+/* ============================================================ COOK experience (#10) */
+
+.cook-page {
+  min-height: 100dvh;
+  background: var(--bg-sunk);
+  overflow-x: hidden;
+}
+.cook-state {
+  margin: var(--s-10) var(--s-4);
+  color: var(--ink-2);
+}
+.cook-state a,
+.cook-summary__link {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 2px solid var(--accent);
+}
+.cook-content {
+  min-height: calc(100dvh - 184px);
+  padding-bottom: 136px;
+  cursor: pointer;
+}
+.cook-content > .notice,
+.cook-timer {
+  margin-left: var(--s-4);
+  margin-right: var(--s-4);
+}
+.cook-timer {
+  cursor: default;
+  border-top: var(--rule-heavy);
+  padding: var(--s-4) 0 var(--s-6);
+}
+.cook-timer__display {
+  display: block;
+  margin: var(--s-2) 0 var(--s-4);
+  color: var(--ink);
+  font-family: var(--face-mono);
+  font-size: var(--fs-num-l);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.cook-actions {
+  position: fixed;
+  z-index: 4;
+  inset: auto 0 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-4) max(var(--s-3), env(safe-area-inset-bottom));
+  border-top: var(--rule-heavy);
+  background: var(--bg-sunk);
+}
+.cook-summary {
+  padding: var(--s-8) var(--s-4) var(--s-14);
+}
+.cook-summary__heading {
+  margin: var(--s-2) 0 var(--s-8);
+  font-family: var(--face-display);
+  font-size: var(--fs-h1);
+  font-variation-settings: "wght" 800, "wdth" 125;
+  line-height: 0.95;
+}
+.cook-receipt {
+  font-family: var(--face-mono);
+  font-variant-numeric: tabular-nums;
+}
+.cook-receipt h2 {
+  margin: var(--s-6) 0;
+  font-family: var(--face-display);
+  font-size: var(--fs-h3);
+  font-variation-settings: "wght" 750, "wdth" 118;
+  line-height: 1.05;
+}
+.cook-receipt dl {
+  margin: 0 0 var(--s-6);
+}
+.cook-receipt dl > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: var(--s-3);
+  padding: var(--s-3) 0;
+  border-top: var(--rule-hair);
+}
+.cook-receipt dt {
+  color: var(--muted);
+}
+.cook-receipt dd {
+  margin: 0;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+.cook-summary__link {
+  display: inline-block;
+  margin-top: var(--s-8);
+}
+
+@media (min-width: 904px) {
+  .cook-page > .mode-header,
+  .cook-content,
+  .cook-summary {
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .cook-actions {
+    left: 50%;
+    right: auto;
+    width: min(760px, 100%);
+    transform: translateX(-50%);
+  }
 }
 
 /* ============================================================ ProductLineItem (§5.1) */

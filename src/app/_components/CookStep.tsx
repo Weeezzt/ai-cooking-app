@@ -33,7 +33,7 @@ export function CookStep({ step, total, ingredients = [], instruction }: CookSte
         {Array.from({ length: total }, (_, i) => (
           <span
             key={i}
-            className={`cook-step__progress-seg${i < step ? " cook-step__progress-seg--done" : ""}`}
+            className={`cook-step__progress-seg${i < step - 1 ? " cook-step__progress-seg--done" : ""}${i === step - 1 ? " cook-step__progress-seg--active" : ""}`}
           />
         ))}
       </div>
