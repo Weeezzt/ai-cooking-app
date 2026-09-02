@@ -76,6 +76,10 @@ describe("deriveConcepts", () => {
     ["laxsoppa", [], ["lax", "potatis"]],
     ["currygryta med tofu", [], ["tofu", "ris"]],
     ["pasta med kyckling", [{ id: "vegetarian", label: "Vegetarisk", safetyCritical: false }], ["halloumi", "pasta"]],
+    // Swedish compounds — the whole point of this fix
+    ["kycklingpasta Riyad Mahrez style", [], ["kyckling", "pasta"]],
+    ["laxgratäng till helgen", [], ["lax", "potatis"]],
+    ["korvstroganoff med ris", [], ["korv", "ris"]],
   ] as const)("respects named ingredients in %s", (vibe, dietary, expected) => {
     const concepts = deriveConcepts({ vibe, dietary }).filter(({ role }) => role === "core").map(({ concept }) => concept);
     expect(concepts).toEqual(expected);
