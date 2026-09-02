@@ -7,6 +7,11 @@ export interface DerivedConcept {
 }
 
 const BASE = ["olivolja", "salt", "svartpeppar", "gul lök", "vitlök"] as const;
+const INGREDIENTS = {
+  protein: ["kyckling", "nötfärs", "fläskkött", "lax", "torsk", "räkor", "tofu", "halloumi", "kikärtor", "linser", "ägg", "korv"],
+  carb: ["pasta", "ris", "potatis", "nudlar", "bulgur", "couscous", "quinoa", "bröd", "tortilla"],
+  other: ["tomat", "paprika", "majs", "morot", "spenat", "sallad", "gurka", "citron", "lime", "lök", "vitlök", "ost", "grädde", "kokosmjölk", "dill"],
+} as const;
 interface ArchetypeSet { readonly pattern: RegExp; readonly core: readonly [string, string]; readonly supporting: readonly string[] }
 const ARCHETYPES: readonly ArchetypeSet[] = [
   { pattern: /curry|indisk|tikka|masala/i, core: ["kyckling", "ris"], supporting: ["kokosmjölk", "currypasta", "spenat"] },
@@ -26,14 +31,30 @@ function dietKind(request: Pick<MealRequest, "dietary">): "vegan" | "vegetarian"
   return /vegetarian|vegetarisk|lakto|ovo/i.test(labels) ? "vegetarian" : null;
 }
 
+function fold(value: string): string {
+  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("sv-SE");
+}
+
+function namedIngredient(vibe: string, terms: readonly string[]): string | null {
+  const folded = fold(vibe);
+  return terms.find((term) => {
+    const ingredient = fold(term);
+    return folded.split(/[^a-z0-9]+/u).some((word) => word === ingredient || word.startsWith(`${ingredient}soppa`) || word.startsWith(`${ingredient}gryta`));
+  }) ?? null;
+}
+
 /** At most two core slots: a main/protein and a carb/base. */
 export function deriveConcepts(request: Pick<MealRequest, "vibe" | "dietary">): DerivedConcept[] {
   const selected = ARCHETYPES.find(({ pattern }) => pattern.test(request.vibe)) ?? FALLBACK;
   const diet = dietKind(request);
-  const main = diet === "vegan" ? "kikärtor" : diet === "vegetarian" ? "halloumi" : selected.core[0];
+  const namedProtein = namedIngredient(request.vibe, INGREDIENTS.protein);
+  const namedCarb = namedIngredient(request.vibe, INGREDIENTS.carb);
+  const namedOther = INGREDIENTS.other.filter((term) => namedIngredient(request.vibe, [term]) !== null);
+  const main = diet === "vegan" ? "kikärtor" : diet === "vegetarian" ? "halloumi" : namedProtein ?? selected.core[0];
   const ordered: DerivedConcept[] = [
-    { concept: main, role: "core" }, { concept: selected.core[1], role: "core" },
+    { concept: main, role: "core" }, { concept: namedCarb ?? selected.core[1], role: "core" },
     ...selected.supporting.map((concept) => ({ concept, role: "supporting" as const })),
+    ...namedOther.map((concept) => ({ concept, role: "supporting" as const })),
     ...BASE.map((concept) => ({ concept, role: "supporting" as const })),
   ];
   return ordered.filter((item, index) => ordered.findIndex(({ concept }) => concept === item.concept) === index).slice(0, 8);

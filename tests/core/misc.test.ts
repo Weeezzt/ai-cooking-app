@@ -70,6 +70,17 @@ describe("deriveConcepts", () => {
       { concept: "kikärtor", role: "core" }, { concept: "potatis", role: "core" },
     ]);
   });
+
+  it.each([
+    ["pasta med kyckling", [], ["kyckling", "pasta"]],
+    ["laxsoppa", [], ["lax", "potatis"]],
+    ["currygryta med tofu", [], ["tofu", "ris"]],
+    ["pasta med kyckling", [{ id: "vegetarian", label: "Vegetarisk", safetyCritical: false }], ["halloumi", "pasta"]],
+  ] as const)("respects named ingredients in %s", (vibe, dietary, expected) => {
+    const concepts = deriveConcepts({ vibe, dietary }).filter(({ role }) => role === "core").map(({ concept }) => concept);
+    expect(concepts).toEqual(expected);
+    if (dietary.length) expect(deriveConcepts({ vibe, dietary }).some(({ concept }) => concept === "kyckling")).toBe(false);
+  });
 });
 
 describe("FixedClock", () => {
