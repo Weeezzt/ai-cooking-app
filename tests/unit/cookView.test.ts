@@ -36,6 +36,18 @@ describe("cook ingredient attribution", () => {
     expect(view.usesCombinedIngredients).toBe(true);
     expect(view.ingredients).toHaveLength(basket.lines.length);
   });
+
+  it("degrades to the combined list when a ref does not resolve (partial attribution)", () => {
+    const step: RecipeStep = {
+      text: "Stek.",
+      durationSeconds: 0,
+      ingredientRefs: [firstId, "opt-coop_232400-substituted-sku"],
+    };
+    const view = ingredientsForStep(step, basket);
+    // One ref resolves, one doesn't — must not silently drop the missing one.
+    expect(view.usesCombinedIngredients).toBe(true);
+    expect(view.ingredients).toHaveLength(basket.lines.length);
+  });
 });
 
 describe("cook instruction quantities", () => {

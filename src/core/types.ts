@@ -94,6 +94,19 @@ export function storeKey(store: Pick<StoreOption, "chain" | "storeId">): string 
   return `${store.chain}:${store.storeId}`;
 }
 
+/**
+ * The opaque, request-scoped option handle the pipeline issues for a product
+ * (AD-3 step 8) and the recipe steps reference. The single source of this
+ * derivation — the COOK view re-derives it to join `RecipeStep.ingredientRefs`
+ * back to basket lines, so both sides MUST use this function.
+ */
+export function optionIdFor(
+  store: Pick<StoreOption, "chain" | "storeId">,
+  product: Pick<Product, "id">,
+): string {
+  return `opt-${storeKey(store)}-${product.id}`.replace(/[^A-Za-z0-9_-]/g, "_");
+}
+
 export interface ComparisonUnitPrice {
   /** Price per `unit` for cross-product comparison, in öre. */
   readonly priceOre: Ore;

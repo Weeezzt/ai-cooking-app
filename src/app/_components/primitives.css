@@ -590,12 +590,17 @@
   font-variant-numeric: tabular-nums;
 }
 .cook-step__progress {
-  position: fixed;
+  position: absolute;
   inset: 0 0 auto 0;
   z-index: 5;
   display: flex;
   gap: 3px;
   height: 3px;
+}
+/* On the real COOK route the strip pins to the viewport top; in the styleguide's
+ * bounded demo container it stays absolute so it doesn't escape. */
+.cook-page .cook-step__progress {
+  position: fixed;
 }
 .cook-step__progress-seg {
   flex: 1 1 0;

@@ -1,5 +1,5 @@
 import type { Basket, PlanResult, RecipeStep } from "@/core/types";
-import { storeKey } from "@/core/types";
+import { optionIdFor } from "@/core/types";
 import { formatNumber, formatQuantity, formatSek } from "@/lib/format";
 
 export interface CookTextPart { readonly text: string; readonly quantity: boolean }
@@ -23,22 +23,25 @@ export function wrapCookQuantities(text: string): readonly CookTextPart[] {
   return parts.length > 0 ? parts : [{ text, quantity: false }];
 }
 
-function optionId(basket: Basket, productId: string): string {
-  return `opt-${storeKey(basket.store)}-${productId}`.replace(/[^A-Za-z0-9_-]/gu, "_");
-}
-
 function ingredientLabel(line: Basket["lines"][number]): string {
   const value = line.recipeAmount ?? line.recipeGrams;
   const unit = line.unit ?? "g";
   return `${formatQuantity(value, unit)} ${line.product.name}`.toLocaleUpperCase("sv-SE");
 }
 
-/** Join model step refs to basket lines; absent attribution degrades to the full list. */
+/**
+ * Join the model's step ingredient refs to basket lines. Degrades to the full
+ * basket list (with `usesCombinedIngredients: true`, surfaced as a notice) when
+ * NONE — or only SOME — of a step's refs resolve, so a step's line never
+ * silently omits an ingredient the model attributed to it.
+ */
 export function ingredientsForStep(step: RecipeStep, basket: Basket): { readonly ingredients: readonly string[]; readonly usesCombinedIngredients: boolean } {
   const refs = new Set(step.ingredientRefs);
-  const joined = basket.lines.filter((line) => refs.has(optionId(basket, line.product.id)));
-  const lines = joined.length > 0 ? joined : basket.lines;
-  return { ingredients: lines.map(ingredientLabel), usesCombinedIngredients: joined.length === 0 };
+  const lineIds = new Set(basket.lines.map((line) => optionIdFor(basket.store, line.product)));
+  const fullyResolved = refs.size > 0 && [...refs].every((ref) => lineIds.has(ref));
+  const joined = basket.lines.filter((line) => refs.has(optionIdFor(basket.store, line.product)));
+  const lines = fullyResolved ? joined : basket.lines;
+  return { ingredients: lines.map(ingredientLabel), usesCombinedIngredients: !fullyResolved };
 }
 
 export function clampCookPosition(position: number, stepCount: number): number {
