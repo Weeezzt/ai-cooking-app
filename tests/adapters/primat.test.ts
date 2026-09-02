@@ -33,6 +33,14 @@ describe("candidate filter", () => {
     const fresh = product("fresh","Färsk lime",["Frukt & Grönsaker","Citrus"]); const juice = product("juice","Limejuice från koncentrat",["Skafferi","Juice"],"ml");
     expect(filterCandidates("färsk lime", [fresh, juice], store, { requiredUnit:"g" }).kept).toEqual([fresh]);
   });
+  it("requires whole-word matches for cheese and lime", () => {
+    const ostkaka = product("ostkaka", "Ostkaka", ["Mejeri", "Efterrätt"]);
+    const limejuice = product("limejuice", "Limejuice från koncentrat", ["Skafferi", "Juice"], "ml");
+    expect(filterCandidates("ost", [ostkaka], store).kept).toEqual([]);
+    expect(filterCandidates("lime", [limejuice], store).kept).toEqual([]);
+    const pastaSauce = product("pastasas", "Pastasås Classico", ["Pasta", "Pastasås"]);
+    expect(filterCandidates("pasta", [pastaSauce], store).kept).toEqual([]);
+  });
 });
 
 describe("adapter contracts: raw-fed mapper and fixture implementation", () => {
