@@ -1420,3 +1420,7 @@ div.shopping-row {
   color: var(--muted);
   padding: var(--s-5) var(--s-4) 0;
 }
+
+.shop-section__rows {
+  list-style: none;
+}

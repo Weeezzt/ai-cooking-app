@@ -26,12 +26,19 @@ export default function ShopPage() {
     return () => clearTimeout(timer);
   }, []);
 
+  const [storageBlocked, setStorageBlocked] = useState(false);
+
   // Persist on every change — but only after the restore above, so the initial
   // empty state never clobbers stored checks (AD-8: localStorage keyed by plan).
   useEffect(() => {
     if (!hydrated || !saved) return;
-    saveShopChecks(saved.planId, checked);
-  }, [checked, hydrated, saved]);
+    const ok = saveShopChecks(saved.planId, checked);
+    // AD-11: a failed write must be surfaced, not silently swallowed. This
+    // setState is conditional, one-shot per real change, and cannot loop
+    // (`storageBlocked` guards re-entry and stays in deps for exhaustiveness).
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (!ok && !storageBlocked) setStorageBlocked(true);
+  }, [checked, hydrated, saved, storageBlocked]);
 
   const view = useMemo(
     () => (saved?.plan ? shopView(saved.plan, saved.status) : null),
@@ -97,6 +104,7 @@ export default function ShopPage() {
           onToggle={toggle}
           onStartCooking={startCooking}
           stale={saved.stale}
+          storageBlocked={storageBlocked}
         />
       </main>
     </>

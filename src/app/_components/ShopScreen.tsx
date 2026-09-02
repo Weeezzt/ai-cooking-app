@@ -86,18 +86,21 @@ export function ShopScreen({
           <InvertedBar sticky className="full-bleed" trailing={section.countLabel}>
             {section.section}
           </InvertedBar>
-          {section.rows.map((row) => (
-            <ShoppingRow
-              key={row.id}
-              quantity={row.quantity}
-              unit={row.unit}
-              name={row.name}
-              meta={row.meta}
-              price={row.price}
-              checked={checked.has(row.id)}
-              onToggle={() => onToggle(row.id)}
-            />
-          ))}
+          <ul className="shop-section__rows">
+            {section.rows.map((row) => (
+              <li key={row.id}>
+                <ShoppingRow
+                  quantity={row.quantity}
+                  unit={row.unit}
+                  name={row.name}
+                  meta={row.meta}
+                  price={row.price}
+                  checked={checked.has(row.id)}
+                  onToggle={() => onToggle(row.id)}
+                />
+              </li>
+            ))}
+          </ul>
         </section>
       ))}
 
