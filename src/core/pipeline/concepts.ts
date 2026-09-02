@@ -35,12 +35,23 @@ function fold(value: string): string {
   return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("sv-SE");
 }
 
+/**
+ * Does an ingredient term appear in the vibe? Swedish jams words together
+ * ("kycklingpasta", "laxsoppa", "potatisgratäng"), so a whole-word check misses
+ * most real requests. Match when a word IS the term, STARTS with it (compound
+ * head — "kyckling"pasta) or ENDS with it (compound tail — chicken"pasta"),
+ * requiring ≥3 chars for the tail case to avoid noise.
+ */
 function namedIngredient(vibe: string, terms: readonly string[]): string | null {
-  const folded = fold(vibe);
-  return terms.find((term) => {
-    const ingredient = fold(term);
-    return folded.split(/[^a-z0-9]+/u).some((word) => word === ingredient || word.startsWith(`${ingredient}soppa`) || word.startsWith(`${ingredient}gryta`));
-  }) ?? null;
+  const words = fold(vibe).split(/[^a-z0-9]+/u).filter(Boolean);
+  return (
+    terms.find((term) => {
+      const t = fold(term);
+      return words.some(
+        (word) => word === t || word.startsWith(t) || (t.length >= 3 && word.endsWith(t)),
+      );
+    }) ?? null
+  );
 }
 
 /** At most two core slots: a main/protein and a carb/base. */
