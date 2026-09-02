@@ -28,6 +28,9 @@ export type { NutritionPanelProps, NutritionRow } from "./NutritionPanel";
 export { ShoppingRow } from "./ShoppingRow";
 export type { ShoppingRowProps } from "./ShoppingRow";
 
+export { ShopScreen } from "./ShopScreen";
+export type { ShopScreenProps } from "./ShopScreen";
+
 export { CookStep } from "./CookStep";
 export type { CookStepProps } from "./CookStep";
 

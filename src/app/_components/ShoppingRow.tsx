@@ -6,18 +6,21 @@ export interface ShoppingRowProps {
   /** Unit under the quantity — ST, G, PKT. */
   unit: string;
   name: string;
-  /** Metadata segments — brand, package size, shelf location. */
+  /** Metadata segments — brand, package size, surplus. */
   meta?: string[];
   /** Formatted price, `sv-SE`. */
   price: string;
   checked?: boolean;
+  /** Toggle the check. When omitted the row is a static, non-interactive line. */
+  onToggle?: () => void;
 }
 
 /**
- * SHOP list row — denser, mono-forward, thumb-scannable at arm's length. Shell
- * only: the check is a static button here; toggle behaviour is filled by SHOP
- * (#9). Checked rows drop to 0.42 opacity and strike the name — they do NOT
- * move, reflow, or reorder. Position is memory in a store.
+ * SHOP list row — denser, mono-forward, thumb-scannable at arm's length
+ * (visual-direction §5.3). The whole row is the check target; the effective hit
+ * area clears 44px via the row's 64px min-height. Checked rows drop to 0.42
+ * opacity and strike the name — they do NOT move, reflow, or reorder. Position
+ * is memory in a store.
  */
 export function ShoppingRow({
   quantity,
@@ -26,16 +29,13 @@ export function ShoppingRow({
   meta = [],
   price,
   checked = false,
+  onToggle,
 }: ShoppingRowProps) {
-  return (
-    <div className={`shopping-row${checked ? " shopping-row--checked" : ""}`}>
-      <button
-        type="button"
-        role="checkbox"
-        aria-checked={checked}
-        aria-label={`Bocka av ${name}`}
-        className="shopping-row__check"
-      >
+  const className = `shopping-row${checked ? " shopping-row--checked" : ""}`;
+
+  const inner = (
+    <>
+      <span className="shopping-row__check" aria-hidden="true">
         <svg
           className="shopping-row__check-glyph"
           width="18"
@@ -46,23 +46,39 @@ export function ShoppingRow({
           strokeWidth="2"
           strokeLinecap="square"
           strokeLinejoin="miter"
-          aria-hidden="true"
         >
           <path d="M3 9.5 7 13.5 15 5" />
         </svg>
-      </button>
+      </span>
 
       <span className="shopping-row__qty num-s">
         {quantity}
         <span className="shopping-row__qty-unit t-micro">{unit}</span>
       </span>
 
-      <div className="shopping-row__body">
-        <p className="shopping-row__name">{name}</p>
+      <span className="shopping-row__body">
+        <span className="shopping-row__name">{name}</span>
         <MetaLine items={meta} variant="scan" />
-      </div>
+      </span>
 
       <span className="shopping-row__price num-s">{price}</span>
-    </div>
+    </>
+  );
+
+  if (!onToggle) {
+    return <div className={className}>{inner}</div>;
+  }
+
+  return (
+    <button
+      type="button"
+      role="checkbox"
+      aria-checked={checked}
+      aria-label={name}
+      className={className}
+      onClick={onToggle}
+    >
+      {inner}
+    </button>
   );
 }

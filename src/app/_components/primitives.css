@@ -469,10 +469,26 @@
   display: flex;
   align-items: flex-start;
   gap: var(--s-3);
-  min-height: 64px; /* UX floor wins — rows compute to ~64px */
+  width: 100%;
+  min-height: 64px; /* UX floor wins — hit area clears 44px */
   padding: var(--s-3) var(--s-4);
+  border: 0;
   border-top: var(--rule-hair);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
   transition: opacity var(--dur-2) var(--ease);
+}
+button.shopping-row {
+  /* the whole row is the checkbox — it must not read as a form button */
+  display: flex;
+}
+div.shopping-row {
+  cursor: default;
 }
 .shopping-row:last-child {
   border-bottom: var(--rule-hair);
@@ -482,26 +498,25 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  margin: 2px calc(var(--s-3) - 8px) 0 0;
-  padding: 8px; /* >= 48px effective hit area */
+  width: 24px;
+  height: 24px;
+  margin: 1px calc(var(--s-3) - 4px) 0 0;
+  padding: 4px;
   box-sizing: content-box;
   border: 2px solid var(--rule-strong);
   border-radius: var(--radius-input);
   background: transparent;
   color: transparent;
-  cursor: pointer;
 }
 .shopping-row__check-glyph {
   opacity: 0;
 }
-.shopping-row__check[aria-checked="true"] {
+.shopping-row[aria-checked="true"] .shopping-row__check {
   background: var(--accent);
   border-color: var(--accent);
   color: var(--accent-ink);
 }
-.shopping-row__check[aria-checked="true"] .shopping-row__check-glyph {
+.shopping-row[aria-checked="true"] .shopping-row__check-glyph {
   opacity: 1;
 }
 .shopping-row__qty {
@@ -519,6 +534,7 @@
   min-width: 0;
 }
 .shopping-row__name {
+  display: block;
   font-family: var(--face-text);
   font-size: var(--fs-body);
   font-weight: 600;
@@ -1363,4 +1379,169 @@
   margin: var(--s-4) 0 var(--s-8);
   color: var(--ink-2);
   max-width: 68ch;
+}
+
+/* ============================================================ SHOP experience (#9)
+ * The plan as an in-store picking list. Receipt character: a --surface-1 paper
+ * strip on the --bg-sunk counter, full-bleed inverted section bars in store-walk
+ * order, a tabular price column, and a receipt totals block with a perforated
+ * bottom edge. Rows never reorder — position is memory in a store.
+ */
+
+.page--shop {
+  --page-pad: 0px;
+  background: var(--bg-sunk);
+  padding: 0;
+  max-width: 600px;
+}
+@media (min-width: 904px) {
+  .page--shop {
+    --page-pad: 0px;
+    max-width: 600px;
+    padding-top: 0;
+  }
+}
+
+.shop {
+  background: var(--surface-1);
+  min-height: 100vh;
+  padding-bottom: var(--s-8);
+}
+.page--shop .sticky-bar {
+  background: var(--surface-1);
+}
+
+/* ---------------------------------------------------------- store head */
+
+.shop-head {
+  padding: var(--s-4) var(--s-4) var(--s-3);
+}
+.shop-head__store {
+  margin: 0 0 var(--s-1);
+  color: var(--ink);
+}
+.shop-head__progress {
+  margin: var(--s-3) 0 var(--s-2);
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.shop-head__track {
+  height: 4px;
+  width: 100%;
+  background: var(--surface-2);
+}
+.shop-head__track-fill {
+  display: block;
+  height: 100%;
+  background: var(--ink-2);
+  transition: width var(--dur-3) var(--ease);
+}
+.shop-head__offline {
+  display: block;
+  margin-top: var(--s-3);
+  color: var(--muted);
+}
+
+/* ---------------------------------------------------------- sections + rows */
+
+.shop-section {
+  margin-top: var(--s-8);
+}
+.shop-section:first-of-type {
+  margin-top: var(--s-4);
+}
+
+/* ---------------------------------------------------------- pantry ("Har hemma")
+ * Pre-checked, visually settled, never counted in the total or the progress.
+ */
+.shop-pantry {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  opacity: 0.6;
+}
+.shop-pantry__row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  min-height: 44px;
+  padding: var(--s-2) var(--s-4);
+  border-top: var(--rule-hair);
+}
+.shop-pantry__row:last-child {
+  border-bottom: var(--rule-hair);
+}
+.shop-pantry__check {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-input);
+  background: var(--accent);
+  color: var(--accent-ink);
+  align-self: center;
+}
+.shop-pantry__name {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: var(--face-text);
+  font-size: var(--fs-body-s);
+  color: var(--ink-2);
+}
+.shop-pantry__note {
+  flex: none;
+  color: var(--muted);
+}
+
+/* ---------------------------------------------------------- receipt totals block
+ * --rule-receipt above, a perforated bottom edge below. The perforation mask is
+ * the single sanctioned radial-gradient in the whole stylesheet (design-system
+ * smell test 3).
+ */
+.receipt-total {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-4);
+  margin-top: var(--s-6);
+  padding: var(--s-4);
+  border-top: var(--rule-receipt);
+  background: var(--surface-1);
+}
+.receipt-total::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -5px;
+  height: 5px;
+  background: var(--surface-1);
+  -webkit-mask: radial-gradient(circle 5px at 5px 0, transparent 0 5px, #000 5px)
+    repeat-x 0 0 / 10px 5px;
+  mask: radial-gradient(circle 5px at 5px 0, transparent 0 5px, #000 5px) repeat-x
+    0 0 / 10px 5px;
+}
+.receipt-total__label {
+  color: var(--muted);
+}
+.receipt-total__value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.receipt-total__of {
+  color: var(--muted);
+}
+
+.shop-attribution {
+  display: block;
+  color: var(--muted);
+  padding: var(--s-5) var(--s-4) 0;
+}
+
+.shop-section__rows {
+  list-style: none;
 }

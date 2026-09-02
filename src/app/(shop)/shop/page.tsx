@@ -1,14 +1,112 @@
 "use client";
+
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { degradationNotices } from "@/lib/degradation";
+import { useCallback, useEffect, useMemo, useState } from "react";
+
+import { Button, ModeHeader, ShopScreen } from "@/app/_components";
 import { loadLatestPlan, loadShopChecks, saveShopChecks, type LoadedPlan } from "@/lib/planStore";
+import { shopTally, shopView } from "@/lib/shopView";
+
 export default function ShopPage() {
+  const router = useRouter();
   const [saved, setSaved] = useState<LoadedPlan | null | undefined>();
   const [checked, setChecked] = useState<readonly string[]>([]);
-  useEffect(() => { const timer = setTimeout(() => { const latest = loadLatestPlan(); setSaved(latest); if (latest) setChecked(loadShopChecks(latest.planId)); }, 0); return () => clearTimeout(timer); }, []);
-  if (saved === undefined) return <main><h1>SHOP</h1><p>Läser planen…</p></main>;
-  if (!saved?.plan.basket) return <main><h1>SHOP</h1><p>Ingen plan ännu. <Link href="/plan">Gå till PLAN</Link>.</p></main>;
-  const toggle = (id: string) => { const next = checked.includes(id) ? checked.filter((value) => value !== id) : [...checked, id]; setChecked(next); saveShopChecks(saved.planId, next); };
-  return <main><h1>SHOP</h1><p>{saved.plan.basket.store.name}</p><ul>{saved.plan.basket.lines.map((line) => <li key={line.product.id}><label><input type="checkbox" checked={checked.includes(line.product.id)} onChange={() => toggle(line.product.id)} /> {line.product.name}</label></li>)}</ul>{degradationNotices({ isDemoData: saved.status.isDemoData, isDemoRecipes: saved.status.isDemoRecipes, nutritionSuppressed: saved.plan.nutrition?.suppressed ?? false, stale: saved.stale }).map((notice) => <p role="note" key={notice}>{notice}</p>)}</main>;
+  const [hydrated, setHydrated] = useState(false);
+
+  // Client route reading the one shared snapshot (AD-8). A 0ms defer keeps the
+  // first paint identical between server and client — storage is read after.
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const latest = loadLatestPlan();
+      setSaved(latest);
+      if (latest) setChecked(loadShopChecks(latest.planId));
+      setHydrated(true);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const [storageBlocked, setStorageBlocked] = useState(false);
+
+  // Persist on every change — but only after the restore above, so the initial
+  // empty state never clobbers stored checks (AD-8: localStorage keyed by plan).
+  useEffect(() => {
+    if (!hydrated || !saved) return;
+    const ok = saveShopChecks(saved.planId, checked);
+    // AD-11: a failed write must be surfaced, not silently swallowed. This
+    // setState is conditional, one-shot per real change, and cannot loop
+    // (`storageBlocked` guards re-entry and stays in deps for exhaustiveness).
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (!ok && !storageBlocked) setStorageBlocked(true);
+  }, [checked, hydrated, saved, storageBlocked]);
+
+  const view = useMemo(
+    () => (saved?.plan ? shopView(saved.plan, saved.status) : null),
+    [saved],
+  );
+  const tally = useMemo(
+    () => (view ? shopTally(view, checked) : null),
+    [view, checked],
+  );
+
+  const toggle = useCallback((id: string) => {
+    setChecked((current) =>
+      current.includes(id)
+        ? current.filter((value) => value !== id)
+        : [...current, id],
+    );
+  }, []);
+
+  const startCooking = useCallback(() => router.push("/cook"), [router]);
+
+  if (saved === undefined) {
+    return (
+      <>
+        <ModeHeader mode="shop" />
+        <main className="page page--shop">
+          <div className="shop">
+            <p className="shop-head t-meta">Läser planen…</p>
+          </div>
+        </main>
+      </>
+    );
+  }
+
+  if (!saved || !view || !tally) {
+    return (
+      <>
+        <ModeHeader mode="shop" />
+        <main className="page page--shop">
+          <div className="shop">
+            <div className="shop-head">
+              <p className="shop-head__store t-h4">Ingen plan ännu</p>
+              <p className="shop-head__progress t-body-s">
+                Skapa en måltid i PLAN, så blir den din handlingslista här.
+              </p>
+              <Link href="/plan" className="btn btn--outline btn--block">
+                Gå till PLAN
+              </Link>
+            </div>
+          </div>
+        </main>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <ModeHeader mode="shop" />
+      <main className="page page--shop">
+        <ShopScreen
+          view={view}
+          checkedIds={checked}
+          tally={tally}
+          onToggle={toggle}
+          onStartCooking={startCooking}
+          stale={saved.stale}
+          storageBlocked={storageBlocked}
+        />
+      </main>
+    </>
+  );
 }
