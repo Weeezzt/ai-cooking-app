@@ -63,7 +63,21 @@ export async function runPlanPipeline(request:MealRequest,deps:PipelineDeps,ctx:
   const ingredients=draft.ingredienser.filter((item)=>!pantryOwns(item.namn,request.pantry));
   const pairs=stores.flatMap((store)=>ingredients.map((ingredient)=>({store,ingredient})));
   let searches;
-  try{searches=await mapBounded(pairs,MAX_PRODUCT_CONCURRENCY,async({store,ingredient})=>({store,ingredient,found:await deps.products.search({concept:ingredient.namn,store,limit:RESULTS_PER_INGREDIENT},stagePort(ctx,"productSearchMs"))}));}catch{return terminal("unknown","product_search_failed");}
+  try{searches=await mapBounded(pairs,MAX_PRODUCT_CONCURRENCY,async({store,ingredient})=>{
+    let found=await deps.products.search({concept:ingredient.namn,store,limit:RESULTS_PER_INGREDIENT},stagePort(ctx,"productSearchMs"));
+    // Fallback: multi-word / adjective-heavy names ("gul lök", "bladpersilja")
+    // often return nothing from Primat's search. Retry with the last word, then
+    // with a common-prefix stripped, and merge the hits.
+    if(found.products.length===0){
+      const words=ingredient.namn.trim().split(/\s+/u);
+      const alt=words.length>1?words[words.length-1]:ingredient.namn.replace(/^(blad|färsk|hackad|riven|torkad|krossad|mald|malen)/iu,"");
+      if(alt&&alt!==ingredient.namn){
+        const retry=await deps.products.search({concept:alt,store,limit:RESULTS_PER_INGREDIENT},stagePort(ctx,"productSearchMs"));
+        found={...found,products:retry.products,rejections:[...found.rejections,...retry.rejections]};
+      }
+    }
+    return {store,ingredient,found};
+  });}catch{return terminal("unknown","product_search_failed");}
   if(guard()) return guard()!;
 
   const resolutions=stores.map((store)=>{
