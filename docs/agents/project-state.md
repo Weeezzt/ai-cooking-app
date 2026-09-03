@@ -34,16 +34,15 @@ _Last updated: 2026-09-01 by Master (Sonnet)_
 
 ## Active work
 
-- **All 10 build issues merged (#1–#10)** + fixes: #22 (PLAN correctness), #26 (strip option
-  handles from step text). Full journey verified live: PLAN → real recipe/basket/comparison →
-  SHOP (sectioned list, running total, pantry) → COOK (steps, timer, receipt summary). 276 tests.
-- **Next: #11 — integration QA + demo readiness.** Independent QA agent: full journey + scenario
-  matrix, lock a demo scenario with expected numbers, deterministic reconciliation checks,
-  README/setup, perf, empty/error states, no console errors. Then demo-ready.
-- **#16 fast-follows** (non-blocking): engine nutrition-denominator + repair unit-compat; prefer
-  fresh produce over canned in the filter (no FRUKT & GRÖNT section right now); type-scale;
-  a real Avbryt on PLAN generating; SHOP route-level tests; CI actions@v4 bump; retrievedAtIso.
-- Dev server (user): restart on latest main for full-journey testing.
+- **#28 PIPELINE PIVOT — Codex builder in flight** (worktree `issue-28`, branch `28-pipeline-pivot`).
+  Human decision: drop the deterministic `deriveConcepts` archetype layer + the "AI cooks from a
+  pre-filtered product menu" design (fragile — "kycklingpasta"->notfars, frozen ready-meals).
+  New flow: ONE AI call returns `{titel, ingredienser:[{namn,mangd,enhet,kategori,roll}], steg}`;
+  deterministic code resolves each ingredient name -> real Primat product -> real price. Unmatched
+  ingredients shown honestly. Over budget -> exact overshoot. See AD-14 + issue #28.
+  Supersedes concept parts of #22 and all of #27. Touches merged #3/#6/#7. ONE PR, cross-review after.
+- **#11 QA** waits for #28 to land.
+- Dev server (user): `:3000`, live mode, OLD pipeline (works, recipe-quality issues #28 fixes).
 
 
 ## User feedback (2026-09-02, live test of PLAN)
