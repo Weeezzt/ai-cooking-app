@@ -357,3 +357,28 @@ Master don't re-litigate them.
 - **Client state**: the full `PlanResult` + `status` is stored client-side under `plan:<planId>`
   (session + localStorage); `plan:latest` pointer; per-view state (`:shop` checks, `:cook` step).
   No server persistence, no share links.
+
+---
+
+## AD-14. Pipeline pivot — the AI names the ingredients (2026-09-02, supersedes parts of AD-3/AD-6/AD-13)
+
+**Human decision.** The deterministic `deriveConcepts` archetype/keyword layer + the "give the AI a
+pre-filtered product menu to cook from" design is being **removed**. It was fragile
+("kycklingpasta" → nötfärs, frozen ready-meals matched to "kyckling") and produced worse recipes
+than just asking the model.
+
+**New flow:** one AI recipe call → `{ titel, förklaring, uppskattadTidMin, ingredienser:[{namn,
+mängd, enhet, kategori, roll}], steg:[{text, ingredienser:[namn], tidSek}] }` (strict schema,
+Swedish). Then deterministic code resolves each `namn` → a real Primat product (whole-word/compound
+match, category plausibility, **reject prepared/frozen/canned for raw-ingredient roles**, smallest
+sufficient package → cheapest) → real price → basket in öre → nutrition → constraints. An
+ingredient with no acceptable product is `unmatched` (shown honestly, 0 kr, excluded from the
+total). Over budget → exact overshoot (optional one cheaper-swap pass).
+
+**Separation preserved:** the AI owns the ingredient list + amounts + steps (culinary reasoning —
+AD-6's GOOD example is exactly `{ingredient, requiredGrams}`); the engine owns every price /
+package / total / nutrition number; `assertNoForbiddenKeys` still guards the AI schema.
+
+Full spec + acceptance criteria: **GitHub issue #28**. The implementing PR rewrites AD-3 (the
+pipeline), AD-6 (the recipe call), and AD-13 (drop the concept-vocabulary contract; add the
+ingredient-resolution contract). Supersedes the concept parts of #22 and all of #27.
