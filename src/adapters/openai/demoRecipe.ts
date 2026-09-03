@@ -1,40 +1,16 @@
 import type { RecipeDraft } from "@/ports";
-
-export interface DemoRecipeResult {
-  readonly recipe: RecipeDraft;
-  readonly isDemoFallback: true;
-}
-
+export interface DemoRecipeResult { readonly recipe: RecipeDraft; readonly isDemoFallback: true }
 export const DEMO_RECIPE: RecipeDraft = {
-  title: "Krämig tomatpasta med vita bönor",
-  portions: 4,
-  requirements: [
-    { optionId: "demo-pasta", requiredGrams: 320, role: "core" },
-    { optionId: "demo-tomat", requiredGrams: 400, role: "core" },
-    { optionId: "demo-bonor", requiredGrams: 240, role: "supporting" },
+  titel: "Krämig tomatpasta med vita bönor", forklaring: "En enkel svensk vardagsrätt med få moment och mättande bönor.", uppskattadTidMin: 20,
+  ingredienser: [
+    { namn: "pasta", mangd: 320, enhet: "g", kategori: "TORRVAROR", roll: "huvud" },
+    { namn: "krossade tomater", mangd: 400, enhet: "g", kategori: "TORRVAROR", roll: "huvud" },
+    { namn: "vita bönor", mangd: 240, enhet: "g", kategori: "TORRVAROR", roll: "komplement" },
   ],
-  steps: [
-    {
-      text: "Koka 320 g pasta enligt anvisningen tills den är al dente; spara 1 dl kokvatten.",
-      durationSeconds: 600,
-      optionRefs: ["demo-pasta"],
-    },
-    {
-      text: "Sjud 400 g tomat och 240 g avrunna vita bönor i en rymlig panna i 8 minuter.",
-      durationSeconds: 480,
-      optionRefs: ["demo-tomat", "demo-bonor"],
-    },
-    {
-      text: "Vänd ner pastan och späd med lite kokvatten; rör i 2 minuter tills såsen är krämig.",
-      durationSeconds: 120,
-      optionRefs: ["demo-pasta", "demo-tomat", "demo-bonor"],
-    },
+  steg: [
+    { text: "Koka 320 g pasta i 10 minuter tills den är al dente; spara 1 dl kokvatten.", tidSek: 600, ingredienser: ["pasta"] },
+    { text: "Sjud 400 g krossade tomater och 240 g avrunna vita bönor i 8 minuter.", tidSek: 480, ingredienser: ["krossade tomater", "vita bönor"] },
+    { text: "Vänd ner pastan och rör i 2 minuter tills såsen är krämig.", tidSek: 120, ingredienser: ["pasta", "krossade tomater", "vita bönor"] },
   ],
-  estimatedCookMinutes: 20,
-  explanation: "En enkel svensk vardagsrätt med få moment och mättande bönor.",
 };
-
-export const DEMO_RECIPE_RESULT: DemoRecipeResult = {
-  recipe: DEMO_RECIPE,
-  isDemoFallback: true,
-};
+export const DEMO_RECIPE_RESULT: DemoRecipeResult = { recipe: DEMO_RECIPE, isDemoFallback: true };

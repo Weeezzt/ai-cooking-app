@@ -71,8 +71,6 @@ export interface InterpretedRequest {
   readonly dietary: readonly DietaryConstraint[];
   readonly pantry: readonly PantryClaim[];
   readonly vibe: string;
-  /** Deterministic concept list derived from the request (AD-3 step 4). */
-  readonly concepts: readonly string[];
 }
 
 // ---------------------------------------------------------------------------
@@ -92,19 +90,6 @@ export interface StoreOption {
 /** Stable key for deterministic tiebreaks: `"<chain>:<storeId>"`. */
 export function storeKey(store: Pick<StoreOption, "chain" | "storeId">): string {
   return `${store.chain}:${store.storeId}`;
-}
-
-/**
- * The opaque, request-scoped option handle the pipeline issues for a product
- * (AD-3 step 8) and the recipe steps reference. The single source of this
- * derivation — the COOK view re-derives it to join `RecipeStep.ingredientRefs`
- * back to basket lines, so both sides MUST use this function.
- */
-export function optionIdFor(
-  store: Pick<StoreOption, "chain" | "storeId">,
-  product: Pick<Product, "id">,
-): string {
-  return `opt-${storeKey(store)}-${product.id}`.replace(/[^A-Za-z0-9_-]/g, "_");
 }
 
 export interface ComparisonUnitPrice {
@@ -139,13 +124,11 @@ export interface Product {
 // ---------------------------------------------------------------------------
 
 export interface IngredientRequirement {
-  readonly concept: string;
+  readonly namn: string;
   /** Amount the recipe consumes, in the canonical unit. Drives nutrition. */
   readonly recipeAmount: number;
   readonly unit: CanonicalUnit;
   readonly role: RequirementRole;
-  /** Opaque request-scoped handle the model selected (AD-3 step 8). */
-  readonly optionId: string;
 }
 
 export interface PurchaseResolution {
@@ -171,7 +154,7 @@ export interface Provenance {
 }
 
 export interface BasketLine {
-  readonly concept: string;
+  readonly namn: string;
   readonly product: Product;
   readonly role: RequirementRole;
   /** Recipe consumption in grams. NEVER derived from `purchase` (AD-4). */
@@ -268,7 +251,7 @@ export interface BasketAdjustment {
 export interface RecipeStep {
   readonly text: string;
   readonly durationSeconds: number;
-  readonly ingredientRefs: readonly string[];
+  readonly ingredienser: readonly string[];
 }
 
 export interface CandidateRejection {
@@ -291,6 +274,7 @@ export interface PlanResult {
   readonly constraints: ConstraintReport;
   readonly adjustments: readonly BasketAdjustment[];
   readonly recipe: { readonly title: string; readonly portions: number; readonly steps: readonly RecipeStep[] } | null;
+  readonly unmatchedIngredients: readonly { readonly namn:string; readonly mangd:number; readonly enhet:string }[];
   readonly candidateRejections: readonly CandidateRejection[];
   /** Exact amount over budget after repair, integer öre. `0` unless `over_budget`. */
   readonly overshootOre: Ore;

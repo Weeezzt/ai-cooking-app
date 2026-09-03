@@ -259,13 +259,14 @@ function comparisonPrice(priceOre: Ore, unit: "kg" | "l" | "st"): string {
 export function productSections(
   basket: Basket | null,
   adjustments: readonly BasketAdjustment[],
+  unmatched: PlanResult["unmatchedIngredients"] = [],
 ): ProductSectionView[] {
   if (!basket) return [];
   const swapped = new Set(
     adjustments.filter((a) => a.kind === "substitute_cheaper").map((a) => a.concept),
   );
 
-  return SECTION_ORDER.flatMap((section) => {
+  const sections: ProductSectionView[] = SECTION_ORDER.flatMap((section): ProductSectionView[] => {
     const lines = basket.lines.filter((line) => line.product.section === section);
     if (lines.length === 0) return [];
     const subtotal = lines.reduce((sum, line) => sum + line.purchase.priceOre, 0);
@@ -285,12 +286,14 @@ export function productSections(
             ? formatQuantity(line.purchase.purchasedGrams, "g", 0)
             : `${formatNumber(line.purchase.packs ?? 1, 0)} ×`,
           linePrice: formatSek(line.purchase.priceOre),
-          unitPrice: `receptet: ${formatQuantity(line.recipeGrams, "g", 0)}`,
-          swapped: swapped.has(line.concept),
+          unitPrice: `receptet: ${formatQuantity(line.recipeGrams, "g", 0)}` as string | undefined,
+          swapped: swapped.has(line.namn),
         })),
       },
     ];
   });
+  if (unmatched.length) sections.push({ section:"ÖVRIGT", subtotal:formatSek(0), rows:unmatched.map((item,index)=>({ id:`unmatched:${index}:${item.namn}`, name:item.namn, meta:["hittades inte i butik"], quantity:formatQuantity(item.mangd,item.enhet), linePrice:formatSek(0), unitPrice:undefined, swapped:false })) });
+  return sections;
 }
 
 // ---------------------------------------------------------------------------
@@ -444,7 +447,7 @@ export function buildPlanView(plan: PlanResult, request: PlanViewRequest): PlanV
     }),
     budget,
     store: storeView(plan.basket, plan.comparison),
-    sections: productSections(plan.basket, plan.adjustments),
+    sections: productSections(plan.basket, plan.adjustments, plan.unmatchedIngredients),
     nutrition: nutritionView(plan.nutrition, {
       vibe: request.vibe,
       provenance: plan.provenance,

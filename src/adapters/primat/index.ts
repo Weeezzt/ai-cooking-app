@@ -1,7 +1,6 @@
 import type { PriceSource, ProductSearch, StoreDiscovery } from "@/ports";
 import { PrimatClient, PRIMAT_ATTRIBUTION } from "./client";
 import { mapProduct, mapResolveResponse, regularQuote, tryMapProduct } from "./mapper";
-import { filterCandidates } from "./filter";
 
 export class PrimatStoreDiscovery implements StoreDiscovery {
   constructor(private readonly client = new PrimatClient()) {}
@@ -16,8 +15,7 @@ export class PrimatProductSearch implements ProductSearch {
   async search(query: Parameters<ProductSearch["search"]>[0], options: Parameters<ProductSearch["search"]>[1]) {
     const response = await this.client.products(query.concept, [`${query.store.chain}:${query.store.storeId}`], options);
     const mapped = response.data.filter((raw) => raw.available && raw.chain === query.store.chain && String(raw.store_id) === query.store.storeId).map((raw) => tryMapProduct(raw, query.concept)).filter((p): p is NonNullable<typeof p> => p !== null);
-    const filtered = filterCandidates(query.concept, mapped, query.store);
-    return { products: filtered.kept.slice(0, query.limit), rejections: filtered.rejections, attribution: response.attribution ?? PRIMAT_ATTRIBUTION };
+    return { products: mapped.slice(0, query.limit), rejections: [], attribution: response.attribution ?? PRIMAT_ATTRIBUTION };
   }
 }
 export class PrimatPriceSource implements PriceSource {

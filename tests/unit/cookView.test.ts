@@ -20,10 +20,10 @@ describe("cook navigation", () => {
 
 describe("cook ingredient attribution", () => {
   const basket = OK_PLAN.basket!;
-  const firstId = `opt-coop_232400-${basket.lines[0].product.id}`;
+  const firstId = basket.lines[0].namn;
 
-  it("joins a step option ref to its scaled recipe amount", () => {
-    const step: RecipeStep = { text: "Tillaga.", durationSeconds: 0, ingredientRefs: [firstId] };
+  it("joins a step ingredient name to its scaled recipe amount", () => {
+    const step: RecipeStep = { text: "Tillaga.", durationSeconds: 0, ingredienser: [firstId] };
     expect(ingredientsForStep(step, basket)).toEqual({
       ingredients: ["320\u00a0G KYCKLINGBRÖSTFILÉ MÖRAD"],
       usesCombinedIngredients: false,
@@ -31,7 +31,7 @@ describe("cook ingredient attribution", () => {
   });
 
   it("degrades to the combined list when refs are absent", () => {
-    const step: RecipeStep = { text: "Smaka av.", durationSeconds: 0, ingredientRefs: [] };
+    const step: RecipeStep = { text: "Smaka av.", durationSeconds: 0, ingredienser: [] };
     const view = ingredientsForStep(step, basket);
     expect(view.usesCombinedIngredients).toBe(true);
     expect(view.ingredients).toHaveLength(basket.lines.length);
@@ -41,7 +41,7 @@ describe("cook ingredient attribution", () => {
     const step: RecipeStep = {
       text: "Stek.",
       durationSeconds: 0,
-      ingredientRefs: [firstId, "opt-coop_232400-substituted-sku"],
+      ingredienser: [firstId, "saknad ingrediens"],
     };
     const view = ingredientsForStep(step, basket);
     // One ref resolves, one doesn't — must not silently drop the missing one.

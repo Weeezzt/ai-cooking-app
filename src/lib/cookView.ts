@@ -1,5 +1,4 @@
 import type { Basket, PlanResult, RecipeStep } from "@/core/types";
-import { optionIdFor } from "@/core/types";
 import { formatNumber, formatQuantity, formatSek } from "@/lib/format";
 
 export interface CookTextPart { readonly text: string; readonly quantity: boolean }
@@ -36,10 +35,10 @@ function ingredientLabel(line: Basket["lines"][number]): string {
  * silently omits an ingredient the model attributed to it.
  */
 export function ingredientsForStep(step: RecipeStep, basket: Basket): { readonly ingredients: readonly string[]; readonly usesCombinedIngredients: boolean } {
-  const refs = new Set(step.ingredientRefs);
-  const lineIds = new Set(basket.lines.map((line) => optionIdFor(basket.store, line.product)));
+  const refs = new Set(step.ingredienser.map((name) => name.toLocaleLowerCase("sv-SE")));
+  const lineIds = new Set(basket.lines.map((line) => line.namn.toLocaleLowerCase("sv-SE")));
   const fullyResolved = refs.size > 0 && [...refs].every((ref) => lineIds.has(ref));
-  const joined = basket.lines.filter((line) => refs.has(optionIdFor(basket.store, line.product)));
+  const joined = basket.lines.filter((line) => refs.has(line.namn.toLocaleLowerCase("sv-SE")));
   const lines = fullyResolved ? joined : basket.lines;
   return { ingredients: lines.map(ingredientLabel), usesCombinedIngredients: !fullyResolved };
 }

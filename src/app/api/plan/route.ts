@@ -61,7 +61,7 @@ export async function POST(httpRequest: Request) {
 
   try {
     const timeout = new Promise<PlanResult>((resolve) => {
-      const timer = setTimeout(() => resolve({ outcome: "unknown", basket: null, nutrition: null, comparison: null, constraints: { checks: [], outcome: "unknown" }, adjustments: [], recipe: null, candidateRejections: [], overshootOre: 0 as PlanResult["overshootOre"], reason: "deadline_exceeded", provenance: [] }), PLAN_DEADLINE_MS);
+      const timer = setTimeout(() => resolve({ outcome: "unknown", basket: null, nutrition: null, comparison: null, constraints: { checks: [], outcome: "unknown" }, adjustments: [], recipe: null, unmatchedIngredients: [], candidateRejections: [], overshootOre: 0 as PlanResult["overshootOre"], reason: "deadline_exceeded", provenance: [] }), PLAN_DEADLINE_MS);
       timer.unref?.();
     });
     const plan = await Promise.race([runPlanPipeline(parsed.request, container.deps, { clock, deadlineAt, nonce: parsed.attempt }), timeout]);
