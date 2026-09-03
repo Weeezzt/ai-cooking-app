@@ -136,7 +136,7 @@ describe("assertNoForbiddenKeys helper (AD-6)", () => {
     expect(() =>
       assertNoForbiddenKeys({
         recipeConcept: "string",
-        requirements: [{ optionId: "string", requiredGrams: "number", role: "core" }],
+        ingredienser: [{ namn: "pasta", mangd: 400, enhet: "g", kategori: "TORRVAROR", roll: "huvud" }],
         steps: [{ text: "string", durationSeconds: "number" }],
       }),
     ).not.toThrow();

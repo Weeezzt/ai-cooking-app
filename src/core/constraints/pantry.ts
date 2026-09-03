@@ -87,8 +87,8 @@ export function applyPantryCaps(
   const adjustments: BasketAdjustment[] = [];
 
   for (const line of lines) {
-    const claim = pantry.find((p) => claimMatchesConcept(p, line.concept));
-    const cap = claim ? lookupPantryCap(line.concept) : null;
+    const claim = pantry.find((p) => claimMatchesConcept(p, line.namn));
+    const cap = claim ? lookupPantryCap(line.namn) : null;
 
     const covered =
       claim !== undefined &&
@@ -99,9 +99,9 @@ export function applyPantryCaps(
     if (covered) {
       adjustments.push({
         kind: "pantry_cap",
-        concept: line.concept,
+        concept: line.namn,
         deltaOre: ore(-line.purchase.priceOre),
-        detail: `"${claim.raw}" täcker ${line.recipeGrams} g ${line.concept} (tak ${cap.capAmount} g) — borttagen från inköpslistan`,
+        detail: `"${claim.raw}" täcker ${line.recipeGrams} g ${line.namn} (tak ${cap.capAmount} g) — borttagen från inköpslistan`,
       });
     } else {
       kept.push(line);

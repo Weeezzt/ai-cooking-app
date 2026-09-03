@@ -92,54 +92,15 @@ is a second mechanical guard.
 `runPlanPipeline(request, deps, ctx)` — pure orchestration, every dependency injected, every stage
 bounded by `ctx.deadlineAt` (a shared global deadline — retries do **not** reset it).
 
-1. **Validate** the structured request (Zod). Convert budget to integer öre. Classify each
-   constraint by evidence class (AD-5). Flag unsupported safety claims (allergies).
-2. **Resolve location → stores.** `StoreDiscovery.resolve(place|postcode)` → geocoded point +
-   ranked stores with distance. Live mode requires a valid location; demo/fixture mode uses the
-   fixed, visibly-labelled Umeå location.
-3. **Shortlist stores.** Keep at most **3** stores that are (a) `tier === "full"`, (b) within the
-   user's max distance, (c) supported chain. Deterministic ranking: distance asc, then freshness
-   (`confirmed_at`), then stable `chain:store_id`. Reject `offers_only` and register-only doors for
-   full-basket claims. If fewer than 1 qualifies → `infeasible` (reason: no store in range).
-4. **Derive search concepts.** 6–8 canonical ingredient/archetype concepts from the request.
-   Prefer deterministic mapping (vibe keywords → concept list); a small timed AI intent call is
-   allowed **only** if an eval shows it materially improves Swedish search recall. Concepts are
-   generic ("kokosmjölk", "kycklinglårfilé"), never SKUs.
-5. **Search products** for those concepts against **every** shortlisted store, bounded concurrency
-   (≤ 6), ≤ 5 results per concept per store, each call sharing the deadline. Normalize to `Product`.
-6. **Filter candidates** deterministically (resolves B5/S5). A candidate enters the option set only
-   if it passes: category-path allowlist for the concept, unit compatibility (can it satisfy a
-   grams/ml requirement?), price/`comparison`-unit plausibility band, amount-range sanity, and
-   dietary-evidence check. Record every rejection with a reason. **The LLM never performs this join.**
-7. **Per-store provisional basket + store selection.** For each shortlisted store, build a proxy
-   basket over the filtered candidates using the same deterministic selection rules (AD-4). Choose
-   the store by lexicographic objective: **core-concept coverage** first, then **complete basket
-   cost**, then **distance**, then stable key. Never compare totals across stores of differing
-   coverage without labelling it. Keep the losing stores' baskets for the comparison UI.
-8. **Issue option handles.** For the chosen store, build request-scoped opaque `optionId`s for each
-   approved candidate. Server keeps the `optionId → Product` map. This map is the only place SKU
-   facts live.
-9. **Generate recipe** — one OpenAI call (AD-6). Input: the option handles + generic culinary
-   descriptors only. Output: recipe concept, per-requirement `{ optionId, requiredGrams|Ml|Count,
-   role }`, self-contained Swedish steps with per-step ingredient refs + durations, an estimated
-   cook time (treated as an estimate, AD-5), and a user-facing "why this fits" explanation. Validate
-   every `optionId`, quantity, portion count, and step against the schema + business rules; one
-   repair retry via `previous_response_id`, then fall to the demo recipe.
-10. **Resolve purchase quantities.** For each requirement, map `requiredGrams` to a real purchase:
-    fixed-pack → smallest sufficient pack count; variable-weight (`_KG` / `comparison.unit==="kg"`
-    / "ca" in name) → buy exact grams priced at `comparison.price`. `BasketLine` carries
-    `recipeGrams` (drives nutrition) and `purchase.purchasedGrams` + `purchase.priceOre` (drives
-    cost) as **separate fields**.
-11. **Apply pantry caps.** A pantry claim removes a requirement from the basket **only** for
-    finite, low-quantity staple items (salt, pepper, oil, common dry spices) up to a capped amount.
-    Larger or non-staple quantities stay in the basket. Documented cap table in `core/constraints`.
-12. **Compute** the basket total (integer öre), budget remaining/overshoot, and nutrition
-    (total + per portion) from `recipeGrams`, with a coverage ratio.
-13. **Evaluate constraints** by evidence class (AD-5) and run the **deterministic repair
-    algorithm** (AD-7) if over budget.
-14. **Return** a single immutable `PlanResult` with outcome `ok | over_budget | infeasible |
-    unknown`, full provenance per displayed fact, the store comparison, and a `BasketAdjustment[]`
-    audit trail. The client persists it (AD-8).
+1. Validate the request and öre budget; resolve and shortlist at most three chain-diversified full stores.
+2. Generate one Swedish recipe first. Input is vibe, portions, dietary constraints, time preference,
+   pantry names, and a coarse per-portion tier: `<35 kr = snav`, `<75 kr = lagom`, otherwise `generos`.
+3. For every store and ingredient, search by `namn`, then deterministically filter lexical/category
+   matches, prepared/frozen/canned food, bad units, amounts, and prices. Pantry matches are owned.
+4. Select packages and rank stores by matched coverage, total, distance, then stable store key.
+   Missing products become `unmatchedIngredients`; they cost 0 kr and do not invalidate the recipe.
+5. Compute purchase totals in öre and nutrition from consumed recipe quantities, evaluate constraints,
+   optionally repair over-budget baskets with cheaper same-ingredient candidates, and return `PlanResult`.
 
 Honest MVP SLO (measured, not promised): fixture path p95 < 3 s; live path target p50 < 12 s,
 p95 < 25 s. The generating UI is **narrated activity**, not a literal per-stage progress bar,
@@ -190,16 +151,13 @@ not `503`.
 
 ## AD-6. AI boundary & OpenAI integration (resolves B2, B4, B5)
 
-**Information-flow rule (replaces the slogan).** The recipe call's input projection may contain
-**only**: opaque request-scoped `optionId`s, and for each, sanitized generic culinary descriptors —
-a generic ingredient label, food form, coarse category, and dietary assertions whose provenance is
-known. It must **not** receive: package sizes or labels, brands, retailer names, prices, price
-tiers, `comparison` unit prices, availability, nutrition numbers, or distances. The server
-`optionId → Product` map owns every SKU fact and is re-joined after the model returns.
+**Information-flow rule.** The recipe call receives only vibe, portions, dietary constraints,
+maximum cook time, pantry names, and `snav | lagom | generos`. It never receives the SEK amount,
+products, brands, retailers, prices, availability, nutrition, or distance.
 
-**The model owns:** culinary interpretation, recipe concept, which options to use and in what
-`requiredGrams`, cooking method/sequence, per-step ingredient attribution, an *estimated* cook
-time, and the Swedish user-facing explanation. It does **not** own any factual/numeric store value.
+**The model owns:** Swedish recipe title/explanation, ordinary ingredient names and amounts,
+cooking sequence, name-based step attribution, and estimated time. Deterministic code owns all
+factual store values and resolves names to products after generation.
 
 **Schema guard:** `tests/architecture.test.ts` runs `assertNoForbiddenKeys()` over every AI schema —
 `price`, `pris`, `kr`, `ore`, `store`, `butik`, `retailer`, `kcal`, `kalori`, `protein`, `carb`,
@@ -220,9 +178,8 @@ exists. Recompute cost/latency from the then-current pricing page.
 persistently-badged pre-baked demo recipe. Never fabricate factual values. Never silently swap in a
 fixture recipe outside an explicit, badged fallback.
 
-**Prompts:** Swedish user-facing output generated directly (not translated). System prompt states
-the model must only use provided option handles and must not invent ingredients or quantities it
-cannot tie to a handle.
+**Prompts:** Swedish output directly, exact portions and dietary constraints, self-contained steps
+with amounts/times, ordinary ingredient names, and no codes. Budget tier is guidance, not a number.
 
 ---
 
@@ -335,15 +292,14 @@ Master don't re-litigate them.
 
 - **`ProductSearch.search(query, opts) → ProductSearchResult`** where
   `ProductSearchResult = { products: Product[]; rejections: CandidateRejection[]; attribution? }`.
-  The adapter runs the deterministic category/plausibility/unit-compat filter and returns kept +
-  rejected. The pipeline merges `rejections`; it does NOT re-filter beyond structural safety.
+  The adapter normalizes provider results; the pure ingredient resolver owns deterministic
+  lexical/category/unit/price filtering and the pipeline merges all rejection evidence.
 - **`Product.section: StoreSection`** (`"FRUKT & GRÖNT" | "KÖTT & PROTEIN" | "MEJERI" | "TORRVAROR"
   | "KRYDDOR" | "ÖVRIGT"`) — populated by the adapter's per-chain normalizer. SHOP groups on this.
-- **Concept vocabulary** (`deriveConcepts`, `src/core/pipeline/concepts.ts`): coarse grocery-search
-  archetypes only (`ost` not `riven parmesan`), **≤ 2 `core`** per request (one protein/main + one
-  carb/base), everything else `supporting`. Missing `supporting` must never force `infeasible`.
-  Dietary overrides the protein slot. The AI recipe call picks the specific ingredients from the
-  `RecipeOptionHandle` pool — that is its job, not the deterministic mapper's.
+- **Ingredient resolution:** accent-folded whole-word/compound name match plus section plausibility;
+  reject prepared/frozen/canned candidates for `huvud`/`komplement` unless the named ingredient is
+  itself a sauce or pantry food. Pick smallest sufficient package, then unit price, then stable id.
+  An unresolved ingredient is honest `unmatched`, never a fabricated substitute.
 - **Latency budgets**: `PLAN_DEADLINE_MS = 32000`; `PipelineContext.stageBudgets` sub-divides it
   (store-resolve ≤ 4s, product fan-out ≤ 8s, recipe ≤ 18s, nutrition ≤ 2s). Product fan-out is a
   bounded-concurrency pool (≤ 6). `verifyModels()` runs at `createServerContainer()` startup, off

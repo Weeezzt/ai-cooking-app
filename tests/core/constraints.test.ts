@@ -38,9 +38,9 @@ function product(over: Partial<Product> & Pick<Product, "id" | "concept">): Prod
   };
 }
 
-function line(over: Partial<BasketLine> & Pick<BasketLine, "concept">): BasketLine {
+function line(over: Partial<BasketLine> & Pick<BasketLine, "namn">): BasketLine {
   return {
-    product: product({ id: over.concept, concept: over.concept }),
+    product: product({ id: over.namn, concept: over.namn }),
     role: "supporting",
     recipeGrams: 10,
     purchase: { purchasedGrams: 500, priceOre: ore(2495), packs: 1, variableWeight: false },
@@ -65,26 +65,26 @@ describe("pantry caps (AD-3 step 11)", () => {
 
   it("'har olja' removes only a capped oil line", () => {
     const lines = [
-      line({ concept: "olivolja", recipeGrams: 20, purchase: { purchasedGrams: 500, priceOre: ore(2900), packs: 1, variableWeight: false } }),
-      line({ concept: "pasta", recipeGrams: 500, role: "core" }),
+      line({ namn: "olivolja", recipeGrams: 20, purchase: { purchasedGrams: 500, priceOre: ore(2900), packs: 1, variableWeight: false } }),
+      line({ namn: "pasta", recipeGrams: 500, role: "core" }),
     ];
     const pantry: PantryClaim[] = [{ raw: "har olja", concept: "olja" }];
     const result = applyPantryCaps(lines, pantry);
-    expect(result.lines.map((l) => l.concept)).toEqual(["pasta"]);
+    expect(result.lines.map((l) => l.namn)).toEqual(["pasta"]);
     expect(result.adjustments).toHaveLength(1);
     expect(result.adjustments[0].kind).toBe("pantry_cap");
     expect(result.adjustments[0].deltaOre).toBe(-2900);
   });
 
   it("a large non-staple pantry claim does not zero the line", () => {
-    const lines = [line({ concept: "kycklinglårfilé", recipeGrams: 600, role: "core" })];
+    const lines = [line({ namn: "kycklinglårfilé", recipeGrams: 600, role: "core" })];
     const result = applyPantryCaps(lines, [{ raw: "har kyckling", concept: "kyckling" }]);
     expect(result.lines).toHaveLength(1);
     expect(result.adjustments).toHaveLength(0);
   });
 
   it("an over-cap staple amount stays in the basket", () => {
-    const lines = [line({ concept: "olivolja", recipeGrams: 200 })];
+    const lines = [line({ namn: "olivolja", recipeGrams: 200 })];
     const result = applyPantryCaps(lines, [{ raw: "har olja", concept: "olja" }]);
     expect(result.lines).toHaveLength(1);
     expect(result.adjustments).toHaveLength(0);
@@ -186,8 +186,8 @@ describe("over-budget repair (AD-7)", () => {
 
   it("strips garnish references and drops a garnish-only step", () => {
     const basket = baseline();
-    const repaired = repairOverBudget({ basket, budgetOre: ore(9000), requirements: requirements.map((r) => ({ ...r, requirementId: r.concept })), candidatesByConcept: candidates, steps: [{ text: "Toppa med persilja", durationSeconds: 10, ingredientRefs: ["persilja"] }, { text: "Servera", durationSeconds: 0, ingredientRefs: [] }] });
-    expect(repaired.steps).toEqual([{ text: "Servera", durationSeconds: 0, ingredientRefs: [] }]);
+    const repaired = repairOverBudget({ basket, budgetOre: ore(9000), requirements: requirements.map((r) => ({ ...r, requirementId: r.concept })), candidatesByConcept: candidates, steps: [{ text: "Toppa med persilja", durationSeconds: 10, ingredienser: ["persilja"] }, { text: "Servera", durationSeconds: 0, ingredienser: [] }] });
+    expect(repaired.steps).toEqual([{ text: "Servera", durationSeconds: 0, ingredienser: [] }]);
     expect(repaired.adjustments.some((a) => a.kind === "remove_optional_garnish")).toBe(true);
   });
 
@@ -195,7 +195,7 @@ describe("over-budget repair (AD-7)", () => {
     const duplicate = [requirements[0], { ...requirements[0], recipeAmount: 100 }];
     const repaired = repairOverBudget({ basket: baseline(), budgetOre: ore(1), requirements: duplicate, candidatesByConcept: candidates });
     expect(repaired.adjustments.some((a) => a.kind === "merge_duplicate" && a.concept === "kyckling")).toBe(true);
-    expect(repaired.basket.lines.find((l) => l.concept === "kyckling")?.recipeAmount).toBe(600);
+    expect(repaired.basket.lines.find((l) => l.namn === "kyckling")?.recipeAmount).toBe(600);
   });
 });
 

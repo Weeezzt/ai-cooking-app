@@ -60,7 +60,7 @@ function product(overrides: Partial<Product> & Pick<Product, "id" | "name" | "co
   };
 }
 
-function line(overrides: Partial<BasketLine> & Pick<BasketLine, "concept" | "product">): BasketLine {
+function line(overrides: Partial<BasketLine> & Pick<BasketLine, "namn" | "product">): BasketLine {
   return {
     role: "core",
     recipeGrams: 320,
@@ -79,11 +79,11 @@ function line(overrides: Partial<BasketLine> & Pick<BasketLine, "concept" | "pro
 
 const LINES: BasketLine[] = [
   line({
-    concept: "kyckling",
+    namn: "kyckling",
     product: product({ id: "7340191130128", name: "Kycklingbröstfilé mörad", concept: "kyckling" }),
   }),
   line({
-    concept: "körsbärstomat",
+    namn: "körsbärstomat",
     product: product({
       id: "7340191179417",
       name: "Körsbärstomater",
@@ -105,7 +105,7 @@ const LINES: BasketLine[] = [
     },
   }),
   line({
-    concept: "sallad",
+    namn: "sallad",
     product: product({
       id: "8005110550508",
       name: "Salladsost",
@@ -151,9 +151,9 @@ const RECIPE = {
   title: "Krämig tomatpasta med vita bönor",
   portions: 4,
   steps: [
-    { text: "Koka 320 g pasta enligt anvisningen tills den är al dente; spara 1 dl kokvatten.", durationSeconds: 600, ingredientRefs: ["a"] },
-    { text: "Sjud 400 g tomat och 240 g avrunna vita bönor i en rymlig panna i 8 minuter.", durationSeconds: 480, ingredientRefs: ["b"] },
-    { text: "Vänd ner pastan och späd med lite kokvatten; rör i 2 minuter tills såsen är krämig.", durationSeconds: 120, ingredientRefs: ["c"] },
+    { text: "Koka 320 g pasta enligt anvisningen tills den är al dente; spara 1 dl kokvatten.", durationSeconds: 600, ingredienser: ["kyckling"] },
+    { text: "Sjud 400 g tomat och 240 g avrunna vita bönor i en rymlig panna i 8 minuter.", durationSeconds: 480, ingredienser: ["körsbärstomat"] },
+    { text: "Vänd ner pastan och späd med lite kokvatten; rör i 2 minuter tills såsen är krämig.", durationSeconds: 120, ingredienser: ["sallad"] },
   ],
 } as const;
 
@@ -197,6 +197,7 @@ export const OK_PLAN: PlanResult = {
   },
   adjustments: [],
   recipe: RECIPE,
+  unmatchedIngredients: [],
   candidateRejections: [],
   overshootOre: ore(0),
   reason: null,
@@ -234,6 +235,7 @@ export const INFEASIBLE_PLAN: PlanResult = {
   constraints: { checks: [], outcome: "infeasible" },
   adjustments: [],
   recipe: null,
+  unmatchedIngredients: [],
   candidateRejections: [],
   overshootOre: ore(0),
   reason: "no_store_in_range",

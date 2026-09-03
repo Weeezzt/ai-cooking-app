@@ -6,7 +6,6 @@
 
 import { parseSekToOre } from "../money";
 import type { InterpretedRequest, MealRequest } from "../types";
-import { deriveConcepts } from "./concepts";
 
 export class PipelineValidationError extends Error {
   readonly issues: readonly string[];
@@ -49,8 +48,6 @@ export function validateRequest(request: MealRequest): InterpretedRequest {
     throw new PipelineValidationError(issues);
   }
 
-  const concepts = deriveConcepts(request);
-
   return {
     budgetOre,
     portions: request.portions,
@@ -59,6 +56,5 @@ export function validateRequest(request: MealRequest): InterpretedRequest {
     dietary: request.dietary,
     pantry: request.pantry,
     vibe: request.vibe,
-    concepts: concepts.map((c) => c.concept),
   };
 }

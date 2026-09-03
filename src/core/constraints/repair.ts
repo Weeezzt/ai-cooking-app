@@ -23,7 +23,7 @@ export function mergeDuplicateRequirements(requirements: readonly BasketRequirem
 interface Choice { basket: Basket; substitutions: number; waste: number; ids: string }
 function compareChoice(a: Choice, b: Choice, budget: Ore): number { return Math.max(0, a.basket.totalOre-budget)-Math.max(0,b.basket.totalOre-budget) || a.substitutions-b.substitutions || a.waste-b.waste || a.ids.localeCompare(b.ids); }
 function enumerate(input: RepairInput, requirements: readonly BasketRequirement[]): Choice | null {
-  const original = new Map(input.basket.lines.map((l) => [l.concept, l.product.id]));
+  const original = new Map(input.basket.lines.map((l) => [l.namn, l.product.id]));
   const choices = requirements.map((r) => [...(input.candidatesByConcept.get(r.concept) ?? [])].sort((a,b) => a.id.localeCompare(b.id)).slice(0, MAX_ALTERNATIVES_PER_CONCEPT));
   if (choices.some((c) => c.length === 0)) return null;
   let best: Choice | null = null; const selected: Product[] = [];
@@ -41,13 +41,13 @@ function enumerate(input: RepairInput, requirements: readonly BasketRequirement[
 export function repairOverBudget(input: RepairInput): RepairResult {
   const prep=mergeDuplicateRequirements(input.requirements); let requirements=prep.requirements;
   let best=enumerate(input,requirements) ?? {basket:input.basket,substitutions:0,waste:0,ids:""};
-  const adjustments=[...prep.adjustments], original=new Map(input.basket.lines.map((l)=>[l.concept,l]));
+  const adjustments=[...prep.adjustments], original=new Map(input.basket.lines.map((l)=>[l.namn,l]));
   let steps=[...(input.steps??[])];
   if(best.basket.totalOre>input.budgetOre) for(const garnish of requirements.filter((r)=>r.role==="optional_garnish").sort((a,b)=>a.concept.localeCompare(b.concept))){
-    const removed=best.basket.lines.find((l)=>l.concept===garnish.concept); requirements=requirements.filter((r)=>r.concept!==garnish.concept); best=enumerate(input,requirements)??best;
-    if(garnish.requirementId) steps=steps.map((s)=>({ step:{...s,ingredientRefs:s.ingredientRefs.filter((x)=>x!==garnish.requirementId)}, hadRefs:s.ingredientRefs.length>0 })).filter(({step,hadRefs})=>!hadRefs||step.ingredientRefs.length>0).map(({step})=>step);
+    const removed=best.basket.lines.find((l)=>l.namn===garnish.concept); requirements=requirements.filter((r)=>r.concept!==garnish.concept); best=enumerate(input,requirements)??best;
+    if(garnish.requirementId) steps=steps.map((s)=>({ step:{...s,ingredienser:s.ingredienser.filter((x)=>x!==garnish.requirementId)}, hadRefs:s.ingredienser.length>0 })).filter(({step,hadRefs})=>!hadRefs||step.ingredienser.length>0).map(({step})=>step);
     adjustments.push({kind:"remove_optional_garnish",concept:garnish.concept,deltaOre:ore(-(removed?.purchase.priceOre??0)),detail:`Garnering och stegreferenser borttagna: ${garnish.concept}`}); if(best.basket.totalOre<=input.budgetOre)break;
   }
-  for (const line of best.basket.lines) { const before=original.get(line.concept); if(before&&before.product.id!==line.product.id) adjustments.push({kind:"substitute_cheaper",concept:line.concept,deltaOre:ore(line.purchase.priceOre-before.purchase.priceOre),detail:`Byte: ${before.product.name} → ${line.product.name}`}); }
+  for (const line of best.basket.lines) { const before=original.get(line.namn); if(before&&before.product.id!==line.product.id) adjustments.push({kind:"substitute_cheaper",concept:line.namn,deltaOre:ore(line.purchase.priceOre-before.purchase.priceOre),detail:`Byte: ${before.product.name} → ${line.product.name}`}); }
   const over=Math.max(0,best.basket.totalOre-input.budgetOre); return {basket:best.basket,steps,adjustments,withinBudget:over===0,overshootOre:over===0?ZERO_ORE:subOre(best.basket.totalOre,input.budgetOre)};
 }

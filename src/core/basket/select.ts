@@ -84,14 +84,16 @@ function isBetter(
   a: { product: Product; purchase: PackagingChoice },
   b: { product: Product; purchase: PackagingChoice },
 ): boolean {
-  if (a.purchase.priceOre !== b.purchase.priceOre) {
-    return a.purchase.priceOre < b.purchase.priceOre;
+  // Ingredient resolution favours the smallest package that can cover the
+  // requested amount; price only breaks ties after package fit.
+  if (a.purchase.leftoverGrams !== b.purchase.leftoverGrams) {
+    return a.purchase.leftoverGrams < b.purchase.leftoverGrams;
   }
   if (a.product.comparison.priceOre !== b.product.comparison.priceOre) {
     return a.product.comparison.priceOre < b.product.comparison.priceOre;
   }
-  if (a.purchase.leftoverGrams !== b.purchase.leftoverGrams) {
-    return a.purchase.leftoverGrams < b.purchase.leftoverGrams;
+  if (a.purchase.priceOre !== b.purchase.priceOre) {
+    return a.purchase.priceOre < b.purchase.priceOre;
   }
   return a.product.id < b.product.id;
 }

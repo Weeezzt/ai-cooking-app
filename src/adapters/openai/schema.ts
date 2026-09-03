@@ -5,49 +5,40 @@ export const RecipeInputProjectionSchema = z
     portions: z.number().int().positive().finite(),
     vibe: z.string(),
     dietary: z.array(z.string()),
-    options: z.array(
-      z
-        .object({
-          optionId: z.string().min(1),
-          concept: z.string(),
-          label: z.string(),
-          form: z.string(),
-          coarseCategory: z.string(),
-          dietaryTags: z.array(z.string()),
-        })
-        .strict(),
-    ),
+    maxCookMinutes: z.number().int().positive().nullable(),
+    pantry: z.array(z.string()),
+    budgetTier: z.enum(["snav", "lagom", "generos"]),
   })
   .strict();
 
-const RequirementRoleSchema = z.enum(["core", "supporting", "optional_garnish"]);
+const StoreSectionSchema = z.enum(["FRUKT & GRÖNT", "KÖTT & PROTEIN", "MEJERI", "TORRVAROR", "KRYDDOR", "ÖVRIGT"]);
+const IngredientRoleSchema = z.enum(["huvud", "komplement", "garnering"]);
 
-export const RecipeRequirementDraftSchema = z
+export const RecipeIngredientDraftSchema = z
   .object({
-    optionId: z.string().min(1),
-    requiredGrams: z.number().finite().positive().nullable(),
-    requiredMl: z.number().finite().positive().nullable(),
-    requiredCount: z.number().finite().positive().nullable(),
-    role: RequirementRoleSchema,
+    namn: z.string().min(1),
+    mangd: z.number().finite().positive(),
+    enhet: z.enum(["g", "ml", "st"]),
+    kategori: StoreSectionSchema,
+    roll: IngredientRoleSchema,
   })
   .strict();
 
 export const RecipeStepDraftSchema = z
   .object({
     text: z.string().min(1),
-    durationSeconds: z.number().int().positive().finite(),
-    optionRefs: z.array(z.string().min(1)).min(1),
+    ingredienser: z.array(z.string().min(1)),
+    tidSek: z.number().int().nonnegative().finite(),
   })
   .strict();
 
 export const RecipeDraftSchema = z
   .object({
-    title: z.string().min(1),
-    portions: z.number().int().positive().finite(),
-    requirements: z.array(RecipeRequirementDraftSchema).min(1),
-    steps: z.array(RecipeStepDraftSchema).min(1),
-    estimatedCookMinutes: z.number().int().positive().finite(),
-    explanation: z.string().min(1),
+    titel: z.string().min(1),
+    forklaring: z.string().min(1),
+    uppskattadTidMin: z.number().int().positive().finite(),
+    ingredienser: z.array(RecipeIngredientDraftSchema).min(1),
+    steg: z.array(RecipeStepDraftSchema).min(1),
   })
   .strict();
 

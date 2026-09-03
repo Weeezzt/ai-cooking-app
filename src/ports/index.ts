@@ -1,5 +1,5 @@
 import type { Clock } from "@/core/clock";
-import type { CandidateRejection, NutrientVector, Ore, Product, RequirementRole, StoreOption } from "@/core/types";
+import type { CandidateRejection, CanonicalUnit, NutrientVector, Ore, Product, StoreOption, StoreSection } from "@/core/types";
 export interface DataAttribution { readonly text:string; readonly url:string }
 export interface PortCallOptions { readonly deadlineAt:number; readonly clock:Clock }
 export interface ResolvedLocation { readonly lat:number; readonly lon:number; readonly label:string; readonly isDemoDefault:boolean }
@@ -13,10 +13,11 @@ export interface PriceSource { quote(productIds:readonly string[],store:StoreOpt
 export interface NutritionFact { readonly concept:string; readonly per100g:NutrientVector; readonly source:string; readonly retrievedAtIso:string }
 export interface NutritionLookup { readonly concept:string; readonly gtin?:string }
 export interface NutritionSource { lookup(concepts:readonly NutritionLookup[],options:PortCallOptions):Promise<readonly NutritionFact[]> }
-export interface RecipeOptionHandle { readonly optionId:string; readonly concept:string; readonly label:string; readonly form:string; readonly coarseCategory:string; readonly dietaryTags:readonly string[] }
-export interface RecipeGenerationInput { readonly portions:number; readonly vibe:string; readonly dietary:readonly string[]; readonly options:readonly RecipeOptionHandle[]; readonly validationIssues?:readonly string[]; readonly nonce?:number; readonly demoFallbackOnly?:boolean }
-export interface RecipeRequirementDraft { readonly optionId:string; readonly requiredGrams?:number; readonly requiredMl?:number; readonly requiredCount?:number; readonly role:RequirementRole }
-export interface RecipeStepDraft { readonly text:string; readonly durationSeconds:number; readonly optionRefs:readonly string[] }
-export interface RecipeDraft { readonly title:string; readonly portions:number; readonly requirements:readonly RecipeRequirementDraft[]; readonly steps:readonly RecipeStepDraft[]; readonly estimatedCookMinutes:number; readonly explanation:string }
+export type BudgetTier = "snav" | "lagom" | "generos";
+export type RecipeIngredientRole = "huvud" | "komplement" | "garnering";
+export interface RecipeGenerationInput { readonly vibe:string; readonly portions:number; readonly dietary:readonly string[]; readonly maxCookMinutes:number|null; readonly pantry:readonly string[]; readonly budgetTier:BudgetTier; readonly validationIssues?:readonly string[]; readonly nonce?:number; readonly demoFallbackOnly?:boolean }
+export interface RecipeIngredientDraft { readonly namn:string; readonly mangd:number; readonly enhet:CanonicalUnit; readonly kategori:StoreSection; readonly roll:RecipeIngredientRole }
+export interface RecipeStepDraft { readonly text:string; readonly ingredienser:readonly string[]; readonly tidSek:number }
+export interface RecipeDraft { readonly titel:string; readonly forklaring:string; readonly uppskattadTidMin:number; readonly ingredienser:readonly RecipeIngredientDraft[]; readonly steg:readonly RecipeStepDraft[] }
 export interface RecipeGenerator { generate(input:RecipeGenerationInput,options:PortCallOptions):Promise<RecipeDraft> }
 export interface PipelineDeps { readonly stores:StoreDiscovery; readonly products:ProductSearch; readonly prices:PriceSource; readonly nutrition:NutritionSource; readonly recipes:RecipeGenerator }

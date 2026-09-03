@@ -2,24 +2,23 @@ import type { RecipeGenerationInput } from "@/ports";
 
 import { RecipeInputProjectionSchema } from "./schema";
 
-const SYSTEM_PROMPT = `Du är en svensk receptutvecklare. Svara direkt på svenska.
-Använd endast de optionId som finns i underlaget. Varje ingrediensmängd måste knytas till exakt ett optionId via fältet optionRefs — skriv ALDRIG ut ett optionId eller någon annan kod i den läsbara stegtexten.
-Varje steg ska vara självbärande: ange relevanta mängder, kärl/metod och tid i själva stegtexten, med vanliga ingrediensnamn (t.ex. "400 g pasta"), aldrig koder.
-Hitta aldrig på andra ingredienser. estimatedCookMinutes är en uppskattning.`;
+const SYSTEM_PROMPT = `Du är en svensk receptutvecklare. Svara direkt på svenska med vanliga, verkliga svenska livsmedelsnamn.
+Returnera bara recept och ingrediensnamn med mängder. Du känner inte till butik, produkter, varumärken, lager eller priser och får aldrig påstå sådana fakta.
+Varje namn ska vara ett kort sökbart basnamn, till exempel "pasta", "kycklingfilé" eller "gul lök". Lägg aldrig alternativ, exempel, parenteser, mängder eller kommentarer i namn-fältet.
+Ange grönsaker, kött, fisk och torrvaror i gram, vätskor i milliliter; använd styck bara när varan normalt säljs och söks i styck, främst ägg.
+Varje steg ska vara självbärande: ange relevanta mängder, kärl/metod och tid i texten. Skriv aldrig koder eller handtag.
+Ingrediensreferenserna i steg måste exakt motsvara namn i ingredienslistan. Respektera dietary strikt och använd exakt angivet antal portioner.
+Om rätten uttryckligen är en fisksoppa ska en rå fiskfilé, exempelvis laxfilé eller torskfilé, vara en huvudråvara; skaldjur ensamt räcker inte.
+BudgetTier är bara en kulinarisk ledtråd: snav betyder enkelt och billigt, generos får vara lite mer premium. Det är aldrig ett belopp.`;
 
 export function buildRecipeInput(input: RecipeGenerationInput): string {
   const safeProjection = RecipeInputProjectionSchema.parse({
     portions: input.portions,
     vibe: input.vibe,
     dietary: input.dietary,
-    options: input.options.map(({ optionId, concept, label, form, coarseCategory, dietaryTags }) => ({
-      optionId,
-      concept,
-      label,
-      form,
-      coarseCategory,
-      dietaryTags,
-    })),
+    maxCookMinutes: input.maxCookMinutes,
+    pantry: input.pantry,
+    budgetTier: input.budgetTier,
   });
   return `${SYSTEM_PROMPT}\n\nSkapa ett komplett recept från detta underlag:\n${JSON.stringify(safeProjection)}`;
 }

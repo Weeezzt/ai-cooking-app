@@ -74,7 +74,7 @@ export function buildBasket(input: BuildBasketInput): Basket {
     if (requirement.role === "supporting") supportingCovered += 1;
 
     lines.push({
-      concept: requirement.concept,
+      namn: requirement.concept,
       product: picked.product,
       role: requirement.role,
       recipeGrams: requirement.recipeAmount,
